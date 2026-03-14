@@ -19,7 +19,7 @@ const DISCOVERY_PROMPT_PATH = path.join(__dirname, "discovery-prompt.md");
 const ANALYSIS_PROMPT_PATH = path.join(__dirname, "analysis-prompt.md");
 
 const ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages";
-const MODEL = "claude-opus-4-6-20250204";
+const MODEL = "claude-opus-4-6-20250619";
 
 interface AnthropicMessage {
   role: "user" | "assistant";
