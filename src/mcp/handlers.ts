@@ -3,6 +3,10 @@ import {
   loadDomainThreats,
   loadThreatIndex,
 } from "../lib/data-loader.js";
+import {
+  createThreatReportIssue,
+  sendDiscordNotification,
+} from "../lib/github.js";
 import type { Threat } from "../types/index.js";
 
 interface ToolResult {
@@ -115,8 +119,49 @@ function handleListThreats(args: Record<string, unknown>): ToolResult {
   };
 }
 
+/** Handle report_threat tool call */
+async function handleReportThreat(args: Record<string, unknown>): Promise<ToolResult> {
+  const rawUrl = (args.url as string | undefined)?.trim();
+  if (!rawUrl) {
+    return { content: [{ type: "text", text: "Error: missing required argument 'url'" }], isError: true };
+  }
+
+  try {
+    new URL(rawUrl);
+  } catch {
+    return { content: [{ type: "text", text: "Error: invalid URL format. Provide a full URL (e.g. https://example.com/page)" }], isError: true };
+  }
+
+  try {
+    const result = await createThreatReportIssue({
+      url: rawUrl,
+      severity: args.severity as string | undefined,
+      description: args.description as string | undefined,
+    });
+
+    await sendDiscordNotification(
+      `🆕 新しい脅威通報\n\nURL: ${rawUrl}\nIssue: ${result.issueUrl}`,
+    );
+
+    return {
+      content: [{
+        type: "text",
+        text: JSON.stringify({
+          success: true,
+          message: "Threat report created. It will be automatically verified during the next daily collection.",
+          issue_url: result.issueUrl,
+          issue_number: result.issueNumber,
+        }, null, 2),
+      }],
+    };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    return { content: [{ type: "text", text: `Error creating report: ${message}` }], isError: true };
+  }
+}
+
 /** Dispatch a tool call by name */
-export function executeTool(name: string, args: Record<string, unknown>): ToolResult {
+export async function executeTool(name: string, args: Record<string, unknown>): Promise<ToolResult> {
   switch (name) {
     case "check_domain":
       return handleCheckDomain(args);
@@ -124,6 +169,8 @@ export function executeTool(name: string, args: Record<string, unknown>): ToolRe
       return handleCheckUrl(args);
     case "list_threats":
       return handleListThreats(args);
+    case "report_threat":
+      return handleReportThreat(args);
     default:
       return { content: [{ type: "text", text: `Unknown tool: ${name}` }], isError: true };
   }

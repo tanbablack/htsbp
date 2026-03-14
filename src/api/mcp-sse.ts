@@ -74,7 +74,7 @@ export const handler = async (event: NetlifyEvent): Promise<NetlifyResponse> => 
       };
     }
 
-    const response = processRequest(event.body);
+    const response = await processRequest(event.body);
 
     return {
       statusCode: 200,

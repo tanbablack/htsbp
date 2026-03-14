@@ -1766,12 +1766,19 @@ Secrets登録（GitHub Actions Secretsのみ。Netlifyには不要）:
 │  │                                       │              │
 │  │ 2. OpenClaw（自動）                     │              │
 │  │    Claude API に discovery-prompt.md を送信│            │
-│  │    → AIが新規IDPI脅威を発見しdata/に追加   │              │
+│  │    → AIがWeb検索で新規IDPI脅威を発見      │              │
 │  │                                       │              │
-│  │ 3. rebuild-stats（自動）                │              │
+│  │ 3. process-reports（自動）              │              │
+│  │    → new-threat ラベルの GitHub Issue を取得│             │
+│  │    → 各URLに checkUrl() で自動検証       │              │
+│  │    → HIGH/MEDIUM → data/ に自動登録     │              │
+│  │    → CLEAN → Issue閉じる               │              │
+│  │    → UNREACHABLE → リトライ（最大3回）   │              │
+│  │                                       │              │
+│  │ 4. rebuild-stats（自動）                │              │
 │  │    → index.json, stats.json を再生成     │              │
 │  │                                       │              │
-│  │ 4. verify（自動検証）                    │              │
+│  │ 5. verify（自動検証）                    │              │
 │  │    → 全ドメインにHTTPアクセスしIDPIスキャン │              │
 │  │    → 結果に応じてseverityを自動更新:      │              │
 │  │      HIGH検出 → severity: high          │              │
@@ -1780,10 +1787,10 @@ Secrets登録（GitHub Actions Secretsのみ。Netlifyには不要）:
 │  │      CLEAN → is_active: false           │              │
 │  │      UNREACHABLE → 変更なし              │              │
 │  │                                       │              │
-│  │ 5. rebuild-stats 再実行（自動）          │              │
+│  │ 6. rebuild-stats 再実行（自動）          │              │
 │  │    → 検証結果を反映した統計を再生成       │              │
 │  │                                       │              │
-│  │ 6. git commit & push（自動）            │              │
+│  │ 7. git commit & push（自動）            │              │
 │  │    → Netlifyが検知して自動デプロイ        │              │
 │  └───────────────────────────────────────┘              │
 │                                                         │
@@ -1804,6 +1811,8 @@ Secrets登録（GitHub Actions Secretsのみ。Netlifyには不要）:
 │  🚨 Daily IDPI Collection 失敗（ワークフローURLリンク付き） │
 │  🚨 Health Check 失敗（APIエラー詳細付き）                 │
 │  📋 週次チェックリスト作成（GitHub IssueのURL付き）         │
+│  🆕 新しい脅威通報（MCP/API経由の通報時）                  │
+│  📋 脅威レポート処理完了（日次処理の結果サマリー）           │
 │                                                         │
 │  通知先の変更:                                            │
 │    1. Discord → 通知したいチャンネル → 設定 → 連携サービス  │
@@ -1901,4 +1910,69 @@ OpenClawはWeb検索でリアルタイムに最新の脅威情報を発見する
 
   GitHub Actions の Daily IDPI Collection でも自動実行される。
   ローカルでも手動実行可能。
+
+■ 脅威レポート処理: npm run process-reports
+  GitHub Issues（new-threatラベル）を取得し、自動検証→登録/クローズ。
+  GitHub Actions で自動実行される。手動実行にはGITHUB_TOKEN等が必要。
+```
+
+### 脅威通報の仕組み（report_threat）
+
+```
+AIエージェントやユーザーが脅威を通報するための仕組み。
+通報はGitHub Issueとして作成され、日次で自動検証・登録される。
+
+■ 通報チャネル（2つ）
+
+  1. MCP ツール: report_threat
+     AIエージェントが MCP 経由で直接通報可能。
+     入力: { url: string, severity?: string, description?: string }
+     → GitHub Issue (new-threat) 作成 + Discord通知
+
+  2. REST API: POST /api/report-threat
+     任意のクライアントがHTTP POSTで通報可能。
+     Body: { "url": "https://...", "severity": "high", "description": "..." }
+     → GitHub Issue (new-threat) 作成 + Discord通知
+
+■ 自動検証フロー（日次 GitHub Actions 内で実行）
+
+  npm run process-reports の動作:
+    1. GitHub API で new-threat ラベルの open Issue を取得
+    2. 各 Issue の本文から URL を抽出
+    3. checkUrl(url) で IDPI パターンをスキャン
+    4. 結果に応じて処理:
+
+    | 結果         | 処理                                      |
+    |-------------|------------------------------------------|
+    | HIGH/MEDIUM | data/ に自動登録 + Issue閉じる（verifiedラベル）|
+    | LOW         | needs-review ラベル付与（手動確認待ち）       |
+    | CLEAN       | Issue閉じる（cleanラベル）                   |
+    | UNREACHABLE | retry-N ラベル付与（3回超で閉じる）           |
+
+■ GitHub ラベル
+
+  new-threat    通報時に自動付与
+  verified      脅威確認・登録済み
+  clean         IDPIパターン未検出
+  needs-review  低信頼度、手動確認必要
+  unreachable   URLに到達不能
+  retry-1/2/3   リトライ回数
+
+■ 必要な環境変数
+
+  GitHub Actions（自動提供）:
+    GITHUB_TOKEN       ${{ secrets.GITHUB_TOKEN }} で自動提供
+    GITHUB_REPOSITORY  ${{ github.repository }} で自動提供
+
+  Netlify（MCP/REST経由の通報用、要手動設定）:
+    GITHUB_TOKEN       Fine-grained PAT（issues:write権限）
+    GITHUB_REPOSITORY  tanbablack/htsbp
+
+■ ファイル構成
+
+  src/lib/github.ts              GitHub Issue作成 + Discord通知の共有ユーティリティ
+  src/mcp/tools.ts               report_threat ツール定義
+  src/mcp/handlers.ts            report_threat ハンドラー
+  src/api/report-threat.ts       REST エンドポイント（POST /api/report-threat）
+  src/scripts/process-reports.ts 日次自動処理スクリプト
 ```

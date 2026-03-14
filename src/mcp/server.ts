@@ -26,7 +26,7 @@ interface JsonRpcResponse {
 }
 
 /** Process a single JSON-RPC request and return a response */
-export function handleJsonRpc(request: JsonRpcRequest): JsonRpcResponse {
+export async function handleJsonRpc(request: JsonRpcRequest): Promise<JsonRpcResponse> {
   const id = request.id ?? null;
 
   switch (request.method) {
@@ -65,7 +65,7 @@ export function handleJsonRpc(request: JsonRpcRequest): JsonRpcResponse {
         };
       }
 
-      const result = executeTool(toolName, toolArgs);
+      const result = await executeTool(toolName, toolArgs);
       return { jsonrpc: "2.0", id, result };
     }
 
@@ -82,7 +82,7 @@ export function handleJsonRpc(request: JsonRpcRequest): JsonRpcResponse {
 }
 
 /** Parse and process a JSON-RPC request body string */
-export function processRequest(body: string): JsonRpcResponse | JsonRpcResponse[] {
+export async function processRequest(body: string): Promise<JsonRpcResponse | JsonRpcResponse[]> {
   let parsed: unknown;
   try {
     parsed = JSON.parse(body);
@@ -96,7 +96,7 @@ export function processRequest(body: string): JsonRpcResponse | JsonRpcResponse[
 
   // Batch request
   if (Array.isArray(parsed)) {
-    return parsed.map(req => handleJsonRpc(req as JsonRpcRequest));
+    return Promise.all(parsed.map(req => handleJsonRpc(req as JsonRpcRequest)));
   }
 
   return handleJsonRpc(parsed as JsonRpcRequest);

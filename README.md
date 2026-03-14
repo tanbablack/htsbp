@@ -37,11 +37,12 @@ All threat data is available as JSON files in [`data/threats/`](data/threats/).
 
 No database. No backend state. All threat data lives as JSON files in this repository.
 
-- **Data collection**: GitHub Actions runs daily, collecting from Unit42, OTX, and AI-driven crawling
+- **Data collection**: GitHub Actions runs daily, collecting from Unit42, OTX, and AI-driven crawling (OpenClaw with web search)
 - **Data storage**: JSON files in `data/` — every change is a git commit with full history
 - **API**: Netlify Functions reads JSON at build time
 - **Analytics**: Netlify Analytics (server-side, zero JS)
-- **Community reports**: GitHub Issues with `new-threat` label
+- **Community reports**: via MCP `report_threat` tool, `POST /api/report-threat`, or GitHub Issues
+- **Auto-verification**: Community reports are automatically scanned and registered if IDPI patterns are confirmed
 
 ## Data Sources
 
@@ -58,7 +59,8 @@ No database. No backend state. All threat data lives as JSON files in this repos
 See [CONTRIBUTING.md](.github/CONTRIBUTING.md).
 
 Ways to contribute:
-- [Report a suspected IDPI site](https://github.com/tanbablack/htsbp/issues/new?template=new-threat.yml)
+- **AI agents**: Use `report_threat` MCP tool or `POST /api/report-threat` to report programmatically
+- **Humans**: [Report a suspected IDPI site](https://github.com/tanbablack/htsbp/issues/new?template=new-threat.yml)
 - Add new collectors
 - Improve detection heuristics
 

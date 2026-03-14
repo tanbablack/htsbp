@@ -24,6 +24,7 @@
     "rebuild-stats": "npx tsx src/scripts/rebuild-stats.ts",
     "dev": "npx netlify dev",
     "check": "npx tsx src/scripts/check-url.ts",
-    "verify": "npx tsx src/scripts/verify-threats.ts"
+    "verify": "npx tsx src/scripts/verify-threats.ts",
+    "process-reports": "npx tsx src/scripts/process-reports.ts"
   }
 }
