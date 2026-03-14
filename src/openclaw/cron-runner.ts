@@ -6,6 +6,8 @@
  * 3. For new URLs, runs analysis-prompt.md for detailed analysis
  * 4. Triggers rebuild-stats.ts at the end
  *
+ * Uses web_search tool to find real-time threat intelligence from the web.
+ *
  * Environment: ANTHROPIC_API_KEY required
  */
 import fs from "node:fs";
@@ -26,8 +28,18 @@ interface AnthropicMessage {
   content: string | Array<{ type: "text"; text: string }>;
 }
 
+interface AnthropicContentBlock {
+  type: string;
+  text?: string;
+  name?: string;
+  id?: string;
+  input?: Record<string, unknown>;
+  tool_use_id?: string;
+  content?: unknown[];
+}
+
 interface AnthropicResponse {
-  content: Array<{ type: "text"; text: string }>;
+  content: AnthropicContentBlock[];
   stop_reason: string;
 }
 
@@ -49,7 +61,14 @@ async function callClaude(prompt: string): Promise<string> {
     },
     body: JSON.stringify({
       model: MODEL,
-      max_tokens: 4096,
+      max_tokens: 16384,
+      tools: [
+        {
+          type: "web_search_20250305",
+          name: "web_search",
+          max_uses: 10,
+        },
+      ],
       messages,
     }),
   });
@@ -60,8 +79,12 @@ async function callClaude(prompt: string): Promise<string> {
   }
 
   const data = (await res.json()) as AnthropicResponse;
-  const textContent = data.content.find(c => c.type === "text");
-  return textContent?.text ?? "";
+  // Web search responses contain mixed content blocks (server_tool_use,
+  // web_search_tool_result, text). Extract and join all text blocks.
+  const textParts = data.content
+    .filter((c): c is AnthropicContentBlock & { text: string } => c.type === "text" && typeof c.text === "string")
+    .map(c => c.text);
+  return textParts.join("\n");
 }
 
 /** Extract JSON array from a response that might contain markdown fences */

@@ -1839,21 +1839,33 @@ Secrets登録（GitHub Actions Secretsのみ。Netlifyには不要）:
 ### OpenClaw の仕組み
 
 ```
-OpenClaw = Claude APIを使ったAI駆動の脅威発見エンジン。
+OpenClaw = Claude API + Web検索を使ったAI駆動の脅威発見エンジン。
 他のコレクター（Unit42等）が既知ソースの巡回なのに対し、
-OpenClawはClaude の知識から未知の脅威を発見する。
+OpenClawはWeb検索でリアルタイムに最新の脅威情報を発見する。
 
 実行の流れ:
   1. src/openclaw/discovery-prompt.md をClaude APIに送信
-  2. Claudeがセキュリティブログ・GitHub・学術論文・CVE等の知識から
-     IDPI攻撃が確認されたドメイン/URLをJSON配列で回答
-  3. 回答をパースし、data/ 配下のドメイン別JSONにupsert
-  4. 新規URLがあればanalysis-prompt.mdで詳細分析も実行
+  2. ClaudeがWeb検索ツール（web_search）を使い、セキュリティブログ・
+     GitHub・学術論文・CVE等をリアルタイム検索
+  3. 検索結果から IDPI攻撃が確認されたドメイン/URLをJSON配列で回答
+  4. 回答をパースし、data/ 配下のドメイン別JSONにupsert
+  5. 新規URLがあればanalysis-prompt.mdで詳細分析も実行
+
+技術詳細:
+  - Anthropic Messages API の web_search_20250305 ツールを使用
+  - 1回の実行で最大10回のWeb検索を実行（max_uses: 10）
+  - レスポンスにはtext/server_tool_use/web_search_tool_resultが混在
+  - textブロックのみを結合してJSON配列を抽出
 
 設定値:
   - モデル: claude-opus-4-6（src/openclaw/cron-runner.ts内）
+  - max_tokens: 16384（検索結果を含む出力に対応）
   - 1回あたり最大50件の脅威を発見可能
   - 必要なSecret: ANTHROPIC_API_KEY（GitHub Actions Secretsに登録済み）
+
+コスト:
+  - Web検索: $10/1,000検索 → 1回実行あたり最大$0.10
+  - 月間: 約$3（日次実行の場合）+ トークンコスト
 ```
 
 ### CLIツール
