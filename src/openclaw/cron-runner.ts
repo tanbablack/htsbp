@@ -14,6 +14,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { upsertThreat, extractDomain } from "../collectors/common.js";
+import { PATTERNS_FILE } from "../lib/patterns.js";
 import type { Threat, AttackIntent, Technique, Severity } from "../types/index.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -87,37 +88,61 @@ async function callClaude(prompt: string): Promise<string> {
   return textParts.join("\n");
 }
 
-/** Extract JSON array from a response that might contain markdown fences */
-function extractJsonArray(text: string): unknown[] {
-  // Try direct parse first
-  try {
-    const parsed = JSON.parse(text);
-    if (Array.isArray(parsed)) return parsed;
-  } catch {
-    // Try extracting from code fences
+/** Discovery response shape (threats + optional pattern suggestions) */
+interface DiscoveryResponse {
+  threats: unknown[];
+  suggested_patterns: unknown[];
+}
+
+/** Extract discovery response from Claude's output */
+function extractDiscoveryResponse(text: string): DiscoveryResponse {
+  const empty: DiscoveryResponse = { threats: [], suggested_patterns: [] };
+
+  // Try parsing as the new object format { threats: [...], suggested_patterns: [...] }
+  function tryParseObject(json: string): DiscoveryResponse | null {
+    try {
+      const parsed = JSON.parse(json);
+      if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+        return {
+          threats: Array.isArray(parsed.threats) ? parsed.threats : [],
+          suggested_patterns: Array.isArray(parsed.suggested_patterns) ? parsed.suggested_patterns : [],
+        };
+      }
+      // Backwards compat: bare array = threats only
+      if (Array.isArray(parsed)) {
+        return { threats: parsed, suggested_patterns: [] };
+      }
+    } catch { /* fall through */ }
+    return null;
   }
 
+  // Try direct parse
+  const direct = tryParseObject(text);
+  if (direct) return direct;
+
+  // Try extracting from code fences
   const fenceMatch = text.match(/```(?:json)?\s*\n?([\s\S]*?)\n?```/);
   if (fenceMatch) {
-    try {
-      const parsed = JSON.parse(fenceMatch[1]);
-      if (Array.isArray(parsed)) return parsed;
-    } catch {
-      // Fall through
-    }
+    const fenced = tryParseObject(fenceMatch[1]);
+    if (fenced) return fenced;
   }
 
-  // Try finding array brackets
+  // Try finding object or array brackets
+  const objMatch = text.match(/\{[\s\S]*\}/);
+  if (objMatch) {
+    const obj = tryParseObject(objMatch[0]);
+    if (obj) return obj;
+  }
+
   const arrayMatch = text.match(/\[[\s\S]*\]/);
   if (arrayMatch) {
     try {
-      return JSON.parse(arrayMatch[0]);
-    } catch {
-      // Fall through
-    }
+      const arr = JSON.parse(arrayMatch[0]);
+      if (Array.isArray(arr)) return { threats: arr, suggested_patterns: [] };
+    } catch { /* fall through */ }
   }
 
-  return [];
+  return empty;
 }
 
 /** Validate a severity value */
@@ -125,12 +150,76 @@ function isValidSeverity(s: unknown): s is Severity {
   return typeof s === "string" && ["critical", "high", "medium", "low"].includes(s);
 }
 
+/** Validate and append new patterns to data/patterns.json */
+function appendSuggestedPatterns(suggestions: unknown[]): number {
+  if (suggestions.length === 0) return 0;
+
+  const raw = JSON.parse(fs.readFileSync(PATTERNS_FILE, "utf-8"));
+  const existingNames = new Set<string>([
+    ...raw.instructions.map((p: { name: string }) => p.name),
+    ...raw.concealments.map((p: { name: string }) => p.name),
+  ]);
+
+  let added = 0;
+
+  for (const item of suggestions) {
+    const p = item as Record<string, unknown>;
+    const name = p.name as string | undefined;
+    const pattern = p.pattern as string | undefined;
+    const flags = (p.flags as string) || "i";
+    const category = p.category as string | undefined;
+    const label = p.label as string | undefined;
+
+    if (!name || !pattern || !category || !label) {
+      console.warn(`[openclaw] Skipping invalid pattern suggestion: missing fields`);
+      continue;
+    }
+
+    if (existingNames.has(name)) {
+      console.log(`[openclaw] Pattern "${name}" already exists, skipping`);
+      continue;
+    }
+
+    // Validate regex compiles
+    try {
+      new RegExp(pattern, flags);
+    } catch (err) {
+      console.warn(`[openclaw] Invalid regex "${pattern}": ${err}`);
+      continue;
+    }
+
+    if (category === "instruction") {
+      raw.instructions.push({ pattern, flags, name, label });
+    } else if (category === "concealment") {
+      const technique = (p.technique as string) || "other";
+      raw.concealments.push({ pattern, flags, name, technique, label });
+    } else {
+      console.warn(`[openclaw] Unknown pattern category "${category}", skipping`);
+      continue;
+    }
+
+    existingNames.add(name);
+    added++;
+    const reason = (p.reason as string) || "";
+    console.log(`[openclaw] Added new pattern: "${name}" (${category})${reason ? ` — ${reason}` : ""}`);
+  }
+
+  if (added > 0) {
+    raw._meta.version = (raw._meta.version || 0) + 1;
+    raw._meta.updated_at = new Date().toISOString();
+    fs.writeFileSync(PATTERNS_FILE, JSON.stringify(raw, null, 2) + "\n");
+    console.log(`[openclaw] Patterns file updated: ${added} new pattern(s)`);
+  }
+
+  return added;
+}
+
 /** Run the discovery phase */
 async function runDiscovery(): Promise<number> {
   console.log("[openclaw] Running discovery phase...");
   const promptContent = fs.readFileSync(DISCOVERY_PROMPT_PATH, "utf-8");
   const response = await callClaude(promptContent);
-  const discoveries = extractJsonArray(response);
+  const { threats: discoveries, suggested_patterns } = extractDiscoveryResponse(response);
 
   console.log(`[openclaw] Discovered ${discoveries.length} potential threats`);
 
@@ -157,6 +246,12 @@ async function runDiscovery(): Promise<number> {
 
     const changed = upsertThreat(domain, threat);
     if (changed) added++;
+  }
+
+  // Process pattern suggestions
+  if (suggested_patterns.length > 0) {
+    console.log(`[openclaw] ${suggested_patterns.length} pattern suggestion(s) received`);
+    appendSuggestedPatterns(suggested_patterns);
   }
 
   console.log(`[openclaw] Discovery phase: ${added} threats added/updated`);

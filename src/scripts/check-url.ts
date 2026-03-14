@@ -6,29 +6,9 @@
  * Fetches the page, scans for hidden instructions, concealment techniques,
  * and reports findings with evidence.
  */
-import type { Technique } from "../types/index.js";
+import { loadPatterns } from "../lib/patterns.js";
 
-const INSTRUCTION_PATTERNS: Array<{ pattern: RegExp; name: string; label: string }> = [
-  { pattern: /ignore\s+(all\s+)?previous\s+instructions/i, name: "ignore_previous", label: "Ignore previous instructions" },
-  { pattern: /you\s+are\s+(now\s+)?a/i, name: "role_override", label: "Role override (you are now a...)" },
-  { pattern: /system\s*:\s*/i, name: "system_mimicry", label: "System prompt mimicry" },
-  { pattern: /do\s+not\s+(follow|obey|listen)/i, name: "disobey", label: "Disobedience instruction" },
-  { pattern: /\b(override|bypass|disregard)\b/i, name: "override", label: "Override/bypass/disregard" },
-  { pattern: /\[INST\]|\[\/INST\]|<\|im_start\|>|<\|im_end\|>/i, name: "chat_template", label: "Chat template injection" },
-  { pattern: /IMPORTANT:\s*(?:ignore|forget|override|you must)/i, name: "important_override", label: "IMPORTANT: override directive" },
-  { pattern: /(?:assistant|AI|bot|GPT|Claude)[\s,]*(?:please|must|should)\s+(?:ignore|forget|disregard)/i, name: "ai_directive", label: "Direct AI directive" },
-];
-
-const CONCEALMENT_PATTERNS: Array<{ pattern: RegExp; technique: Technique; label: string }> = [
-  { pattern: /font-size\s*:\s*0/i, technique: "zero_font_size", label: "Zero font size" },
-  { pattern: /display\s*:\s*none/i, technique: "css_display_none", label: "display:none" },
-  { pattern: /visibility\s*:\s*hidden/i, technique: "css_visibility_hidden", label: "visibility:hidden" },
-  { pattern: /opacity\s*:\s*0(?:[;\s]|$)/i, technique: "css_opacity_zero", label: "opacity:0" },
-  { pattern: /position\s*:\s*(?:absolute|fixed)[^;]*(?:left|top)\s*:\s*-\d{4,}/i, technique: "offscreen_positioning", label: "Offscreen positioning" },
-  { pattern: /color\s*:\s*(?:white|#fff(?:fff)?|rgba?\(\s*255\s*,\s*255\s*,\s*255)\s*[^)]*\)/i, technique: "zero_font_size", label: "White text on white" },
-  { pattern: /height\s*:\s*0|width\s*:\s*0/i, technique: "css_display_none", label: "Zero dimensions" },
-  { pattern: /overflow\s*:\s*hidden/i, technique: "css_display_none", label: "overflow:hidden (potential)" },
-];
+const { instructions: INSTRUCTION_PATTERNS, concealments: CONCEALMENT_PATTERNS } = loadPatterns();
 
 interface Finding {
   type: "instruction" | "concealment" | "comment_injection" | "meta_injection" | "aria_injection";

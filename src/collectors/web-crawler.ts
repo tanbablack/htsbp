@@ -7,6 +7,7 @@
  * Prioritizes domains with active threats and recently seen activity.
  */
 import { loadDomainFile, saveDomainFile, sanitizePayload } from "./common.js";
+import { loadPatterns } from "../lib/patterns.js";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -22,23 +23,7 @@ const MAX_DOMAINS = 100;
 /** Concurrency limit for parallel fetches */
 const CONCURRENCY = 5;
 
-/** IDPI instruction patterns (regex + description) */
-const INSTRUCTION_PATTERNS: Array<{ pattern: RegExp; name: string }> = [
-  { pattern: /ignore\s+(all\s+)?previous\s+instructions/i, name: "ignore_previous_instructions" },
-  { pattern: /you\s+are\s+(now\s+)?a/i, name: "role_override" },
-  { pattern: /system\s*:\s*/i, name: "system_prompt_mimicry" },
-  { pattern: /do\s+not\s+(follow|obey|listen)/i, name: "ignore_previous_instructions" },
-  { pattern: /override|bypass|disregard/i, name: "role_override" },
-];
-
-/** CSS concealment detection patterns */
-const CONCEALMENT_PATTERNS: Array<{ pattern: RegExp; technique: Technique }> = [
-  { pattern: /font-size\s*:\s*0/i, technique: "zero_font_size" },
-  { pattern: /display\s*:\s*none/i, technique: "css_display_none" },
-  { pattern: /visibility\s*:\s*hidden/i, technique: "css_visibility_hidden" },
-  { pattern: /opacity\s*:\s*0(?:[;\s]|$)/i, technique: "css_opacity_zero" },
-  { pattern: /position\s*:\s*(?:absolute|fixed)[^;]*(?:left|top)\s*:\s*-\d{4,}/i, technique: "offscreen_positioning" },
-];
+const { instructions: INSTRUCTION_PATTERNS, concealments: CONCEALMENT_PATTERNS } = loadPatterns();
 
 /** Fetch a URL and return the HTML body */
 async function fetchPage(url: string, timeoutMs = 10000): Promise<string | null> {
