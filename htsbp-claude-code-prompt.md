@@ -78,8 +78,7 @@ htsbp/
 │   ├── CONTRIBUTING.md
 │   └── workflows/
 │       ├── collect.yml                 # 日次収集 → 検証 → git push → Discord通知 → Netlify再デプロイ
-│       ├── health-check.yml            # 6時間毎ヘルスチェック → Webhook通知
-│       └── weekly-checklist.yml        # 毎週月曜にGitHub Issue作成 → Discord通知
+│       └── health-check.yml            # 6時間毎ヘルスチェック → Webhook通知
 ├── LICENSE                             # MIT License
 └── README.md
 ```
@@ -1763,9 +1762,6 @@ Secrets登録（GitHub Actions Secretsのみ。Netlifyには不要）:
 │  GitHub Actions「Health Check」（6時間ごと自動実行）       │
 │  → API疎通確認。失敗時はDiscord Webhookで通知             │
 │                                                         │
-│  GitHub Actions「Weekly Operations Checklist」           │
-│  → 毎週月曜 09:00 JST に GitHub Issue を自動作成          │
-│  → Discord にも 📋 通知が届く                             │
 └─────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────┐
@@ -1776,7 +1772,6 @@ Secrets登録（GitHub Actions Secretsのみ。Netlifyには不要）:
 │  ✅ Daily IDPI Collection 完了（登録ドメイン数付き）        │
 │  🚨 Daily IDPI Collection 失敗（ワークフローURLリンク付き） │
 │  🚨 Health Check 失敗（APIエラー詳細付き）                 │
-│  📋 週次チェックリスト作成（GitHub IssueのURL付き）         │
 │  🆕 新しい脅威通報（MCP/API経由の通報時）                  │
 │  📋 脅威レポート処理完了（日次処理の結果サマリー）           │
 │                                                         │
@@ -1794,13 +1789,6 @@ Secrets登録（GitHub Actions Secretsのみ。Netlifyには不要）:
 │    - Discordを確認するだけ                                │
 │      ✅ が来ていれば正常。何もしなくてよい                  │
 │      🚨 が来たらリンク先でエラーログを確認し対処            │
-│                                                         │
-│  ■ 週1回（月曜に📋通知が届く）:                           │
-│    - GitHub IssueのチェックリストをこなしてIssueを閉じる    │
-│      □ ドメイン数が増えているか                            │
-│      □ Netlifyサイトが正常にアクセスできるか                │
-│    ※ new-threat Issueは日次で自動検証・処理されるため       │
-│      手動チェック不要（LOW判定のneeds-reviewのみ要確認）     │
 │                                                         │
 │  ■ 異常時:                                              │
 │    - Collectエラー                                       │
