@@ -3,7 +3,7 @@
   "threats": [
     {
       "url": "https://llm7-landing.pages.dev/_next/static/chunks/app/page-94a1a9b785a7305c.js",
-      "severity": "high",
+      "severity": "low",
       "intent": "unauthorized_transaction",
       "techniques": [
         "javascript_dynamic"
@@ -12,9 +12,9 @@
       "source": "unit42",
       "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
       "first_seen": "2026-03-03T00:00:00Z",
-      "last_seen": "2026-03-03T00:00:00Z",
+      "last_seen": "2026-03-14T08:58:18.433Z",
       "is_active": true
     }
   ],
-  "updated_at": "2026-03-14T06:39:46.566Z"
+  "updated_at": "2026-03-14T08:58:18.433Z"
 }

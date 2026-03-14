@@ -3,16 +3,16 @@
   "threats": [
     {
       "url": "https://artificialintelligencemadesimple.substack.com/i/141086143/fence-your-app-from-high-stakes-operations",
-      "severity": "medium",
+      "severity": "low",
       "intent": "other",
       "techniques": [],
       "description": "IDPI reference found in tldrsec/prompt-injection-defenses curated list",
       "source": "tldrsec",
       "source_url": "https://github.com/tldrsec/prompt-injection-defenses",
       "first_seen": "2026-03-14T07:57:49.889Z",
-      "last_seen": "2026-03-14T08:09:45.749Z",
+      "last_seen": "2026-03-14T08:57:57.629Z",
       "is_active": true
     }
   ],
-  "updated_at": "2026-03-14T08:09:45.817Z"
+  "updated_at": "2026-03-14T08:57:57.629Z"
 }

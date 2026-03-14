@@ -25,6 +25,9 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
       - run: npm run rebuild-stats
+      - run: npm run verify
+      - run: npm run rebuild-stats
+        name: Rebuild stats after verification
       - name: Commit and push data
         run: |
           git config user.name "htsbp-bot"

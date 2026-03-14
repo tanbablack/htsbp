@@ -39,8 +39,7 @@ async function searchPulses(query: string): Promise<OtxPulse[]> {
 
   const res = await fetch(url, { headers });
   if (!res.ok) {
-    console.warn(`[otx] Search failed for "${query}": ${res.status}`);
-    return [];
+    throw new Error(`[otx] Search failed for "${query}": HTTP ${res.status}`);
   }
 
   const data = (await res.json()) as { results: OtxPulse[] };
@@ -59,7 +58,9 @@ async function fetchPulseIndicators(pulseId: string): Promise<OtxIndicator[]> {
   }
 
   const res = await fetch(url, { headers });
-  if (!res.ok) return [];
+  if (!res.ok) {
+    throw new Error(`[otx] Failed to fetch pulse ${pulseId}: HTTP ${res.status}`);
+  }
 
   const data = (await res.json()) as { results: OtxIndicator[] };
   return data.results ?? [];

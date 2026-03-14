@@ -3,19 +3,19 @@
   "threats": [
     {
       "url": "https://chawins.notion.site/c1bca11f7bec40988b2ed7d997667f4d?v=03e416a926f54ff8aaa813aacf4c6cc9#996e887b7b55480b938cc68b4ee63f58",
-      "severity": "medium",
+      "severity": "low",
       "intent": "other",
       "techniques": [],
       "description": "IDPI reference found in tldrsec/prompt-injection-defenses curated list",
       "source": "tldrsec",
       "source_url": "https://github.com/tldrsec/prompt-injection-defenses",
       "first_seen": "2026-03-14T07:57:49.889Z",
-      "last_seen": "2026-03-14T08:09:45.828Z",
+      "last_seen": "2026-03-14T08:57:59.208Z",
       "is_active": true,
       "raw_payloads": [
         "Override"
       ]
     }
   ],
-  "updated_at": "2026-03-14T08:09:51.861Z"
+  "updated_at": "2026-03-14T08:57:59.208Z"
 }

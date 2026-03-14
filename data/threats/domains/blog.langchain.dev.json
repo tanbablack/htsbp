@@ -3,19 +3,19 @@
   "threats": [
     {
       "url": "https://blog.langchain.dev/rebuff/",
-      "severity": "medium",
+      "severity": "low",
       "intent": "other",
       "techniques": [],
       "description": "IDPI reference found in tldrsec/prompt-injection-defenses curated list",
       "source": "tldrsec",
       "source_url": "https://github.com/tldrsec/prompt-injection-defenses",
       "first_seen": "2026-03-14T07:57:49.889Z",
-      "last_seen": "2026-03-14T08:09:45.828Z",
+      "last_seen": "2026-03-14T08:57:57.812Z",
       "is_active": true,
       "raw_payloads": [
         "bypass"
       ]
     }
   ],
-  "updated_at": "2026-03-14T08:09:51.091Z"
+  "updated_at": "2026-03-14T08:57:57.812Z"
 }

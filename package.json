@@ -22,6 +22,8 @@
     "collect": "npx tsx src/scripts/run-collectors.ts",
     "collect:openclaw": "npx tsx src/openclaw/cron-runner.ts",
     "rebuild-stats": "npx tsx src/scripts/rebuild-stats.ts",
-    "dev": "npx netlify dev"
+    "dev": "npx netlify dev",
+    "check": "npx tsx src/scripts/check-url.ts",
+    "verify": "npx tsx src/scripts/verify-threats.ts"
   }
 }
