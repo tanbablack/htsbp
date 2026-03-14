@@ -79,14 +79,25 @@ export async function createThreatReportIssue(
 /** Send a Discord notification via webhook */
 export async function sendDiscordNotification(message: string): Promise<void> {
   const webhookUrl = process.env.NOTIFICATION_WEBHOOK_URL;
-  if (!webhookUrl) return;
+  if (!webhookUrl) {
+    console.warn("NOTIFICATION_WEBHOOK_URL is not set, skipping Discord notification");
+    return;
+  }
 
   try {
-    await fetch(webhookUrl, {
+    console.log("Sending Discord notification to webhook...");
+    const res = await fetch(webhookUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ content: message }),
     });
+
+    if (!res.ok) {
+      const errorBody = await res.text().catch(() => "(no body)");
+      console.error(`Discord webhook error ${res.status}: ${errorBody}`);
+    } else {
+      console.log("Discord notification sent successfully");
+    }
   } catch (err) {
     console.error("Failed to send Discord notification:", err);
   }

@@ -67,9 +67,15 @@ export const handler = async (event: NetlifyEvent): Promise<NetlifyResponse> => 
       description: body.description as string | undefined,
     });
 
-    await sendDiscordNotification(
-      `🆕 新しい脅威通報\n\nURL: ${url}\nIssue: ${result.issueUrl}`,
-    );
+    let notificationSent = false;
+    try {
+      await sendDiscordNotification(
+        `🆕 新しい脅威通報\n\nURL: ${url}\nIssue: ${result.issueUrl}`,
+      );
+      notificationSent = true;
+    } catch (notifyErr) {
+      console.error("Discord notification failed:", notifyErr);
+    }
 
     return {
       statusCode: 201,
@@ -79,6 +85,7 @@ export const handler = async (event: NetlifyEvent): Promise<NetlifyResponse> => 
         message: "Threat report created. It will be automatically verified during the next daily collection.",
         issue_url: result.issueUrl,
         issue_number: result.issueNumber,
+        notification_sent: notificationSent,
       }),
     };
   } catch (err) {
