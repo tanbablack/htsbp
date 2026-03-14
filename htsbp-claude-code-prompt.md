@@ -916,45 +916,11 @@ jobs:
 
 ## コミュニティ通報
 
-report-threat APIエンドポイントは廃止。代わりに **GitHub Issues** を使用。
+脅威通報は **MCP ツール（report_threat）** または **REST API（POST /api/report-threat）** で受け付ける。
+通報は GitHub Issue として自動作成され、日次の GitHub Actions で **自動検証・自動登録** される。
+人間による手動チェックは原則不要（LOW判定のみ needs-review ラベルで手動確認待ち）。
 
-- リポジトリに Issue Template（`.github/ISSUE_TEMPLATE/new-threat.yml`）を作成:
-
-```yaml
-name: Report a suspected IDPI site
-description: Report a website that contains hidden prompt injection targeting AI agents
-labels: ["new-threat"]
-body:
-  - type: input
-    id: url
-    attributes:
-      label: URL
-      description: Full URL of the suspected IDPI site
-      placeholder: "https://example.com/malicious-page"
-    validations:
-      required: true
-  - type: dropdown
-    id: severity
-    attributes:
-      label: Estimated severity
-      options:
-        - critical
-        - high
-        - medium
-        - low
-        - unsure
-    validations:
-      required: true
-  - type: textarea
-    id: details
-    attributes:
-      label: What did you observe?
-      description: Describe what hidden instructions or suspicious behavior you found
-    validations:
-      required: true
-```
-
-LP / docs.html の「Report a threat」リンクはこのIssueテンプレートへのURL（`https://github.com/tanbablack/htsbp/issues/new?template=new-threat.yml`）に向ける。
+詳細は後述の「脅威通報の仕組み（report_threat）」セクションを参照。
 
 ---
 
@@ -1832,8 +1798,9 @@ Secrets登録（GitHub Actions Secretsのみ。Netlifyには不要）:
 │  ■ 週1回（月曜に📋通知が届く）:                           │
 │    - GitHub IssueのチェックリストをこなしてIssueを閉じる    │
 │      □ ドメイン数が増えているか                            │
-│      □ new-threatラベルのIssueがないか                     │
 │      □ Netlifyサイトが正常にアクセスできるか                │
+│    ※ new-threat Issueは日次で自動検証・処理されるため       │
+│      手動チェック不要（LOW判定のneeds-reviewのみ要確認）     │
 │                                                         │
 │  ■ 異常時:                                              │
 │    - Collectエラー                                       │
