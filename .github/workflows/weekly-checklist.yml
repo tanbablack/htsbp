@@ -1,0 +1,46 @@
+name: Weekly Operations Checklist
+
+on:
+  schedule:
+    - cron: '0 0 * * 1'    # 09:00 JST every Monday
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  create-checklist:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Create weekly checklist issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          WEEK=$(date -u +%Y-W%V)
+          DOMAINS=$(ls data/threats/domains/*.json 2>/dev/null | wc -l | tr -d ' ')
+          BODY=$(cat <<EOF
+          ## 週次運用チェックリスト
+
+          ### 毎日確認（今週分まとめて）
+          - [ ] GitHub Actions の Daily IDPI Collection が毎日成功しているか
+          - [ ] Discord通知に 🚨 が来ていないか
+
+          ### 週次確認
+          - [ ] data/ のドメイン数が増えているか確認（現在: ${DOMAINS} 件）
+          - [ ] GitHub Issues（new-threat ラベル）にコミュニティからの報告がないか確認
+          - [ ] Netlify のデプロイが正常か（サイトにアクセスして確認）
+
+          ### 異常時の対処
+          - Collectエラー → 外部API（GitHub, OTX等）の障害。翌日の実行を待つ
+          - OpenClawエラー → ANTHROPIC_API_KEY の期限切れ/残高不足を確認
+          - Health Checkエラー → Netlifyのデプロイ状態を確認
+
+          ---
+          確認が終わったらこのIssueを閉じてください。
+          EOF
+          )
+          gh issue create \
+            --title "週次チェックリスト ${WEEK}" \
+            --label "ops-checklist" \
+            --body "${BODY}"

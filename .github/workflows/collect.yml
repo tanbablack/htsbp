@@ -36,3 +36,16 @@ jobs:
           git diff --cached --quiet || git commit -m "data: auto-update $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           git pull --rebase
           git push
+      - name: Notify success
+        if: success()
+        run: |
+          DOMAINS=$(ls data/threats/domains/*.json 2>/dev/null | wc -l | tr -d ' ')
+          curl -X POST "${{ secrets.NOTIFICATION_WEBHOOK_URL }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"content\":\"✅ Daily IDPI Collection 完了\\n\\n登録ドメイン数: ${DOMAINS}\\n時刻: $(date -u +%Y-%m-%dT%H:%M:%SZ)\"}"
+      - name: Notify failure
+        if: failure()
+        run: |
+          curl -X POST "${{ secrets.NOTIFICATION_WEBHOOK_URL }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"content\":\"🚨 Daily IDPI Collection 失敗\\n\\nワークフロー: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\\n時刻: $(date -u +%Y-%m-%dT%H:%M:%SZ)\"}"
