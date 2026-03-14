@@ -40,7 +40,10 @@ jobs:
           確認が終わったらこのIssueを閉じてください。
           EOF
           )
-          gh issue create \
+          ISSUE_URL=$(gh issue create \
             --title "週次チェックリスト ${WEEK}" \
             --label "ops-checklist" \
-            --body "${BODY}"
+            --body "${BODY}")
+          curl -X POST "${{ secrets.NOTIFICATION_WEBHOOK_URL }}" \
+            -H "Content-Type: application/json" \
+            -d "{\"content\":\"📋 週次チェックリスト作成\\n\\n${ISSUE_URL}\\n確認が終わったらIssueを閉じてください。\"}"
