@@ -2,10 +2,10 @@
   "total_threats": 30,
   "total_domains": 30,
   "by_severity": {
-    "critical": 2,
-    "high": 4,
-    "medium": 23,
-    "low": 1
+    "critical": 1,
+    "high": 5,
+    "medium": 8,
+    "low": 16
   },
   "by_intent": {
     "ad_review_bypass": 1,
@@ -20,6 +20,6 @@
     "tldrsec": 19,
     "unit42": 11
   },
-  "last_updated": "2026-03-14T08:10:39.505Z",
-  "generated_at": "2026-03-14T08:10:49.943Z"
+  "last_updated": "2026-03-14T09:35:06.549Z",
+  "generated_at": "2026-03-14T09:35:17.507Z"
 }
