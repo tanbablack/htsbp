@@ -58,14 +58,14 @@ No database. No backend state. All threat data lives as JSON files in this repos
 See [CONTRIBUTING.md](.github/CONTRIBUTING.md).
 
 Ways to contribute:
-- [Report a suspected IDPI site](https://github.com/YOUR_USERNAME/htsbp/issues/new?template=new-threat.yml)
+- [Report a suspected IDPI site](https://github.com/tanbablack/htsbp/issues/new?template=new-threat.yml)
 - Add new collectors
 - Improve detection heuristics
 
 ## Self-Hosting
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/htsbp.git
+git clone https://github.com/tanbablack/htsbp.git
 cd htsbp
 npm install
 npm run seed

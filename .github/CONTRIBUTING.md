@@ -8,7 +8,7 @@ Thank you for your interest in contributing to **Has This Site Been Poisoned?**
 
 If you've discovered a website containing hidden prompt injection targeting AI agents:
 
-1. Go to [New Issue](https://github.com/YOUR_USERNAME/htsbp/issues/new?template=new-threat.yml)
+1. Go to [New Issue](https://github.com/tanbablack/htsbp/issues/new?template=new-threat.yml)
 2. Fill in the URL, estimated severity, and what you observed
 3. Our team will review and verify the report
 
@@ -32,7 +32,7 @@ The web crawler (`src/collectors/web-crawler.ts`) uses pattern matching to detec
 ## Development Setup
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/htsbp.git
+git clone https://github.com/tanbablack/htsbp.git
 cd htsbp
 npm install
 npm run seed

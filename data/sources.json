@@ -30,7 +30,7 @@
   {
     "id": "community",
     "name": "Community reports (GitHub Issues)",
-    "url": "https://github.com/YOUR_USERNAME/htsbp/issues",
+    "url": "https://github.com/tanbablack/htsbp/issues",
     "type": "community",
     "update_frequency": "continuous"
   }

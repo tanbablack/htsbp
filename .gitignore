@@ -1,2 +1,14 @@
 # Local Netlify folder
 .netlify
+
+# Build output
+dist/
+
+# Environment
+.env
+
+# Dependencies
+node_modules/
+
+# Prompt file (local only)
+htsbp-claude-code-prompt.md
