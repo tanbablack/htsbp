@@ -47,6 +47,30 @@
       "flags": "i",
       "name": "ai_directive",
       "label": "Direct AI directive"
+    },
+    {
+      "pattern": "(god\\s*mode|developer\\s*mode)\\s*(enabled|activated|on)",
+      "flags": "i",
+      "name": "god_developer_mode_activation",
+      "label": "God Mode / Developer Mode activation trigger"
+    },
+    {
+      "pattern": "(?:subscribe|upgrade|enroll|sign\\s*up)\\s+(?:to|for)\\s+(?:the\\s+)?(?:pro|premium|paid|enterprise)\\s+plan",
+      "flags": "i",
+      "name": "unauthorized_subscription_directive",
+      "label": "Directive to subscribe/upgrade to a paid plan without user consent"
+    },
+    {
+      "pattern": "(?:rm\\s+-rf|rm\\s+/|del\\s+/[sS]|format\\s+[cC]:|fork\\s*bomb|:\\(\\)\\s*\\{\\s*:\\|:\\s*&\\s*\\}|shutdown\\s+-[hHrR])",
+      "flags": "i",
+      "name": "destructive_system_command",
+      "label": "Destructive system command embedded in IDPI payload"
+    },
+    {
+      "pattern": "(?:navigate|go)\\s+to\\s+(?:the\\s+)?(?:login|signup|auth|oauth)\\s+page",
+      "flags": "i",
+      "name": "forced_navigation_auth",
+      "label": "IDPI directive forcing navigation to authentication pages"
     }
   ],
   "concealments": [
@@ -105,11 +129,39 @@
       "name": "overflow_hidden",
       "technique": "css_display_none",
       "label": "overflow:hidden (potential)"
+    },
+    {
+      "pattern": "position\\s*:\\s*absolute[^}]*(?:left|top)\\s*:\\s*-\\d{4,}px",
+      "flags": "i",
+      "name": "extreme_offscreen_absolute",
+      "technique": "offscreen_absolute_positioning",
+      "label": "Absolute positioning with extreme negative coordinates (offscreen >9999px)"
+    },
+    {
+      "pattern": "<textarea[^>]*(?:style\\s*=\\s*[\"'][^\"']*(?:display\\s*:\\s*none|visibility\\s*:\\s*hidden|height\\s*:\\s*0|width\\s*:\\s*0)[^\"']*[\"'])[^>]*>",
+      "flags": "i",
+      "name": "hidden_textarea_payload",
+      "technique": "textarea_css_hide",
+      "label": "IDPI payload concealed inside hidden textarea element"
+    },
+    {
+      "pattern": "<!--[^>]*(?:ignore|override|disregard|system|instruction|you\\s+are)[^>]*-->",
+      "flags": "i",
+      "name": "html_comment_injection",
+      "technique": "html_comment_hide",
+      "label": "IDPI payload hidden inside HTML comment tags"
+    },
+    {
+      "pattern": "color\\s*:\\s*(#[fF]{6}|#[fF]{3}|rgb\\s*\\(\\s*255\\s*,\\s*255\\s*,\\s*255\\s*\\)|white)\\s*;[^}]*background(?:-color)?\\s*:\\s*(#[fF]{6}|#[fF]{3}|rgb\\s*\\(\\s*255\\s*,\\s*255\\s*,\\s*255\\s*\\)|white)",
+      "flags": "i",
+      "name": "white_on_white_reverse_order",
+      "technique": "white_on_white_text_reverse",
+      "label": "White text on white background (color before background-color)"
     }
   ],
   "_meta": {
-    "version": 1,
-    "updated_at": "2026-03-14T00:00:00Z",
+    "version": 2,
+    "updated_at": "2026-03-14T14:37:43.705Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }

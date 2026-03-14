@@ -1,32 +1,32 @@
 {
-  "total_threats": 68,
+  "total_threats": 70,
   "total_domains": 41,
   "by_severity": {
-    "critical": 3,
+    "critical": 4,
     "high": 21,
     "medium": 19,
-    "low": 25
+    "low": 26
   },
   "by_intent": {
     "ad_review_bypass": 1,
     "ai_ad_review_evasion": 1,
     "ai_output_manipulation": 7,
     "anti_scraping": 1,
-    "data_destruction": 3,
+    "data_destruction": 4,
     "donation_solicitation": 1,
     "fraudulent_transaction": 1,
     "other": 43,
     "phishing_redirect": 1,
     "sensitive_information_leakage": 1,
-    "seo_poisoning": 2,
+    "seo_poisoning": 3,
     "unauthorized_transaction": 6
   },
   "by_source": {
-    "openclaw": 18,
-    "otx": 20,
+    "htsbp": 20,
+    "openclaw": 20,
     "tldrsec": 19,
     "unit42": 11
   },
-  "last_updated": "2026-03-14T12:20:29.950Z",
-  "generated_at": "2026-03-14T12:20:43.317Z"
+  "last_updated": "2026-03-14T14:38:47.982Z",
+  "generated_at": "2026-03-14T14:38:59.639Z"
 }

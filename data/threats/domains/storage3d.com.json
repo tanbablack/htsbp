@@ -39,7 +39,22 @@
       "first_seen": "2026-03-14T12:19:43.419Z",
       "last_seen": "2026-03-14T12:19:43.419Z",
       "is_active": false
+    },
+    {
+      "url": "http://storage3d.com/storage/2009.11",
+      "severity": "critical",
+      "intent": "data_destruction",
+      "techniques": [
+        "css_display_none",
+        "social_engineering_directive"
+      ],
+      "description": "Website containing visually hidden IDPI instructions directing AI agents to delete the entire file system and deploy a fork bomb (Unix attack causing system unresponsiveness). Identified as part of Unit 42 in-the-wild telemetry analysis.",
+      "source": "openclaw",
+      "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
+      "first_seen": "2026-03-14T14:37:43.702Z",
+      "last_seen": "2026-03-14T14:37:43.702Z",
+      "is_active": false
     }
   ],
-  "updated_at": "2026-03-14T12:20:29.150Z"
+  "updated_at": "2026-03-14T14:38:46.196Z"
 }
