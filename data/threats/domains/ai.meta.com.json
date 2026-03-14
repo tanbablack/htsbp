@@ -1,0 +1,18 @@
+{
+  "domain": "ai.meta.com",
+  "threats": [
+    {
+      "url": "https://ai.meta.com/research/publications/purple-llama-cyberseceval-a-benchmark-for-evaluating-the-cybersecurity-risks-of-large-language-models/",
+      "severity": "medium",
+      "intent": "other",
+      "techniques": [],
+      "description": "IDPI reference found in tldrsec/prompt-injection-defenses curated list",
+      "source": "tldrsec",
+      "source_url": "https://github.com/tldrsec/prompt-injection-defenses",
+      "first_seen": "2026-03-14T07:57:49.889Z",
+      "last_seen": "2026-03-14T07:57:49.957Z",
+      "is_active": true
+    }
+  ],
+  "updated_at": "2026-03-14T07:57:54.743Z"
+}

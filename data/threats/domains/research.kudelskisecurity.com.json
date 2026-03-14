@@ -1,0 +1,22 @@
+{
+  "domain": "research.kudelskisecurity.com",
+  "threats": [
+    {
+      "url": "https://research.kudelskisecurity.com/2023/05/25/reducing-the-impact-of-prompt-injection-attacks-through-design/",
+      "severity": "medium",
+      "intent": "other",
+      "techniques": [],
+      "description": "IDPI reference found in tldrsec/prompt-injection-defenses curated list",
+      "source": "tldrsec",
+      "source_url": "https://github.com/tldrsec/prompt-injection-defenses",
+      "first_seen": "2026-03-14T07:57:49.889Z",
+      "last_seen": "2026-03-14T07:57:49.957Z",
+      "is_active": true,
+      "raw_payloads": [
+        "You are a",
+        "bypass"
+      ]
+    }
+  ],
+  "updated_at": "2026-03-14T07:58:38.932Z"
+}

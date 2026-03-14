@@ -9,13 +9,76 @@
       "last_seen": "2026-03-03T00:00:00Z",
       "is_active": true
     },
+    "ai.meta.com": {
+      "max_severity": "medium",
+      "intents": [
+        "other"
+      ],
+      "threat_count": 1,
+      "last_seen": "2026-03-14T07:57:49.957Z",
+      "is_active": true
+    },
+    "artifact-research.com": {
+      "max_severity": "medium",
+      "intents": [
+        "other"
+      ],
+      "threat_count": 1,
+      "last_seen": "2026-03-14T07:57:49.889Z",
+      "is_active": true
+    },
+    "artificialintelligencemadesimple.substack.com": {
+      "max_severity": "medium",
+      "intents": [
+        "other"
+      ],
+      "threat_count": 1,
+      "last_seen": "2026-03-14T07:57:49.889Z",
+      "is_active": true
+    },
+    "blog.langchain.dev": {
+      "max_severity": "medium",
+      "intents": [
+        "other"
+      ],
+      "threat_count": 1,
+      "last_seen": "2026-03-14T07:57:49.957Z",
+      "is_active": true
+    },
     "cblanke2.pages.dev": {
       "max_severity": "critical",
       "intents": [
         "data_destruction"
       ],
       "threat_count": 1,
-      "last_seen": "2026-03-03T00:00:00Z",
+      "last_seen": "2026-03-14T07:57:49.957Z",
+      "is_active": true
+    },
+    "chawins.notion.site": {
+      "max_severity": "medium",
+      "intents": [
+        "other"
+      ],
+      "threat_count": 1,
+      "last_seen": "2026-03-14T07:57:49.889Z",
+      "is_active": true
+    },
+    "developer.nvidia.com": {
+      "max_severity": "medium",
+      "intents": [
+        "other"
+      ],
+      "threat_count": 1,
+      "last_seen": "2026-03-14T07:57:49.957Z",
+      "is_active": true
+    },
+    "doublespeak.chat": {
+      "max_severity": "medium",
+      "intents": [
+        "other"
+      ],
+      "threat_count": 1,
+      "last_seen": "2026-03-14T07:57:49.889Z",
       "is_active": true
     },
     "dylansparks.com": {
@@ -24,7 +87,7 @@
         "other"
       ],
       "threat_count": 1,
-      "last_seen": "2026-03-03T00:00:00Z",
+      "last_seen": "2026-03-14T07:57:49.957Z",
       "is_active": true
     },
     "ericwbailey.website": {
@@ -33,7 +96,25 @@
         "anti_scraping"
       ],
       "threat_count": 1,
-      "last_seen": "2026-03-03T00:00:00Z",
+      "last_seen": "2026-03-14T07:57:49.957Z",
+      "is_active": true
+    },
+    "kai-greshake.de": {
+      "max_severity": "medium",
+      "intents": [
+        "other"
+      ],
+      "threat_count": 1,
+      "last_seen": "2026-03-14T07:57:49.957Z",
+      "is_active": true
+    },
+    "learnprompting.org": {
+      "max_severity": "medium",
+      "intents": [
+        "other"
+      ],
+      "threat_count": 1,
+      "last_seen": "2026-03-14T07:57:49.889Z",
       "is_active": true
     },
     "leroibear.com": {
@@ -42,7 +123,16 @@
         "other"
       ],
       "threat_count": 1,
-      "last_seen": "2026-03-03T00:00:00Z",
+      "last_seen": "2026-03-14T07:57:49.957Z",
+      "is_active": true
+    },
+    "llm-guard.com": {
+      "max_severity": "medium",
+      "intents": [
+        "other"
+      ],
+      "threat_count": 1,
+      "last_seen": "2026-03-14T07:57:49.889Z",
       "is_active": true
     },
     "llm7-landing.pages.dev": {
@@ -54,13 +144,22 @@
       "last_seen": "2026-03-03T00:00:00Z",
       "is_active": true
     },
+    "martinfowler.com": {
+      "max_severity": "medium",
+      "intents": [
+        "other"
+      ],
+      "threat_count": 1,
+      "last_seen": "2026-03-14T07:57:49.957Z",
+      "is_active": true
+    },
     "myshantispa.com": {
       "max_severity": "medium",
       "intents": [
         "other"
       ],
       "threat_count": 1,
-      "last_seen": "2026-03-03T00:00:00Z",
+      "last_seen": "2026-03-14T07:57:49.957Z",
       "is_active": true
     },
     "perceptivepumpkin.com": {
@@ -69,7 +168,16 @@
         "other"
       ],
       "threat_count": 1,
-      "last_seen": "2026-03-03T00:00:00Z",
+      "last_seen": "2026-03-14T07:57:49.957Z",
+      "is_active": true
+    },
+    "research.kudelskisecurity.com": {
+      "max_severity": "medium",
+      "intents": [
+        "other"
+      ],
+      "threat_count": 1,
+      "last_seen": "2026-03-14T07:57:49.957Z",
       "is_active": true
     },
     "reviewerpress.com": {
@@ -78,7 +186,7 @@
         "ad_review_bypass"
       ],
       "threat_count": 1,
-      "last_seen": "2026-03-03T00:00:00Z",
+      "last_seen": "2026-03-14T07:57:49.957Z",
       "is_active": true
     },
     "reviewerpressus.mycartpanda.com": {
@@ -90,6 +198,24 @@
       "last_seen": "2026-03-03T00:00:00Z",
       "is_active": true
     },
+    "simonwillison.net": {
+      "max_severity": "medium",
+      "intents": [
+        "other"
+      ],
+      "threat_count": 1,
+      "last_seen": "2026-03-14T07:57:49.889Z",
+      "is_active": true
+    },
+    "static1.squarespace.com": {
+      "max_severity": "medium",
+      "intents": [
+        "other"
+      ],
+      "threat_count": 1,
+      "last_seen": "2026-03-14T07:57:49.889Z",
+      "is_active": true
+    },
     "storage3d.com": {
       "max_severity": "high",
       "intents": [
@@ -98,9 +224,54 @@
       "threat_count": 1,
       "last_seen": "2026-03-03T00:00:00Z",
       "is_active": true
+    },
+    "vgel.me": {
+      "max_severity": "medium",
+      "intents": [
+        "other"
+      ],
+      "threat_count": 1,
+      "last_seen": "2026-03-14T07:57:49.957Z",
+      "is_active": true
+    },
+    "www.akaike.ai": {
+      "max_severity": "medium",
+      "intents": [
+        "other"
+      ],
+      "threat_count": 1,
+      "last_seen": "2026-03-14T07:57:49.957Z",
+      "is_active": true
+    },
+    "www.researchgate.net": {
+      "max_severity": "medium",
+      "intents": [
+        "other"
+      ],
+      "threat_count": 1,
+      "last_seen": "2026-03-14T07:57:49.889Z",
+      "is_active": true
+    },
+    "www.researchsquare.com": {
+      "max_severity": "medium",
+      "intents": [
+        "other"
+      ],
+      "threat_count": 1,
+      "last_seen": "2026-03-14T07:57:49.957Z",
+      "is_active": true
+    },
+    "www.scirp.org": {
+      "max_severity": "medium",
+      "intents": [
+        "other"
+      ],
+      "threat_count": 1,
+      "last_seen": "2026-03-14T07:57:49.957Z",
+      "is_active": true
     }
   },
-  "total_threats": 11,
-  "total_domains": 11,
-  "generated_at": "2026-03-14T06:39:49.564Z"
+  "total_threats": 30,
+  "total_domains": 30,
+  "generated_at": "2026-03-14T07:58:56.359Z"
 }

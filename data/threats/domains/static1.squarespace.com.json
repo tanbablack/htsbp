@@ -1,0 +1,18 @@
+{
+  "domain": "static1.squarespace.com",
+  "threats": [
+    {
+      "url": "https://static1.squarespace.com/static/59b5d23659cc681cdd75f9dc/t/655acd6e4e0b48705bfb56a5/1700449653978/CAMLIS_2023_Gary+Lopez+Munoz.pdf",
+      "severity": "medium",
+      "intent": "other",
+      "techniques": [],
+      "description": "IDPI reference found in tldrsec/prompt-injection-defenses curated list",
+      "source": "tldrsec",
+      "source_url": "https://github.com/tldrsec/prompt-injection-defenses",
+      "first_seen": "2026-03-14T07:57:49.889Z",
+      "last_seen": "2026-03-14T07:57:49.889Z",
+      "is_active": true
+    }
+  ],
+  "updated_at": "2026-03-14T07:57:49.949Z"
+}
