@@ -12,9 +12,25 @@
       "source": "unit42",
       "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
       "first_seen": "2026-03-03T00:00:00Z",
-      "last_seen": "2026-03-14T10:52:40.487Z",
+      "last_seen": "2026-03-14T12:20:05.615Z",
+      "is_active": true
+    },
+    {
+      "url": "https://llm7-landing.pages.dev/_next/static/chunks/app/page-94a1a9b785a7305c.js",
+      "severity": "low",
+      "intent": "unauthorized_transaction",
+      "techniques": [
+        "javascript_dynamic",
+        "instruction_override",
+        "oauth_hijack"
+      ],
+      "description": "IDPI payload hidden in JavaScript file. Instructs LLM to disregard prior instructions, claims user wants to subscribe to 'Pro plan,' directs AI agent to token.llm7.io/?subscription=show and initiate Google OAuth login to force unauthorized paid subscription.",
+      "source": "openclaw",
+      "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
+      "first_seen": "2026-03-14T12:19:43.419Z",
+      "last_seen": "2026-03-14T12:20:05.615Z",
       "is_active": true
     }
   ],
-  "updated_at": "2026-03-14T10:52:40.487Z"
+  "updated_at": "2026-03-14T12:20:05.615Z"
 }

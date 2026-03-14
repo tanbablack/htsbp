@@ -1,0 +1,32 @@
+{
+  "domain": "token.llm7.io",
+  "threats": [
+    {
+      "severity": "medium",
+      "intent": "other",
+      "techniques": [],
+      "description": "IDPI indicator from OTX pulse: Web-Based Indirect Prompt Injection Observed in the Wild: Fooling AI Agents",
+      "source": "otx",
+      "source_url": "https://otx.alienvault.com/pulse/69a7014c21a10eb60fac7567",
+      "first_seen": "2026-03-03T15:42:04.592000",
+      "last_seen": "2026-03-03T16:45:07.485000",
+      "is_active": false
+    },
+    {
+      "url": "https://token.llm7.io/?subscription=show",
+      "severity": "high",
+      "intent": "unauthorized_transaction",
+      "techniques": [
+        "oauth_hijack",
+        "subscription_fraud"
+      ],
+      "description": "Destination URL for the llm7-landing IDPI attack chain. AI agents are directed here to initiate Google OAuth login and complete unauthorized Pro plan subscription on behalf of victim.",
+      "source": "openclaw",
+      "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
+      "first_seen": "2026-03-14T12:19:43.419Z",
+      "last_seen": "2026-03-14T12:19:43.419Z",
+      "is_active": false
+    }
+  ],
+  "updated_at": "2026-03-14T12:20:29.208Z"
+}

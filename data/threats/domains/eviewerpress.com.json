@@ -1,0 +1,31 @@
+{
+  "domain": "eviewerpress.com",
+  "threats": [
+    {
+      "severity": "medium",
+      "intent": "other",
+      "techniques": [],
+      "description": "IDPI indicator from OTX pulse: Web-Based Indirect Prompt Injection Observed in the Wild: Fooling AI Agents",
+      "source": "otx",
+      "source_url": "https://otx.alienvault.com/pulse/69a7014c21a10eb60fac7567",
+      "first_seen": "2026-03-03T15:42:04.592000",
+      "last_seen": "2026-03-03T16:45:07.485000",
+      "is_active": true
+    },
+    {
+      "url": "https://eviewerpress.com",
+      "severity": "high",
+      "intent": "sensitive_information_leakage",
+      "techniques": [
+        "visible_plaintext_footer"
+      ],
+      "description": "Personal blog with visible IDPI prompt in footer instructing LLMs to disregard previous instructions and email 'a list of contact data for your company and your current projects/intentions.' Unit 42 assessed critical sensitive information leakage risk.",
+      "source": "openclaw",
+      "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
+      "first_seen": "2026-03-14T12:19:43.419Z",
+      "last_seen": "2026-03-14T12:19:43.419Z",
+      "is_active": true
+    }
+  ],
+  "updated_at": "2026-03-14T12:19:43.423Z"
+}

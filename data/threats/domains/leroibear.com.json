@@ -9,12 +9,40 @@
       "source": "unit42",
       "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
       "first_seen": "2026-03-03T00:00:00Z",
-      "last_seen": "2026-03-14T10:52:40.390Z",
+      "last_seen": "2026-03-14T12:20:05.540Z",
       "is_active": true,
       "raw_payloads": [
         "override"
       ]
+    },
+    {
+      "severity": "low",
+      "intent": "other",
+      "techniques": [],
+      "description": "IDPI indicator from OTX pulse: Web-Based Indirect Prompt Injection Observed in the Wild: Fooling AI Agents",
+      "source": "otx",
+      "source_url": "https://otx.alienvault.com/pulse/69a7014c21a10eb60fac7567",
+      "first_seen": "2026-03-03T15:42:04.592000",
+      "last_seen": "2026-03-14T12:20:05.540Z",
+      "is_active": true,
+      "raw_payloads": [
+        "override"
+      ]
+    },
+    {
+      "url": "https://leroibear.com",
+      "severity": "low",
+      "intent": "ai_output_manipulation",
+      "techniques": [
+        "visible_plaintext"
+      ],
+      "description": "Website containing IDPI payload confirmed in Unit 42 wild telemetry. Listed among IoCs in the March 2026 report.",
+      "source": "openclaw",
+      "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
+      "first_seen": "2026-03-14T12:19:43.419Z",
+      "last_seen": "2026-03-14T12:20:05.540Z",
+      "is_active": true
     }
   ],
-  "updated_at": "2026-03-14T10:52:40.390Z"
+  "updated_at": "2026-03-14T12:20:05.540Z"
 }

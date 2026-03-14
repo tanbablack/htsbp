@@ -1,0 +1,31 @@
+{
+  "domain": "trinca.tornidor.com",
+  "threats": [
+    {
+      "severity": "medium",
+      "intent": "other",
+      "techniques": [],
+      "description": "IDPI indicator from OTX pulse: Web-Based Indirect Prompt Injection Observed in the Wild: Fooling AI Agents",
+      "source": "otx",
+      "source_url": "https://otx.alienvault.com/pulse/69a7014c21a10eb60fac7567",
+      "first_seen": "2026-03-03T15:42:04.592000",
+      "last_seen": "2026-03-03T16:45:07.485000",
+      "is_active": true
+    },
+    {
+      "url": "https://trinca.tornidor.com",
+      "severity": "medium",
+      "intent": "ai_output_manipulation",
+      "techniques": [
+        "visible_plaintext"
+      ],
+      "description": "Website containing IDPI payload confirmed in Unit 42 in-the-wild telemetry. Listed among IoCs.",
+      "source": "openclaw",
+      "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
+      "first_seen": "2026-03-14T12:19:43.419Z",
+      "last_seen": "2026-03-14T12:19:43.419Z",
+      "is_active": true
+    }
+  ],
+  "updated_at": "2026-03-14T12:19:43.422Z"
+}

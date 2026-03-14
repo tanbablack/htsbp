@@ -12,9 +12,35 @@
       "source": "unit42",
       "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
       "first_seen": "2026-03-03T00:00:00Z",
-      "last_seen": "2026-03-14T10:50:48.965Z",
+      "last_seen": "2026-03-14T12:17:14.789Z",
+      "is_active": false
+    },
+    {
+      "severity": "medium",
+      "intent": "other",
+      "techniques": [],
+      "description": "IDPI indicator from OTX pulse: Web-Based Indirect Prompt Injection Observed in the Wild: Fooling AI Agents",
+      "source": "otx",
+      "source_url": "https://otx.alienvault.com/pulse/69a7014c21a10eb60fac7567",
+      "first_seen": "2026-03-03T15:42:04.592000",
+      "last_seen": "2026-03-14T12:17:14.789Z",
+      "is_active": false
+    },
+    {
+      "url": "https://ericwbailey.website/published/accessibility-preference-settings-information-architecture-and-internalized-ableism",
+      "severity": "critical",
+      "intent": "data_destruction",
+      "techniques": [
+        "css_hidden_text",
+        "fork_bomb_command"
+      ],
+      "description": "Personal website containing visually hidden IDPI instruction for AI agent to delete the entire file system and deploy a fork bomb (){ :|:& };: — a Unix attack that makes systems unresponsive.",
+      "source": "openclaw",
+      "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
+      "first_seen": "2026-03-14T12:19:43.419Z",
+      "last_seen": "2026-03-14T12:19:43.419Z",
       "is_active": false
     }
   ],
-  "updated_at": "2026-03-14T10:52:39.610Z"
+  "updated_at": "2026-03-14T12:20:04.694Z"
 }

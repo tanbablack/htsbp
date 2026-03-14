@@ -9,9 +9,34 @@
       "source": "unit42",
       "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
       "first_seen": "2025-12-15T00:00:00Z",
-      "last_seen": "2026-03-14T10:52:44.844Z",
+      "last_seen": "2026-03-14T12:20:25.607Z",
+      "is_active": true
+    },
+    {
+      "severity": "low",
+      "intent": "other",
+      "techniques": [],
+      "description": "IDPI indicator from OTX pulse: Web-Based Indirect Prompt Injection Observed in the Wild: Fooling AI Agents",
+      "source": "otx",
+      "source_url": "https://otx.alienvault.com/pulse/69a7014c21a10eb60fac7567",
+      "first_seen": "2026-03-03T15:42:04.592000",
+      "last_seen": "2026-03-14T12:20:25.607Z",
+      "is_active": true
+    },
+    {
+      "url": "https://reviewerpressus.mycartpanda.com",
+      "severity": "low",
+      "intent": "fraudulent_transaction",
+      "techniques": [
+        "redirect_from_idpi_site"
+      ],
+      "description": "Payment/cart platform linked to reviewerpress.com IDPI campaign. Buy Now buttons on the IDPI-laden ad review evasion page redirect users to this domain for fraudulent purchases.",
+      "source": "openclaw",
+      "source_url": "https://github.com/PaloAltoNetworks/Unit42-timely-threat-intel/blob/main/2025-12-15-real-world-case-of-malicious-indirect-prompt-injection.md",
+      "first_seen": "2026-03-14T12:19:43.419Z",
+      "last_seen": "2026-03-14T12:20:25.607Z",
       "is_active": true
     }
   ],
-  "updated_at": "2026-03-14T10:52:44.845Z"
+  "updated_at": "2026-03-14T12:20:25.607Z"
 }

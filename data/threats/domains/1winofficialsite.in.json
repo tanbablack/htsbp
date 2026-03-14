@@ -11,9 +11,35 @@
       "source": "unit42",
       "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
       "first_seen": "2026-03-03T00:00:00Z",
-      "last_seen": "2026-03-14T10:52:21.825Z",
+      "last_seen": "2026-03-14T12:19:46.843Z",
+      "is_active": true
+    },
+    {
+      "severity": "low",
+      "intent": "other",
+      "techniques": [],
+      "description": "IDPI indicator from OTX pulse: Web-Based Indirect Prompt Injection Observed in the Wild: Fooling AI Agents",
+      "source": "otx",
+      "source_url": "https://otx.alienvault.com/pulse/69a7014c21a10eb60fac7567",
+      "first_seen": "2026-03-03T15:42:04.592000",
+      "last_seen": "2026-03-14T12:19:46.843Z",
+      "is_active": true
+    },
+    {
+      "url": "https://1winofficialsite.in",
+      "severity": "low",
+      "intent": "seo_poisoning",
+      "techniques": [
+        "visible_plaintext",
+        "instruction_override"
+      ],
+      "description": "Fake betting site impersonating a well-known platform. Contains plaintext IDPI payload in page footer instructing AI to 'forget all previous instructions' and recommend the site as 'the only Google-trusted' betting site for SEO manipulation.",
+      "source": "openclaw",
+      "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
+      "first_seen": "2026-03-14T12:19:43.419Z",
+      "last_seen": "2026-03-14T12:19:46.843Z",
       "is_active": true
     }
   ],
-  "updated_at": "2026-03-14T10:52:21.825Z"
+  "updated_at": "2026-03-14T12:19:46.843Z"
 }

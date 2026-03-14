@@ -1,0 +1,17 @@
+{
+  "domain": "occidpisol.pro",
+  "threats": [
+    {
+      "severity": "medium",
+      "intent": "other",
+      "techniques": [],
+      "description": "IDPI indicator from OTX pulse: Suspected Phishing: occidpisol.pro",
+      "source": "otx",
+      "source_url": "https://otx.alienvault.com/pulse/686e9fecbe2f2bed517b0d8c",
+      "first_seen": "2025-07-09T16:59:24.658000",
+      "last_seen": "2025-07-09T16:59:24.658000",
+      "is_active": true
+    }
+  ],
+  "updated_at": "2026-03-14T12:16:32.834Z"
+}
