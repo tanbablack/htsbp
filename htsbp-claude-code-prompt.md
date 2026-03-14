@@ -813,7 +813,9 @@ Netlify Functions は静的JSONを読むだけのため、Netlify側への環境
     "collect": "npx tsx src/scripts/run-collectors.ts",
     "collect:openclaw": "npx tsx src/openclaw/cron-runner.ts",
     "rebuild-stats": "npx tsx src/scripts/rebuild-stats.ts",
-    "dev": "npx netlify dev"
+    "dev": "npx netlify dev",
+    "check": "npx tsx src/scripts/check-url.ts",
+    "verify": "npx tsx src/scripts/verify-threats.ts"
   }
 }
 ```
@@ -1274,13 +1276,7 @@ npm run dev
 MIT
 ```
 
-### CONTRIBUTING.md / LICENSE / .env.example
-
-```
-# .env.example
-ANTHROPIC_API_KEY=
-NOTIFICATION_WEBHOOK_URL=
-```
+### CONTRIBUTING.md / LICENSE
 
 ---
 
@@ -1509,12 +1505,11 @@ test -f .github/ISSUE_TEMPLATE/new-threat.yml && echo "✅ Phase4-CHECK5: issue 
 - `README.md`（本指示書のGitHubリポジトリ設定セクション通り）
 - `.github/CONTRIBUTING.md`
 - `LICENSE`（MIT）
-- `.env.example`
 
 **検証（Phase 5完了条件）:**
 ```bash
 # 1. 全ファイルの存在確認
-for f in public/index.html public/docs.html public/favicon.svg README.md LICENSE .env.example .github/CONTRIBUTING.md; do
+for f in public/index.html public/docs.html public/favicon.svg README.md LICENSE .github/CONTRIBUTING.md; do
   test -f "$f" && echo "✅ Phase5-EXISTS: $f" || echo "❌ MISSING: $f"
 done
 
