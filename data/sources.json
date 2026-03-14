@@ -8,9 +8,9 @@
   },
   {
     "id": "otx",
-    "name": "AlienVault OTX",
+    "name": "AlienVault OTX (discovery trigger)",
     "url": "https://otx.alienvault.com/",
-    "type": "threat_pulse",
+    "type": "discovery_trigger",
     "update_frequency": "daily"
   },
   {
