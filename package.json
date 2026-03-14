@@ -1,0 +1,27 @@
+{
+  "name": "htsbp",
+  "version": "1.0.0",
+  "description": "Has This Site Been Poisoned? — AI Agent Threat Intelligence",
+  "type": "module",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.30",
+    "node-fetch": "^3",
+    "cheerio": "^1.0",
+    "zod": "^3"
+  },
+  "devDependencies": {
+    "typescript": "^5",
+    "@types/node": "^20",
+    "esbuild": "^0.20",
+    "tsx": "^4"
+  },
+  "scripts": {
+    "build": "npm run copy-data && node build.mjs",
+    "copy-data": "mkdir -p dist/api && cp -r data dist/api/",
+    "seed": "npx tsx src/scripts/seed-initial-data.ts",
+    "collect": "npx tsx src/scripts/run-collectors.ts",
+    "collect:openclaw": "npx tsx src/openclaw/cron-runner.ts",
+    "rebuild-stats": "npx tsx src/scripts/rebuild-stats.ts",
+    "dev": "npx netlify dev"
+  }
+}

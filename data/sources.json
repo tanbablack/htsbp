@@ -1,0 +1,37 @@
+[
+  {
+    "id": "unit42",
+    "name": "Palo Alto Networks Unit 42",
+    "url": "https://unit42.paloaltonetworks.com/",
+    "type": "ioc_feed",
+    "update_frequency": "daily"
+  },
+  {
+    "id": "otx",
+    "name": "AlienVault OTX",
+    "url": "https://otx.alienvault.com/",
+    "type": "threat_pulse",
+    "update_frequency": "daily"
+  },
+  {
+    "id": "tldrsec",
+    "name": "tldrsec/prompt-injection-defenses",
+    "url": "https://github.com/tldrsec/prompt-injection-defenses",
+    "type": "curated_list",
+    "update_frequency": "weekly"
+  },
+  {
+    "id": "openclaw",
+    "name": "AI-driven discovery (Claude)",
+    "url": null,
+    "type": "ai_crawler",
+    "update_frequency": "daily"
+  },
+  {
+    "id": "community",
+    "name": "Community reports (GitHub Issues)",
+    "url": "https://github.com/YOUR_USERNAME/htsbp/issues",
+    "type": "community",
+    "update_frequency": "continuous"
+  }
+]

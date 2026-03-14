@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc:*)",
+      "Bash(npx tsx:*)",
+      "Bash(npx netlify:*)",
+      "Bash(for f:*)",
+      "Bash(do)",
+      "Bash(test -f \"$f\")",
+      "Bash(echo \"✅ Phase5-EXISTS: $f\")",
+      "Bash(echo \"❌ MISSING: $f\")",
+      "Bash(done)"
+    ]
+  }
+}

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API &amp; MCP Docs — HTSBP</title>
+  <meta name="description" content="API documentation and MCP server connection guide for Has This Site Been Poisoned?">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { bg: '#0a0a0a', 'bg-alt': '#111827', accent: '#06b6d4' } } }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+  <style>
+    body { background: #0a0a0a; }
+    pre[class*="language-"] { background: #1e1e2e !important; border-radius: 0.75rem; border: 1px solid #374151; margin: 0; }
+    code[class*="language-"] { font-size: 0.85rem; }
+    .sidebar-link.active { color: #06b6d4; border-left-color: #06b6d4; }
+    .copy-btn { transition: all 0.15s; }
+    .copy-btn:hover { background: #374151; }
+    .copy-btn.copied { color: #22c55e; }
+  </style>
+</head>
+<body class="text-gray-50 min-h-screen">
+
+  <!-- Nav -->
+  <nav class="fixed top-0 w-full z-50 bg-bg/80 backdrop-blur border-b border-gray-800">
+    <div class="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2 text-lg font-bold tracking-tight">
+        <img src="/favicon.svg" alt="" class="w-7 h-7">
+        <span class="text-accent">HTSBP</span>
+      </a>
+      <div class="flex items-center gap-6 text-sm text-gray-400">
+        <a href="/docs.html" class="text-gray-100">API</a>
+        <a href="/docs.html#mcp" class="hover:text-gray-100 transition">MCP</a>
+        <a href="https://github.com/YOUR_USERNAME/htsbp" target="_blank" rel="noopener" class="hover:text-gray-100 transition">GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-6xl mx-auto px-4 pt-20 flex gap-8">
+
+    <!-- Sidebar -->
+    <aside class="hidden lg:block w-56 shrink-0">
+      <div class="sticky top-20 space-y-1 text-sm">
+        <div class="text-xs uppercase tracking-wider text-gray-500 mb-2 mt-4">REST API</div>
+        <a href="#overview" class="sidebar-link block pl-3 py-1.5 border-l-2 border-transparent text-gray-400 hover:text-gray-200 transition">Overview</a>
+        <a href="#check-domain" class="sidebar-link block pl-3 py-1.5 border-l-2 border-transparent text-gray-400 hover:text-gray-200 transition">check-domain</a>
+        <a href="#check-url" class="sidebar-link block pl-3 py-1.5 border-l-2 border-transparent text-gray-400 hover:text-gray-200 transition">check-url</a>
+        <a href="#list-threats" class="sidebar-link block pl-3 py-1.5 border-l-2 border-transparent text-gray-400 hover:text-gray-200 transition">list-threats</a>
+        <a href="#stats" class="sidebar-link block pl-3 py-1.5 border-l-2 border-transparent text-gray-400 hover:text-gray-200 transition">stats</a>
+        <div class="text-xs uppercase tracking-wider text-gray-500 mb-2 mt-6">MCP Server</div>
+        <a href="#mcp" class="sidebar-link block pl-3 py-1.5 border-l-2 border-transparent text-gray-400 hover:text-gray-200 transition">Connection Guide</a>
+        <a href="#mcp-tools" class="sidebar-link block pl-3 py-1.5 border-l-2 border-transparent text-gray-400 hover:text-gray-200 transition">Available Tools</a>
+        <a href="#mcp-examples" class="sidebar-link block pl-3 py-1.5 border-l-2 border-transparent text-gray-400 hover:text-gray-200 transition">Example Conversations</a>
+        <div class="text-xs uppercase tracking-wider text-gray-500 mb-2 mt-6">Sample Scripts</div>
+        <a href="#sample-python" class="sidebar-link block pl-3 py-1.5 border-l-2 border-transparent text-gray-400 hover:text-gray-200 transition">Python</a>
+        <a href="#sample-node" class="sidebar-link block pl-3 py-1.5 border-l-2 border-transparent text-gray-400 hover:text-gray-200 transition">Node.js / TypeScript</a>
+        <a href="#sample-curl" class="sidebar-link block pl-3 py-1.5 border-l-2 border-transparent text-gray-400 hover:text-gray-200 transition">cURL</a>
+        <a href="#sample-mcp-client" class="sidebar-link block pl-3 py-1.5 border-l-2 border-transparent text-gray-400 hover:text-gray-200 transition">MCP Client</a>
+        <div class="text-xs uppercase tracking-wider text-gray-500 mb-2 mt-6">Community</div>
+        <a href="#report" class="sidebar-link block pl-3 py-1.5 border-l-2 border-transparent text-gray-400 hover:text-gray-200 transition">Report a Threat</a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 min-w-0 pb-24 space-y-16">
+
+      <!-- Overview -->
+      <section id="overview">
+        <h1 class="text-3xl font-bold mb-4">API Documentation</h1>
+        <p class="text-gray-400 mb-4">HTSBP provides a free, open REST API and MCP server for checking domains and URLs against our threat intelligence database of indirect prompt injection (IDPI) attacks.</p>
+        <div class="bg-gray-900 rounded-xl p-4 border border-gray-800 text-sm">
+          <span class="text-gray-500">Base URL:</span>
+          <code class="text-accent ml-2">https://hasthissitebeenpoisoned.ai/api</code>
+        </div>
+      </section>
+
+      <!-- check-domain -->
+      <section id="check-domain">
+        <h2 class="text-2xl font-bold mb-4">check-domain</h2>
+        <div class="flex items-center gap-2 mb-4">
+          <span class="px-2 py-0.5 rounded text-xs font-bold bg-green-500/20 text-green-400">GET</span>
+          <code class="text-sm text-gray-300">/api/check-domain?domain={domain}</code>
+        </div>
+        <p class="text-gray-400 text-sm mb-4">Check if a domain hosts known IDPI attacks targeting AI agents.</p>
+        <h3 class="text-sm font-semibold text-gray-300 mb-2">Parameters</h3>
+        <table class="w-full text-sm mb-4">
+          <thead><tr class="text-left text-gray-500 border-b border-gray-800"><th class="pb-2 pr-4">Name</th><th class="pb-2 pr-4">Type</th><th class="pb-2 pr-4">Required</th><th class="pb-2">Description</th></tr></thead>
+          <tbody><tr class="border-b border-gray-800/50"><td class="py-2 pr-4 text-accent">domain</td><td class="py-2 pr-4 text-gray-400">string</td><td class="py-2 pr-4 text-gray-400">Yes</td><td class="py-2 text-gray-400">Domain to check</td></tr></tbody>
+        </table>
+        <div class="relative">
+          <button class="copy-btn absolute top-3 right-3 px-2 py-1 rounded text-xs text-gray-400 bg-gray-800" onclick="copyCode(this)">Copy</button>
+          <pre><code class="language-bash">curl -s "https://hasthissitebeenpoisoned.ai/api/check-domain?domain=reviewerpress.com" | jq .</code></pre>
+        </div>
+        <h3 class="text-sm font-semibold text-gray-300 mt-4 mb-2">Response (malicious)</h3>
+        <div class="relative">
+          <button class="copy-btn absolute top-3 right-3 px-2 py-1 rounded text-xs text-gray-400 bg-gray-800" onclick="copyCode(this)">Copy</button>
+          <pre><code class="language-json">{
+  "domain": "reviewerpress.com",
+  "is_malicious": true,
+  "threats": [
+    {
+      "severity": "critical",
+      "intent": "ad_review_bypass",
+      "techniques": ["zero_font_size", "css_display_none"],
+      "description": "First known real-world AI ad review bypass...",
+      "source": "unit42",
+      "first_seen": "2025-12-15T00:00:00Z",
+      "last_seen": "2026-03-03T00:00:00Z",
+      "is_active": true
+    }
+  ]
+}</code></pre>
+        </div>
+        <h3 class="text-sm font-semibold text-gray-300 mt-4 mb-2">Response (not found)</h3>
+        <div class="relative">
+          <button class="copy-btn absolute top-3 right-3 px-2 py-1 rounded text-xs text-gray-400 bg-gray-800" onclick="copyCode(this)">Copy</button>
+          <pre><code class="language-json">{
+  "domain": "example.com",
+  "is_malicious": false,
+  "threats": []
+}</code></pre>
+        </div>
+      </section>
+
+      <!-- check-url -->
+      <section id="check-url">
+        <h2 class="text-2xl font-bold mb-4">check-url</h2>
+        <div class="flex items-center gap-2 mb-4">
+          <span class="px-2 py-0.5 rounded text-xs font-bold bg-green-500/20 text-green-400">GET</span>
+          <code class="text-sm text-gray-300">/api/check-url?url={url}</code>
+        </div>
+        <p class="text-gray-400 text-sm mb-4">Check a specific URL. Extracts the domain and checks for threats, also matching URL-specific entries.</p>
+        <table class="w-full text-sm mb-4">
+          <thead><tr class="text-left text-gray-500 border-b border-gray-800"><th class="pb-2 pr-4">Name</th><th class="pb-2 pr-4">Type</th><th class="pb-2 pr-4">Required</th><th class="pb-2">Description</th></tr></thead>
+          <tbody><tr class="border-b border-gray-800/50"><td class="py-2 pr-4 text-accent">url</td><td class="py-2 pr-4 text-gray-400">string</td><td class="py-2 pr-4 text-gray-400">Yes</td><td class="py-2 text-gray-400">Full URL to check</td></tr></tbody>
+        </table>
+        <div class="relative">
+          <button class="copy-btn absolute top-3 right-3 px-2 py-1 rounded text-xs text-gray-400 bg-gray-800" onclick="copyCode(this)">Copy</button>
+          <pre><code class="language-bash">curl -s "https://hasthissitebeenpoisoned.ai/api/check-url?url=https://cblanke2.pages.dev/" | jq .</code></pre>
+        </div>
+      </section>
+
+      <!-- list-threats -->
+      <section id="list-threats">
+        <h2 class="text-2xl font-bold mb-4">list-threats</h2>
+        <div class="flex items-center gap-2 mb-4">
+          <span class="px-2 py-0.5 rounded text-xs font-bold bg-green-500/20 text-green-400">GET</span>
+          <code class="text-sm text-gray-300">/api/list-threats</code>
+        </div>
+        <p class="text-gray-400 text-sm mb-4">List known IDPI threats with optional filters. All parameters are optional.</p>
+        <table class="w-full text-sm mb-4">
+          <thead><tr class="text-left text-gray-500 border-b border-gray-800"><th class="pb-2 pr-4">Name</th><th class="pb-2 pr-4">Type</th><th class="pb-2 pr-4">Default</th><th class="pb-2">Description</th></tr></thead>
+          <tbody>
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4 text-accent">severity</td><td class="py-2 pr-4 text-gray-400">string</td><td class="py-2 pr-4 text-gray-400">—</td><td class="py-2 text-gray-400">critical, high, medium, low</td></tr>
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4 text-accent">intent</td><td class="py-2 pr-4 text-gray-400">string</td><td class="py-2 pr-4 text-gray-400">—</td><td class="py-2 text-gray-400">Filter by attack intent</td></tr>
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4 text-accent">limit</td><td class="py-2 pr-4 text-gray-400">number</td><td class="py-2 pr-4 text-gray-400">20</td><td class="py-2 text-gray-400">Max results (1–50)</td></tr>
+            <tr class="border-b border-gray-800/50"><td class="py-2 pr-4 text-accent">offset</td><td class="py-2 pr-4 text-gray-400">number</td><td class="py-2 pr-4 text-gray-400">0</td><td class="py-2 text-gray-400">Pagination offset</td></tr>
+          </tbody>
+        </table>
+        <div class="relative">
+          <button class="copy-btn absolute top-3 right-3 px-2 py-1 rounded text-xs text-gray-400 bg-gray-800" onclick="copyCode(this)">Copy</button>
+          <pre><code class="language-bash">curl -s "https://hasthissitebeenpoisoned.ai/api/list-threats?severity=critical&limit=10" | jq .</code></pre>
+        </div>
+      </section>
+
+      <!-- stats -->
+      <section id="stats">
+        <h2 class="text-2xl font-bold mb-4">stats</h2>
+        <div class="flex items-center gap-2 mb-4">
+          <span class="px-2 py-0.5 rounded text-xs font-bold bg-green-500/20 text-green-400">GET</span>
+          <code class="text-sm text-gray-300">/api/stats</code>
+        </div>
+        <p class="text-gray-400 text-sm mb-4">Returns aggregate statistics about the threat database.</p>
+        <div class="relative">
+          <button class="copy-btn absolute top-3 right-3 px-2 py-1 rounded text-xs text-gray-400 bg-gray-800" onclick="copyCode(this)">Copy</button>
+          <pre><code class="language-bash">curl -s "https://hasthissitebeenpoisoned.ai/api/stats" | jq .</code></pre>
+        </div>
+      </section>
+
+      <!-- MCP -->
+      <section id="mcp">
+        <h2 class="text-2xl font-bold mb-4">MCP Server</h2>
+        <p class="text-gray-400 mb-6">Connect your AI tools directly to HTSBP threat intelligence via the Model Context Protocol.</p>
+
+        <h3 class="text-lg font-semibold mb-3">Connection Guide</h3>
+        <p class="text-gray-400 text-sm mb-4">Add this to your MCP client configuration (Claude Desktop, Cursor, Windsurf, etc.):</p>
+        <div class="relative">
+          <button class="copy-btn absolute top-3 right-3 px-2 py-1 rounded text-xs text-gray-400 bg-gray-800" onclick="copyCode(this)">Copy</button>
+          <pre><code class="language-json">{
+  "mcpServers": {
+    "htsbp": {
+      "url": "https://hasthissitebeenpoisoned.ai/api/mcp-sse"
+    }
+  }
+}</code></pre>
+        </div>
+      </section>
+
+      <!-- MCP Tools -->
+      <section id="mcp-tools">
+        <h3 class="text-lg font-semibold mb-3">Available Tools</h3>
+        <div class="space-y-4">
+          <div class="bg-gray-900 rounded-xl p-4 border border-gray-800">
+            <code class="text-accent font-semibold">check_domain</code>
+            <p class="text-gray-400 text-sm mt-1">Check if a domain hosts known IDPI attacks targeting AI agents.</p>
+            <p class="text-gray-500 text-xs mt-1">Input: <code>{ domain: string }</code></p>
+          </div>
+          <div class="bg-gray-900 rounded-xl p-4 border border-gray-800">
+            <code class="text-accent font-semibold">check_url</code>
+            <p class="text-gray-400 text-sm mt-1">Check if a specific URL contains known IDPI payloads.</p>
+            <p class="text-gray-500 text-xs mt-1">Input: <code>{ url: string }</code></p>
+          </div>
+          <div class="bg-gray-900 rounded-xl p-4 border border-gray-800">
+            <code class="text-accent font-semibold">list_threats</code>
+            <p class="text-gray-400 text-sm mt-1">List known IDPI threats with optional filters.</p>
+            <p class="text-gray-500 text-xs mt-1">Input: <code>{ severity?: string, intent?: string, limit?: number }</code></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- MCP Examples -->
+      <section id="mcp-examples">
+        <h3 class="text-lg font-semibold mb-3">Example Conversations</h3>
+        <div class="bg-gray-900 rounded-xl p-4 border border-gray-800 space-y-3 text-sm">
+          <div><span class="text-gray-500">User:</span> <span class="text-gray-300">Before you visit reviewerpress.com, check if it's safe.</span></div>
+          <div><span class="text-gray-500">AI:</span> <span class="text-gray-300">I'll check that domain with HTSBP first.</span></div>
+          <div class="bg-gray-800/50 rounded p-3 text-xs"><span class="text-accent">Tool call:</span> check_domain({ domain: "reviewerpress.com" })</div>
+          <div><span class="text-gray-500">AI:</span> <span class="text-red-400">Warning: reviewerpress.com is flagged as hostile. It contains 24 IDPI injection attempts using techniques like zero-size fonts and CSS hiding. This site attempts to bypass AI ad review processes. I will not visit this domain.</span></div>
+        </div>
+      </section>
+
+      <!-- Sample: Python -->
+      <section id="sample-python">
+        <h2 class="text-2xl font-bold mb-4">Sample Scripts</h2>
+        <h3 class="text-lg font-semibold mb-3">Python</h3>
+        <div class="relative">
+          <button class="copy-btn absolute top-3 right-3 px-2 py-1 rounded text-xs text-gray-400 bg-gray-800" onclick="copyCode(this)">Copy</button>
+          <pre><code class="language-python">import requests
+
+def check_domain(domain: str) -> dict:
+    resp = requests.get(
+        "https://hasthissitebeenpoisoned.ai/api/check-domain",
+        params={"domain": domain}
+    )
+    return resp.json()
+
+def is_safe(url: str) -> bool:
+    from urllib.parse import urlparse
+    domain = urlparse(url).netloc
+    result = check_domain(domain)
+    return not result.get("is_malicious", False)
+
+result = check_domain("reviewerpress.com")
+print(f"Malicious: {result['is_malicious']}")
+for threat in result.get("threats", []):
+    print(f"  - [{threat['severity']}] {threat['intent']}: {threat['description']}")</code></pre>
+        </div>
+      </section>
+
+      <!-- Sample: Node.js -->
+      <section id="sample-node">
+        <h3 class="text-lg font-semibold mb-3">Node.js / TypeScript</h3>
+        <div class="relative">
+          <button class="copy-btn absolute top-3 right-3 px-2 py-1 rounded text-xs text-gray-400 bg-gray-800" onclick="copyCode(this)">Copy</button>
+          <pre><code class="language-typescript">const HTSBP_BASE = "https://hasthissitebeenpoisoned.ai/api";
+
+async function checkDomain(domain: string) {
+  const res = await fetch(`${HTSBP_BASE}/check-domain?domain=${encodeURIComponent(domain)}`);
+  return res.json();
+}
+
+const result = await checkDomain("cblanke2.pages.dev");
+if (result.is_malicious) {
+  console.warn(`BLOCKED: ${result.threats[0].description}`);
+}</code></pre>
+        </div>
+      </section>
+
+      <!-- Sample: cURL -->
+      <section id="sample-curl">
+        <h3 class="text-lg font-semibold mb-3">cURL</h3>
+        <div class="relative">
+          <button class="copy-btn absolute top-3 right-3 px-2 py-1 rounded text-xs text-gray-400 bg-gray-800" onclick="copyCode(this)">Copy</button>
+          <pre><code class="language-bash">curl -s "https://hasthissitebeenpoisoned.ai/api/check-domain?domain=reviewerpress.com" | jq .
+curl -s "https://hasthissitebeenpoisoned.ai/api/list-threats?severity=critical&limit=10" | jq .
+curl -s "https://hasthissitebeenpoisoned.ai/api/stats" | jq .</code></pre>
+        </div>
+      </section>
+
+      <!-- Sample: MCP Client -->
+      <section id="sample-mcp-client">
+        <h3 class="text-lg font-semibold mb-3">MCP Client (TypeScript)</h3>
+        <div class="relative">
+          <button class="copy-btn absolute top-3 right-3 px-2 py-1 rounded text-xs text-gray-400 bg-gray-800" onclick="copyCode(this)">Copy</button>
+          <pre><code class="language-typescript">import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { SSEClientTransport } from "@modelcontextprotocol/sdk/client/sse.js";
+
+const transport = new SSEClientTransport(
+  new URL("https://hasthissitebeenpoisoned.ai/api/mcp-sse")
+);
+const client = new Client({ name: "my-app", version: "1.0.0" });
+await client.connect(transport);
+
+const result = await client.callTool("check_domain", { domain: "reviewerpress.com" });
+console.log(result);</code></pre>
+        </div>
+      </section>
+
+      <!-- Report -->
+      <section id="report">
+        <h2 class="text-2xl font-bold mb-4">Report a Threat</h2>
+        <p class="text-gray-400 mb-4">Found a website with hidden prompt injection targeting AI agents? Report it via GitHub Issues.</p>
+        <a href="https://github.com/YOUR_USERNAME/htsbp/issues/new?template=new-threat.yml" target="_blank" rel="noopener"
+           class="inline-block px-6 py-3 rounded-lg bg-accent text-bg font-semibold hover:bg-cyan-400 transition">
+          Report a Suspected IDPI Site
+        </a>
+        <div class="mt-6 bg-gray-900 rounded-xl p-4 border border-gray-800 text-sm text-gray-400">
+          <p class="mb-2">When reporting, please include:</p>
+          <ul class="list-disc list-inside space-y-1">
+            <li>The full URL of the suspected page</li>
+            <li>Your estimated severity (critical / high / medium / low)</li>
+            <li>A description of what hidden instructions or suspicious behavior you observed</li>
+          </ul>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-t border-gray-800 py-8 px-4 text-center text-sm text-gray-500">
+    <div class="flex items-center justify-center gap-4">
+      <span>&copy; 2026 HTSBP. MIT License.</span>
+      <a href="https://github.com/YOUR_USERNAME/htsbp" target="_blank" rel="noopener" class="hover:text-gray-300 transition">GitHub</a>
+      <a href="/docs.html" class="hover:text-gray-300 transition">Docs</a>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+  <script>
+    // Copy button
+    function copyCode(btn) {
+      const pre = btn.closest('.relative').querySelector('pre');
+      const code = pre.querySelector('code').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+      });
+    }
+
+    // Active sidebar link via Intersection Observer
+    const sections = document.querySelectorAll('section[id]');
+    const sidebarLinks = document.querySelectorAll('.sidebar-link');
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          sidebarLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+          });
+        }
+      }
+    }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
+    sections.forEach(s => observer.observe(s));
+  </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+name: Health Check
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'    # Every 6 hours
+  workflow_dispatch:
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check API health
+        run: |
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "https://hasthissitebeenpoisoned.ai/api/health")
+          if [ "$RESPONSE" != "200" ]; then
+            curl -X POST "${{ secrets.NOTIFICATION_WEBHOOK_URL }}" \
+              -H "Content-Type: application/json" \
+              -d '{"content":"🚨 HTSBP Health Check Failed\n\nAPI returned HTTP '$RESPONSE'\nTime: '"$(date -u)"'"}'
+            exit 1
+          fi
+      - name: Check domain lookup works
+        run: |
+          RESULT=$(curl -s "https://hasthissitebeenpoisoned.ai/api/check-domain?domain=reviewerpress.com")
+          IS_MALICIOUS=$(echo "$RESULT" | jq -r '.is_malicious')
+          if [ "$IS_MALICIOUS" != "true" ]; then
+            curl -X POST "${{ secrets.NOTIFICATION_WEBHOOK_URL }}" \
+              -H "Content-Type: application/json" \
+              -d '{"content":"🚨 HTSBP Health Check Failed\n\nKnown malicious domain not detected\nTime: '"$(date -u)"'"}'
+            exit 1
+          fi

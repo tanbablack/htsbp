@@ -1,0 +1,31 @@
+name: Report a suspected IDPI site
+description: Report a website that contains hidden prompt injection targeting AI agents
+labels: ["new-threat"]
+body:
+  - type: input
+    id: url
+    attributes:
+      label: URL
+      description: Full URL of the suspected IDPI site
+      placeholder: "https://example.com/malicious-page"
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Estimated severity
+      options:
+        - critical
+        - high
+        - medium
+        - low
+        - unsure
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: What did you observe?
+      description: Describe what hidden instructions or suspicious behavior you found
+    validations:
+      required: true

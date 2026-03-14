@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Has This Site Been Poisoned? — AI Agent Threat Intelligence</title>
+  <meta name="description" content="Check if a website contains hidden prompt injection traps targeting AI agents. Open-source threat intelligence for the AI era.">
+  <meta property="og:title" content="Has This Site Been Poisoned? — AI Agent Threat Intelligence">
+  <meta property="og:description" content="Check if a website contains hidden prompt injection traps targeting AI agents. Open-source threat intelligence for the AI era.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: '#0a0a0a',
+            'bg-alt': '#111827',
+            accent: '#06b6d4',
+            danger: '#ef4444',
+            safe: '#22c55e',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background: #0a0a0a; }
+    .glow-accent { box-shadow: 0 0 30px rgba(6, 182, 212, 0.15); }
+    .glow-danger { box-shadow: 0 0 20px rgba(239, 68, 68, 0.2); }
+    .glow-safe { box-shadow: 0 0 20px rgba(34, 197, 94, 0.2); }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-fade-in { animation: fadeIn 0.4s ease-out; }
+  </style>
+</head>
+<body class="text-gray-50 min-h-screen flex flex-col">
+
+  <!-- Nav -->
+  <nav class="fixed top-0 w-full z-50 bg-bg/80 backdrop-blur border-b border-gray-800">
+    <div class="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2 text-lg font-bold tracking-tight">
+        <img src="/favicon.svg" alt="" class="w-7 h-7">
+        <span class="text-accent">HTSBP</span>
+      </a>
+      <div class="flex items-center gap-6 text-sm text-gray-400">
+        <a href="/docs.html" class="hover:text-gray-100 transition">API</a>
+        <a href="/docs.html#mcp" class="hover:text-gray-100 transition">MCP</a>
+        <a href="https://github.com/YOUR_USERNAME/htsbp" target="_blank" rel="noopener" class="hover:text-gray-100 transition">GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <main class="flex-1">
+    <section class="pt-28 pb-16 md:pt-40 md:pb-24 px-4">
+      <div class="max-w-3xl mx-auto text-center">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 leading-tight">
+          Has This Site Been <span class="text-accent">Poisoned</span>?
+        </h1>
+        <p class="text-gray-400 text-lg md:text-xl mb-10">Check if a domain has been poisoned to attack AI agents</p>
+
+        <!-- Search -->
+        <form id="search-form" class="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto mb-4">
+          <input
+            id="domain-input"
+            type="text"
+            placeholder="Enter a domain (e.g. reviewerpress.com)"
+            autocomplete="off"
+            spellcheck="false"
+            class="flex-1 px-5 py-4 rounded-xl bg-gray-900 border border-gray-700 text-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition"
+          >
+          <button type="submit" class="px-8 py-4 rounded-xl bg-accent text-bg font-bold text-lg hover:bg-cyan-400 transition whitespace-nowrap">
+            Check!
+          </button>
+        </form>
+        <p class="text-gray-500 text-sm">Protecting AI agents from weaponized websites</p>
+
+        <!-- Results -->
+        <div id="results" class="mt-8 text-left max-w-xl mx-auto"></div>
+      </div>
+    </section>
+
+    <!-- Stats bar -->
+    <section class="border-y border-gray-800 bg-bg-alt/50 py-12 px-4">
+      <div class="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div>
+          <div id="stat-threats" class="text-3xl md:text-4xl font-extrabold text-gray-100">—</div>
+          <div class="text-sm text-gray-500 mt-1">threats tracked</div>
+        </div>
+        <div>
+          <div id="stat-domains" class="text-3xl md:text-4xl font-extrabold text-gray-100">—</div>
+          <div class="text-sm text-gray-500 mt-1">domains flagged</div>
+        </div>
+        <div>
+          <div id="stat-sources" class="text-3xl md:text-4xl font-extrabold text-gray-100">—</div>
+          <div class="text-sm text-gray-500 mt-1">data sources</div>
+        </div>
+        <div>
+          <div id="stat-critical" class="text-3xl md:text-4xl font-extrabold text-danger">—</div>
+          <div class="text-sm text-gray-500 mt-1">critical severity</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- What is IDPI -->
+    <section class="py-16 px-4">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center">What is Indirect Prompt Injection?</h2>
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="bg-gray-900 rounded-xl p-6 border border-gray-800">
+            <div class="text-accent text-2xl mb-3">1.</div>
+            <h3 class="font-semibold mb-2">Hidden Instructions</h3>
+            <p class="text-gray-400 text-sm">Attackers embed invisible instructions in web pages using techniques like zero-size fonts, CSS hiding, or HTML comments.</p>
+          </div>
+          <div class="bg-gray-900 rounded-xl p-6 border border-gray-800">
+            <div class="text-accent text-2xl mb-3">2.</div>
+            <h3 class="font-semibold mb-2">AI Agent Visits</h3>
+            <p class="text-gray-400 text-sm">When an AI agent browses the page (e.g. for research, ad review, or shopping), it reads the hidden text along with visible content.</p>
+          </div>
+          <div class="bg-gray-900 rounded-xl p-6 border border-gray-800">
+            <div class="text-accent text-2xl mb-3">3.</div>
+            <h3 class="font-semibold mb-2">Hijacked Behavior</h3>
+            <p class="text-gray-400 text-sm">The hidden instructions override the agent's task — approving scam ads, leaking data, making unauthorized purchases, or destroying files.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-16 px-4 bg-bg-alt/50 border-t border-gray-800">
+      <div class="max-w-2xl mx-auto text-center">
+        <h2 class="text-2xl font-bold mb-4">Protect Your AI Agents</h2>
+        <p class="text-gray-400 mb-8">Integrate HTSBP into your workflow via REST API or MCP server.</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="/docs.html" class="px-6 py-3 rounded-lg bg-accent text-bg font-semibold hover:bg-cyan-400 transition">Read the Docs</a>
+          <a href="https://github.com/YOUR_USERNAME/htsbp/issues/new?template=new-threat.yml" target="_blank" rel="noopener" class="px-6 py-3 rounded-lg border border-gray-600 text-gray-300 font-semibold hover:border-gray-400 hover:text-gray-100 transition">Report a Threat</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-gray-800 py-8 px-4 text-center text-sm text-gray-500">
+    <div class="flex items-center justify-center gap-4">
+      <span>&copy; 2026 HTSBP. MIT License.</span>
+      <a href="https://github.com/YOUR_USERNAME/htsbp" target="_blank" rel="noopener" class="hover:text-gray-300 transition">GitHub</a>
+      <a href="/docs.html" class="hover:text-gray-300 transition">Docs</a>
+    </div>
+  </footer>
+
+  <script>
+    const API_BASE = '/api';
+
+    // --- Stats ---
+    function animateCount(el, target, duration = 1200) {
+      const start = performance.now();
+      const initial = 0;
+      function tick(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.round(initial + (target - initial) * eased);
+        if (progress < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    async function loadStats() {
+      try {
+        const res = await fetch(`${API_BASE}/stats`);
+        const stats = await res.json();
+        animateCount(document.getElementById('stat-threats'), stats.total_threats);
+        animateCount(document.getElementById('stat-domains'), stats.total_domains);
+        animateCount(document.getElementById('stat-sources'), Object.keys(stats.by_source || {}).length || 5);
+        animateCount(document.getElementById('stat-critical'), stats.by_severity?.critical || 0);
+      } catch (e) {
+        console.error('Failed to load stats:', e);
+      }
+    }
+    loadStats();
+
+    // --- Search ---
+    const form = document.getElementById('search-form');
+    const input = document.getElementById('domain-input');
+    const resultsDiv = document.getElementById('results');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const domain = input.value.trim().toLowerCase()
+        .replace(/^https?:\/\//, '')
+        .replace(/\/.*$/, '');
+      if (!domain) return;
+
+      resultsDiv.innerHTML = '<div class="text-center text-gray-400 py-4">Checking...</div>';
+
+      try {
+        const res = await fetch(`${API_BASE}/check-domain?domain=${encodeURIComponent(domain)}`);
+        const data = await res.json();
+        renderResults(data);
+      } catch (err) {
+        resultsDiv.innerHTML = '<div class="text-center text-danger py-4">Failed to check domain. Please try again.</div>';
+      }
+    });
+
+    function severityColor(sev) {
+      switch (sev) {
+        case 'critical': return 'text-red-400';
+        case 'high': return 'text-orange-400';
+        case 'medium': return 'text-yellow-400';
+        case 'low': return 'text-blue-400';
+        default: return 'text-gray-400';
+      }
+    }
+
+    function severityBg(sev) {
+      switch (sev) {
+        case 'critical': return 'bg-red-500/20 text-red-400';
+        case 'high': return 'bg-orange-500/20 text-orange-400';
+        case 'medium': return 'bg-yellow-500/20 text-yellow-400';
+        case 'low': return 'bg-blue-500/20 text-blue-400';
+        default: return 'bg-gray-500/20 text-gray-400';
+      }
+    }
+
+    function renderResults(data) {
+      if (data.is_malicious) {
+        const threats = data.threats || [];
+        const threat = threats[0] || {};
+        const techniques = threat.techniques || [];
+        const shown = techniques.slice(0, 3).map(t => `<span class="px-2 py-0.5 rounded text-xs bg-gray-800 text-gray-300">${t.replace(/_/g, ' ')}</span>`).join(' ');
+        const more = techniques.length > 3 ? ` <span class="text-xs text-gray-500">+${techniques.length - 3} more</span>` : '';
+
+        resultsDiv.innerHTML = `
+          <div class="animate-fade-in rounded-xl border border-red-500/50 bg-red-950/30 p-6 glow-danger">
+            <div class="text-xl font-bold text-red-400 mb-3">Oh no — this domain is hostile to AI agents!</div>
+            <div class="space-y-3">
+              ${threats.map(t => `
+                <div class="bg-gray-900/50 rounded-lg p-4 border border-gray-800">
+                  <div class="flex items-center gap-2 mb-2">
+                    <span class="px-2 py-0.5 rounded text-xs font-semibold uppercase ${severityBg(t.severity)}">${t.severity}</span>
+                    <span class="text-sm text-gray-400">${(t.intent || '').replace(/_/g, ' ')}</span>
+                  </div>
+                  <p class="text-sm text-gray-300 mb-2">${escapeHtml(t.description || '')}</p>
+                  <div class="flex flex-wrap gap-1">${(t.techniques || []).slice(0, 3).map(tc => `<span class="px-2 py-0.5 rounded text-xs bg-gray-800 text-gray-300">${tc.replace(/_/g, ' ')}</span>`).join('')}${(t.techniques || []).length > 3 ? `<span class="text-xs text-gray-500 self-center">+${t.techniques.length - 3} more</span>` : ''}</div>
+                  ${t.source ? `<div class="text-xs text-gray-500 mt-2">Source: ${escapeHtml(t.source)}${t.source_url ? ` — <a href="${escapeHtml(t.source_url)}" target="_blank" rel="noopener" class="text-accent hover:underline">details</a>` : ''}</div>` : ''}
+                </div>
+              `).join('')}
+            </div>
+          </div>`;
+      } else {
+        resultsDiv.innerHTML = `
+          <div class="animate-fade-in rounded-xl border border-green-500/50 bg-green-950/30 p-6 glow-safe">
+            <div class="text-xl font-bold text-green-400 mb-2">Good news — no threats found!</div>
+            <p class="text-gray-400 text-sm mb-3">This domain is not in our threat database. If you believe it should be, please report it.</p>
+            <a href="https://github.com/YOUR_USERNAME/htsbp/issues/new?template=new-threat.yml" target="_blank" rel="noopener" class="text-accent text-sm hover:underline">Report this domain &rarr;</a>
+          </div>`;
+      }
+    }
+
+    function escapeHtml(str) {
+      const d = document.createElement('div');
+      d.textContent = str;
+      return d.innerHTML;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "total_threats": 11,
+  "total_domains": 11,
+  "by_severity": {
+    "critical": 2,
+    "high": 4,
+    "medium": 4,
+    "low": 1
+  },
+  "by_intent": {
+    "ad_review_bypass": 1,
+    "anti_scraping": 1,
+    "data_destruction": 1,
+    "other": 4,
+    "phishing_redirect": 1,
+    "seo_poisoning": 1,
+    "unauthorized_transaction": 2
+  },
+  "by_source": {
+    "unit42": 11
+  },
+  "last_updated": "2026-03-14T06:39:46.566Z",
+  "generated_at": "2026-03-14T06:39:49.566Z"
+}

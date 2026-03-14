@@ -1,0 +1,19 @@
+{
+  "domain": "cblanke2.pages.dev",
+  "threats": [
+    {
+      "severity": "critical",
+      "intent": "data_destruction",
+      "techniques": [
+        "html_attribute_cloaking"
+      ],
+      "description": "Attempts to execute rm -rf --no-preserve-root and fork bomb via IDPI payload.",
+      "source": "unit42",
+      "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
+      "first_seen": "2026-03-03T00:00:00Z",
+      "last_seen": "2026-03-03T00:00:00Z",
+      "is_active": true
+    }
+  ],
+  "updated_at": "2026-03-14T06:39:46.566Z"
+}
