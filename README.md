@@ -43,6 +43,7 @@ No database. No backend state. All threat data lives as JSON files in this repos
 - **Analytics**: Netlify Analytics (server-side, zero JS)
 - **Community reports**: via MCP `report_threat` tool, `POST /api/report-threat`, or GitHub Issues
 - **Auto-verification**: Community reports are automatically scanned and registered if IDPI patterns are confirmed
+- **Self-improving detection**: IDPI patterns in [`data/patterns.json`](data/patterns.json) are auto-updated by AI analysis
 
 ## Data Sources
 

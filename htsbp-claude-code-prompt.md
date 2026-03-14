@@ -38,6 +38,7 @@ htsbp/
 │   │       ├── reviewerpress.com.json  # ドメイン単位の詳細データ
 │   │       ├── cblanke2.pages.dev.json
 │   │       └── ...
+│   ├── patterns.json                   # IDPI検出パターン定義（共通・自動更新）
 │   ├── sources.json                    # データソース一覧
 │   └── stats.json                      # 自動生成される統計サマリ
 ├── src/
@@ -60,6 +61,10 @@ htsbp/
 │   │   ├── tldrsec-github.ts           # tldrsec/prompt-injection-defenses収集
 │   │   ├── web-crawler.ts              # Webページの隠しプロンプト検出クローラ
 │   │   └── common.ts                   # 共通：重複排除、正規化、JSONファイル書き込み
+│   ├── lib/
+│   │   ├── patterns.ts                 # IDPI検出パターンローダー（data/patterns.jsonを読み込み、RegExpコンパイル）
+│   │   ├── github.ts                   # GitHub Issue作成 + Discord通知ユーティリティ
+│   │   └── data-loader.ts              # APIレスポンス共通ヘルパー
 │   ├── openclaw/
 │   │   ├── discovery-prompt.md         # OpenClawに渡す情報収集指示プロンプト
 │   │   ├── analysis-prompt.md          # OpenClawに渡すサイト解析指示プロンプト
@@ -421,25 +426,16 @@ MCP SSE実装の要件:
 
 ```
 処理:
-1. data/threats/index.json の全ドメインに対して定期的にHTTPリクエスト
-2. レスポンスHTMLを解析し、IDPI手法の存在をチェック:
-   - font-size: 0
-   - display: none + LLM指示語（"ignore", "system prompt", "override"等）
-   - visibility: hidden
-   - opacity: 0
-   - position: absolute + 極端な負座標
+1. data/threats/index.json の全ドメインに対して定期的にHTTPリクエスト（MAX_DOMAINS=100件/回）
+2. data/patterns.json から検出パターンを読み込み（loadPatterns()）
+3. レスポンスHTMLを解析し、IDPI手法の存在をチェック:
+   - 命令パターン（8種）× 隠蔽パターン（8種）の組み合わせ検出
    - HTML comments内の指示文
-3. is_active フラグと last_seen を更新
-4. 新規ペイロード検出時は raw_payloads に追記
+4. is_active フラグと last_seen を更新
+5. 新規ペイロード検出時は raw_payloads に追記
 
-検出パターン（正規表現 + ヒューリスティクス）:
-- /ignore\s+(all\s+)?previous\s+instructions/i
-- /you\s+are\s+(now\s+)?a/i
-- /system\s*:\s*/i
-- /do\s+not\s+(follow|obey|listen)/i
-- /override|bypass|disregard/i
-- font-size:\s*0 と共存するテキストノード
-- display:\s*none 内の自然言語テキスト
+検出パターンは data/patterns.json で一元管理（check-url.ts と共有）。
+OpenClawが新パターンを自動追加するため、検出能力は日々向上する。
 ```
 
 ### OpenClaw 情報収集 (`openclaw/`)
@@ -472,21 +468,34 @@ AIセキュリティリサーチャーとして、間接プロンプトインジ
    - prompt injection 関連CVE
 
 ### 出力形式（厳守）
-以下のJSON配列として出力。自然言語の前置き・後書きは一切不要。
+以下のJSONオブジェクトとして出力。自然言語の前置き・後書きは一切不要。
 
 ```json
-[
-  {
-    "domain": "example.com",
-    "url": "https://example.com/malicious-page",
-    "severity": "high",
-    "intent": "seo_poisoning",
-    "techniques": ["css_display_none", "javascript_dynamic"],
-    "description": "Hidden IDPI payload found promoting phishing site via AI recommendations",
-    "source": "unit42 blog post dated 2026-03-10",
-    "source_url": "https://unit42.paloaltonetworks.com/..."
-  }
-]
+{
+  "threats": [
+    {
+      "domain": "example.com",
+      "url": "https://example.com/malicious-page",
+      "severity": "high",
+      "intent": "seo_poisoning",
+      "techniques": ["css_display_none", "javascript_dynamic"],
+      "description": "Hidden IDPI payload found promoting phishing site via AI recommendations",
+      "source": "unit42 blog post dated 2026-03-10",
+      "source_url": "https://unit42.paloaltonetworks.com/..."
+    }
+  ],
+  "suggested_patterns": [
+    {
+      "category": "concealment",
+      "pattern": "clip-path\\s*:\\s*inset\\(100%\\)",
+      "flags": "i",
+      "name": "css_clip_path_hidden",
+      "label": "clip-path: inset(100%) hiding",
+      "technique": "css_display_none",
+      "reason": "Observed at example.com — uses CSS clip-path to hide injected instructions"
+    }
+  ]
+}
 ```
 
 ### 重要な制約
@@ -494,6 +503,11 @@ AIセキュリティリサーチャーとして、間接プロンプトインジ
 - 「理論的に可能」「PoCとして作成された」ものは除外
 - ドメインの defang（[.]表記）は不要。生ドメインで出力
 - 1回の実行で最大50件まで
+
+### パターン自動更新
+- suggested_patterns で提案された新パターンは cron-runner.ts が検証（正規表現コンパイル・重複チェック）
+- 検証通過後 data/patterns.json に自動追記 → 翌日から全検出に反映
+- 新パターンがなければ空配列 [] でよい
 ```
 
 #### `analysis-prompt.md`
@@ -722,6 +736,7 @@ GitHub Actions (cron)
   │     └── web-crawler.ts     → data/threats/domains/*.json を更新
   │
   ├── cron-runner.ts           → data/threats/domains/*.json を更新
+  │                              → data/patterns.json に新パターン自動追記
   │
   ├── rebuild-stats.ts         → data/threats/index.json + data/stats.json を再生成
   │
