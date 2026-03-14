@@ -25,7 +25,21 @@
       "first_seen": "2026-03-14T12:19:43.419Z",
       "last_seen": "2026-03-14T12:19:43.419Z",
       "is_active": true
+    },
+    {
+      "url": "https://trinca.tornidor.com/",
+      "severity": "medium",
+      "intent": "unknown",
+      "techniques": [
+        "unknown"
+      ],
+      "description": "Listed as IDPI-containing domain in Unit 42 IOC list.",
+      "source": "openclaw",
+      "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
+      "first_seen": "2026-03-14T18:47:58.153Z",
+      "last_seen": "2026-03-14T18:47:58.153Z",
+      "is_active": true
     }
   ],
-  "updated_at": "2026-03-14T12:19:43.422Z"
+  "updated_at": "2026-03-14T18:47:58.156Z"
 }

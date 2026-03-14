@@ -71,6 +71,30 @@
       "flags": "i",
       "name": "forced_navigation_auth",
       "label": "IDPI directive forcing navigation to authentication pages"
+    },
+    {
+      "pattern": "(?:subscribe|upgrade|purchase|authorize)\\s+(?:to|via|through)\\s+(?:the\\s+)?(?:pro|premium|paid)\\s+plan",
+      "flags": "i",
+      "name": "unauthorized_subscription_coercion",
+      "label": "Instruction coercing AI to subscribe or authorize payments"
+    },
+    {
+      "pattern": "(?:delete|drop|truncate|destroy)\\s+(?:your|the|all)?\\s*(?:database|db|tables?|records?|files?)",
+      "flags": "i",
+      "name": "data_destruction_command",
+      "label": "Instruction directing AI to destroy data or databases"
+    },
+    {
+      "pattern": "(?:god|developer|admin(?:istrator)?|maintenance)\\s+mode",
+      "flags": "i",
+      "name": "privilege_escalation_mode",
+      "label": "Social engineering via fake privilege mode activation"
+    },
+    {
+      "pattern": "(?:when|if)\\s+(?:summariz|explain|describ|review|analyz)\\w*\\s+(?:this|the)\\s+(?:document|page|content|article)",
+      "flags": "i",
+      "name": "conditional_task_trigger",
+      "label": "Conditional instruction triggered by specific AI task context"
     }
   ],
   "concealments": [
@@ -157,11 +181,32 @@
       "name": "white_on_white_reverse_order",
       "technique": "white_on_white_text_reverse",
       "label": "White text on white background (color before background-color)"
+    },
+    {
+      "pattern": "<textarea[^>]*style\\s*=\\s*[\"'][^\"']*display\\s*:\\s*none[^\"']*[\"'][^>]*>",
+      "flags": "i",
+      "name": "textarea_hidden_payload",
+      "technique": "textarea_css_hidden",
+      "label": "Hidden textarea containing static injection payloads"
+    },
+    {
+      "pattern": "position\\s*:\\s*absolute[^;]*;[^}]*(?:left|top)\\s*:\\s*-\\d{4,}px",
+      "flags": "i",
+      "name": "extreme_negative_offset",
+      "technique": "absolute_negative_coordinates",
+      "label": "Extreme negative coordinate positioning to push content off-viewport"
+    },
+    {
+      "pattern": "<script[^>]*>[^<]*(?:document\\.write|innerHTML|insertAdjacentHTML|appendChild)[^<]*(?:ignore|disregard|override|forget)[^<]*</script>",
+      "flags": "is",
+      "name": "js_dynamic_prompt_injection",
+      "technique": "javascript_runtime_injection",
+      "label": "Prompt injection payload delivered via JavaScript runtime DOM manipulation"
     }
   ],
   "_meta": {
-    "version": 2,
-    "updated_at": "2026-03-14T14:37:43.705Z",
+    "version": 3,
+    "updated_at": "2026-03-14T18:47:58.157Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }
