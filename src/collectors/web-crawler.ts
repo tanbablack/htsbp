@@ -2,6 +2,9 @@
  * Collector: Web crawler for active IDPI detection
  * Crawls known domains to check if IDPI payloads are still active,
  * and detects new payloads using pattern matching.
+ *
+ * Limits crawling to MAX_DOMAINS per run to prevent GitHub Actions timeout.
+ * Prioritizes domains with active threats and recently seen activity.
  */
 import { loadDomainFile, saveDomainFile, sanitizePayload } from "./common.js";
 import fs from "node:fs";
@@ -12,6 +15,12 @@ import type { Technique } from "../types/index.js";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = path.resolve(__dirname, "../..");
 const DOMAINS_DIR = path.join(PROJECT_ROOT, "data/threats/domains");
+
+/** Max domains to crawl per run (prevent GitHub Actions timeout) */
+const MAX_DOMAINS = 100;
+
+/** Concurrency limit for parallel fetches */
+const CONCURRENCY = 5;
 
 /** IDPI instruction patterns (regex + description) */
 const INSTRUCTION_PATTERNS: Array<{ pattern: RegExp; name: string }> = [
@@ -110,6 +119,46 @@ function analyzeHtml(html: string): {
   };
 }
 
+/** Process a batch of promises with concurrency limit */
+async function runWithConcurrency<T>(
+  tasks: Array<() => Promise<T>>,
+  limit: number,
+): Promise<T[]> {
+  const results: T[] = [];
+  let index = 0;
+
+  async function worker(): Promise<void> {
+    while (index < tasks.length) {
+      const currentIndex = index++;
+      results[currentIndex] = await tasks[currentIndex]();
+    }
+  }
+
+  const workers = Array.from({ length: Math.min(limit, tasks.length) }, () => worker());
+  await Promise.all(workers);
+  return results;
+}
+
+/** Prioritize domains: active threats first, then by last_seen (most recent first) */
+function prioritizeDomains(domainFiles: string[]): string[] {
+  const scored = domainFiles.map(file => {
+    const data = loadDomainFile(file.replace(".json", ""));
+    const hasActive = data.threats.some(t => t.is_active);
+    const latestSeen = data.threats.reduce((max, t) => {
+      return t.last_seen > max ? t.last_seen : max;
+    }, "");
+    return { file, hasActive, latestSeen };
+  });
+
+  // Active threats first, then by recency
+  scored.sort((a, b) => {
+    if (a.hasActive !== b.hasActive) return a.hasActive ? -1 : 1;
+    return b.latestSeen.localeCompare(a.latestSeen);
+  });
+
+  return scored.map(s => s.file);
+}
+
 /** Run the web crawler collector */
 export async function collect(): Promise<{ added: number; updated: number }> {
   let added = 0;
@@ -121,21 +170,27 @@ export async function collect(): Promise<{ added: number; updated: number }> {
     return { added, updated };
   }
 
-  const domainFiles = fs.readdirSync(DOMAINS_DIR).filter(f => f.endsWith(".json"));
-  console.log(`[web-crawler] Crawling ${domainFiles.length} domains...`);
+  const allFiles = fs.readdirSync(DOMAINS_DIR).filter(f => f.endsWith(".json"));
+  const prioritized = prioritizeDomains(allFiles);
+  const filesToCrawl = prioritized.slice(0, MAX_DOMAINS);
 
-  for (const file of domainFiles) {
+  console.log(`[web-crawler] Crawling ${filesToCrawl.length} of ${allFiles.length} domains (limit: ${MAX_DOMAINS})...`);
+
+  const tasks = filesToCrawl.map(file => async () => {
     const data = loadDomainFile(file.replace(".json", ""));
     const domain = data.domain;
 
     // Try to fetch the domain's main page
     const urls = new Set<string>();
     urls.add(`https://${domain}`);
-    urls.add(`http://${domain}`);
 
-    // Also check specific URLs from known threats
+    // Also check specific URLs from known threats (limit to 3)
+    let urlCount = 0;
     for (const threat of data.threats) {
-      if (threat.url) urls.add(threat.url);
+      if (threat.url && urlCount < 3) {
+        urls.add(threat.url);
+        urlCount++;
+      }
     }
 
     let domainChanged = false;
@@ -147,7 +202,6 @@ export async function collect(): Promise<{ added: number; updated: number }> {
       const analysis = analyzeHtml(html);
 
       if (analysis.hasIdpi) {
-        // Update existing threats with new last_seen
         for (const threat of data.threats) {
           if (threat.url === url || (!threat.url && url.includes(domain))) {
             threat.last_seen = now;
@@ -161,16 +215,20 @@ export async function collect(): Promise<{ added: number; updated: number }> {
             updated++;
           }
         }
-      } else {
-        // If previously active threats are no longer detected, keep is_active
-        // (we don't set is_active=false based on a single check)
       }
     }
 
     if (domainChanged) {
       saveDomainFile(data);
     }
-  }
+
+    return { added: 0, updated: domainChanged ? 1 : 0 };
+  });
+
+  const results = await runWithConcurrency(tasks, CONCURRENCY);
+
+  added = results.reduce((sum, r) => sum + r.added, 0);
+  updated = results.reduce((sum, r) => sum + r.updated, 0);
 
   console.log(`[web-crawler] Done: ${added} added, ${updated} updated`);
   return { added, updated };
