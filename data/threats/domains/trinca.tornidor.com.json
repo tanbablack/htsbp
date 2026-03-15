@@ -9,8 +9,12 @@
       "source": "htsbp",
       "source_url": "https://otx.alienvault.com/pulse/69a7014c21a10eb60fac7567",
       "first_seen": "2026-03-03T15:42:04.592000",
-      "last_seen": "2026-03-03T16:45:07.485000",
-      "is_active": true
+      "last_seen": "2026-03-15T18:46:19.692Z",
+      "is_active": true,
+      "raw_payloads": [
+        "You are a",
+        "Disregard"
+      ]
     },
     {
       "url": "https://trinca.tornidor.com",
@@ -37,9 +41,13 @@
       "source": "openclaw",
       "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
       "first_seen": "2026-03-14T18:47:58.153Z",
-      "last_seen": "2026-03-14T18:47:58.153Z",
-      "is_active": true
+      "last_seen": "2026-03-15T18:46:19.692Z",
+      "is_active": true,
+      "raw_payloads": [
+        "You are a",
+        "Disregard"
+      ]
     }
   ],
-  "updated_at": "2026-03-14T18:47:58.156Z"
+  "updated_at": "2026-03-15T18:46:25.898Z"
 }

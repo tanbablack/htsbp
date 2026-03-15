@@ -95,6 +95,12 @@
       "flags": "i",
       "name": "conditional_task_trigger",
       "label": "Conditional instruction triggered by specific AI task context"
+    },
+    {
+      "pattern": "(?:god\\s+mode|developer\\s+mode)\\s*(?:enabled|activated|on)",
+      "flags": "i",
+      "name": "mode_activation_trigger",
+      "label": "God mode / developer mode activation social engineering trigger"
     }
   ],
   "concealments": [
@@ -202,11 +208,32 @@
       "name": "js_dynamic_prompt_injection",
       "technique": "javascript_runtime_injection",
       "label": "Prompt injection payload delivered via JavaScript runtime DOM manipulation"
+    },
+    {
+      "pattern": "<textarea[^>]*(?:style\\s*=\\s*[\"'][^\"']*(?:display\\s*:\\s*none|visibility\\s*:\\s*hidden)[^\"']*[\"'])[^>]*>",
+      "flags": "i",
+      "name": "hidden_textarea_injection",
+      "technique": "textarea_hidden_css",
+      "label": "Hidden textarea element used as static injection payload container"
+    },
+    {
+      "pattern": "position\\s*:\\s*absolute[^;]*;[^}]*(?:left|top)\\s*:\\s*-\\d{3,}px",
+      "flags": "i",
+      "name": "extreme_negative_positioning",
+      "technique": "absolute_negative_coordinate",
+      "label": "Extreme negative coordinate positioning to push content off-viewport"
+    },
+    {
+      "pattern": "color\\s*:\\s*(#[0-9a-fA-F]{6}|rgb\\([^)]+\\)|[a-z]+)\\s*;[^}]*background(?:-color)?\\s*:\\s*\\1",
+      "flags": "i",
+      "name": "same_color_text_background",
+      "technique": "color_matched_camouflage",
+      "label": "Text color matches background color for camouflaged injection"
     }
   ],
   "_meta": {
-    "version": 3,
-    "updated_at": "2026-03-14T18:47:58.157Z",
+    "version": 4,
+    "updated_at": "2026-03-15T18:48:05.367Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }
