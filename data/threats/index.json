@@ -7,7 +7,7 @@
         "seo_poisoning"
       ],
       "threat_count": 3,
-      "last_seen": "2026-03-15T18:48:08.831Z",
+      "last_seen": "2026-03-16T19:10:36.350Z",
       "is_active": true
     },
     "ai.meta.com": {
@@ -16,7 +16,7 @@
         "other"
       ],
       "threat_count": 1,
-      "last_seen": "2026-03-15T18:48:10.381Z",
+      "last_seen": "2026-03-16T19:10:38.749Z",
       "is_active": true
     },
     "artifact-research.com": {
@@ -25,7 +25,7 @@
         "other"
       ],
       "threat_count": 1,
-      "last_seen": "2026-03-15T18:46:19.581Z",
+      "last_seen": "2026-03-16T19:08:45.325Z",
       "is_active": false
     },
     "artificialintelligencemadesimple.substack.com": {
@@ -34,7 +34,7 @@
         "other"
       ],
       "threat_count": 1,
-      "last_seen": "2026-03-15T18:46:19.581Z",
+      "last_seen": "2026-03-16T19:08:45.325Z",
       "is_active": true
     },
     "blog.langchain.dev": {
@@ -43,7 +43,7 @@
         "other"
       ],
       "threat_count": 1,
-      "last_seen": "2026-03-15T18:48:10.765Z",
+      "last_seen": "2026-03-16T19:10:38.968Z",
       "is_active": true
     },
     "cblanke2.pages.dev": {
@@ -54,7 +54,7 @@
         "irrelevant_output"
       ],
       "threat_count": 3,
-      "last_seen": "2026-03-15T18:48:10.832Z",
+      "last_seen": "2026-03-16T19:10:39.000Z",
       "is_active": true
     },
     "chawins.notion.site": {
@@ -63,7 +63,7 @@
         "other"
       ],
       "threat_count": 1,
-      "last_seen": "2026-03-15T18:48:11.039Z",
+      "last_seen": "2026-03-16T19:10:39.127Z",
       "is_active": true
     },
     "developer.nvidia.com": {
@@ -72,7 +72,7 @@
         "other"
       ],
       "threat_count": 1,
-      "last_seen": "2026-03-15T18:48:11.147Z",
+      "last_seen": "2026-03-16T19:10:39.371Z",
       "is_active": true
     },
     "doublespeak.chat": {
@@ -81,7 +81,7 @@
         "other"
       ],
       "threat_count": 1,
-      "last_seen": "2026-03-15T18:46:19.581Z",
+      "last_seen": "2026-03-16T19:08:45.325Z",
       "is_active": true
     },
     "dylansparks.com": {
@@ -92,18 +92,19 @@
         "unknown"
       ],
       "threat_count": 4,
-      "last_seen": "2026-03-15T18:48:26.327Z",
+      "last_seen": "2026-03-16T19:10:54.787Z",
       "is_active": true
     },
     "ericwbailey.website": {
       "max_severity": "critical",
       "intents": [
+        "anti_ai_protest",
         "anti_scraping",
         "data_destruction",
         "other"
       ],
-      "threat_count": 3,
-      "last_seen": "2026-03-15T18:48:05.365Z",
+      "threat_count": 4,
+      "last_seen": "2026-03-16T19:10:32.770Z",
       "is_active": false
     },
     "eviewerpress.com": {
@@ -131,7 +132,7 @@
         "other"
       ],
       "threat_count": 1,
-      "last_seen": "2026-03-15T18:48:27.383Z",
+      "last_seen": "2026-03-16T19:10:55.972Z",
       "is_active": true
     },
     "learnprompting.org": {
@@ -140,7 +141,7 @@
         "other"
       ],
       "threat_count": 1,
-      "last_seen": "2026-03-15T18:46:19.581Z",
+      "last_seen": "2026-03-16T19:08:45.325Z",
       "is_active": false
     },
     "leroibear.com": {
@@ -151,7 +152,7 @@
         "unknown"
       ],
       "threat_count": 4,
-      "last_seen": "2026-03-15T18:48:27.543Z",
+      "last_seen": "2026-03-16T19:10:56.272Z",
       "is_active": true
     },
     "llm-guard.com": {
@@ -160,7 +161,7 @@
         "other"
       ],
       "threat_count": 1,
-      "last_seen": "2026-03-15T18:46:19.581Z",
+      "last_seen": "2026-03-16T19:08:45.325Z",
       "is_active": true
     },
     "llm7-landing.pages.dev": {
@@ -169,7 +170,7 @@
         "unauthorized_transaction"
       ],
       "threat_count": 2,
-      "last_seen": "2026-03-15T18:48:27.793Z",
+      "last_seen": "2026-03-16T19:10:56.378Z",
       "is_active": true
     },
     "martinfowler.com": {
@@ -178,7 +179,7 @@
         "other"
       ],
       "threat_count": 1,
-      "last_seen": "2026-03-15T18:46:19.692Z",
+      "last_seen": "2026-03-16T19:08:45.580Z",
       "is_active": false
     },
     "myshantispa.com": {
@@ -190,7 +191,7 @@
         "seo_manipulation"
       ],
       "threat_count": 5,
-      "last_seen": "2026-03-15T18:48:28.364Z",
+      "last_seen": "2026-03-16T19:10:57.386Z",
       "is_active": true
     },
     "occidpisol.pro": {
@@ -210,7 +211,7 @@
         "unknown"
       ],
       "threat_count": 4,
-      "last_seen": "2026-03-15T18:48:29.393Z",
+      "last_seen": "2026-03-16T19:10:58.725Z",
       "is_active": true
     },
     "rapidpicks.online": {
@@ -228,7 +229,7 @@
         "other"
       ],
       "threat_count": 1,
-      "last_seen": "2026-03-15T18:48:44.516Z",
+      "last_seen": "2026-03-16T19:11:13.839Z",
       "is_active": true
     },
     "reviewerpress.com": {
@@ -240,7 +241,7 @@
         "seo_poisoning"
       ],
       "threat_count": 4,
-      "last_seen": "2026-03-15T18:48:45.907Z",
+      "last_seen": "2026-03-16T19:11:16.389Z",
       "is_active": true
     },
     "reviewerpressus.mycartpanda.com": {
@@ -252,7 +253,7 @@
         "phishing_redirect"
       ],
       "threat_count": 4,
-      "last_seen": "2026-03-15T18:48:46.238Z",
+      "last_seen": "2026-03-16T19:11:16.743Z",
       "is_active": true
     },
     "runners-daily-blog.com": {
@@ -263,7 +264,7 @@
         "unknown"
       ],
       "threat_count": 3,
-      "last_seen": "2026-03-15T18:48:46.289Z",
+      "last_seen": "2026-03-16T19:11:16.770Z",
       "is_active": true
     },
     "shiftypumpkin.com": {
@@ -274,7 +275,7 @@
         "unknown"
       ],
       "threat_count": 3,
-      "last_seen": "2026-03-15T18:48:48.333Z",
+      "last_seen": "2026-03-16T19:11:18.537Z",
       "is_active": true
     },
     "simonwillison.net": {
@@ -283,7 +284,7 @@
         "other"
       ],
       "threat_count": 1,
-      "last_seen": "2026-03-15T18:48:48.375Z",
+      "last_seen": "2026-03-16T19:11:18.575Z",
       "is_active": true
     },
     "solidpinot.com": {
@@ -302,7 +303,7 @@
         "other"
       ],
       "threat_count": 2,
-      "last_seen": "2026-03-15T18:48:50.040Z",
+      "last_seen": "2026-03-16T19:11:20.485Z",
       "is_active": true
     },
     "static1.squarespace.com": {
@@ -311,7 +312,7 @@
         "other"
       ],
       "threat_count": 1,
-      "last_seen": "2026-03-15T18:46:19.581Z",
+      "last_seen": "2026-03-16T19:08:45.325Z",
       "is_active": true
     },
     "storage3d.com": {
@@ -345,7 +346,7 @@
         "unknown"
       ],
       "threat_count": 3,
-      "last_seen": "2026-03-15T18:46:19.692Z",
+      "last_seen": "2026-03-16T19:08:45.580Z",
       "is_active": true
     },
     "turnedninja.com": {
@@ -356,7 +357,7 @@
         "unknown"
       ],
       "threat_count": 3,
-      "last_seen": "2026-03-15T18:48:50.764Z",
+      "last_seen": "2026-03-16T19:11:21.072Z",
       "is_active": true
     },
     "vgel.me": {
@@ -365,7 +366,7 @@
         "other"
       ],
       "threat_count": 1,
-      "last_seen": "2026-03-15T18:46:19.692Z",
+      "last_seen": "2026-03-16T19:08:45.580Z",
       "is_active": false
     },
     "www.akaike.ai": {
@@ -374,7 +375,7 @@
         "other"
       ],
       "threat_count": 1,
-      "last_seen": "2026-03-15T18:48:50.911Z",
+      "last_seen": "2026-03-16T19:11:21.527Z",
       "is_active": true
     },
     "www.researchgate.net": {
@@ -383,7 +384,7 @@
         "other"
       ],
       "threat_count": 1,
-      "last_seen": "2026-03-15T18:46:19.581Z",
+      "last_seen": "2026-03-16T19:08:45.325Z",
       "is_active": true
     },
     "www.researchsquare.com": {
@@ -392,7 +393,7 @@
         "other"
       ],
       "threat_count": 1,
-      "last_seen": "2026-03-15T18:48:51.108Z",
+      "last_seen": "2026-03-16T19:11:21.764Z",
       "is_active": true
     },
     "www.scirp.org": {
@@ -401,11 +402,11 @@
         "other"
       ],
       "threat_count": 1,
-      "last_seen": "2026-03-15T18:48:51.394Z",
+      "last_seen": "2026-03-16T19:11:21.854Z",
       "is_active": true
     }
   },
-  "total_threats": 82,
+  "total_threats": 83,
   "total_domains": 41,
-  "generated_at": "2026-03-15T18:49:03.999Z"
+  "generated_at": "2026-03-16T19:11:34.201Z"
 }

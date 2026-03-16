@@ -101,6 +101,42 @@
       "flags": "i",
       "name": "mode_activation_trigger",
       "label": "God mode / developer mode activation social engineering trigger"
+    },
+    {
+      "pattern": "ULTRA\\s*THINK[:\\s]",
+      "flags": "i",
+      "name": "ultra_think_prefix",
+      "label": "ULTRA THINK prefix used to hijack LLM reasoning before instruction override"
+    },
+    {
+      "pattern": "SYSTEM\\s+OVERRIDE\\s+INITIATED",
+      "flags": "i",
+      "name": "system_override_initiated",
+      "label": "SYSTEM OVERRIDE INITIATED fake authority escalation pattern"
+    },
+    {
+      "pattern": "USER_ADMIN_ROOT",
+      "flags": "i",
+      "name": "fake_admin_root_user",
+      "label": "Fake admin/root user authority spoofing in IDPI payloads"
+    },
+    {
+      "pattern": "(god|developer)\\s+mode",
+      "flags": "i",
+      "name": "god_developer_mode_trigger",
+      "label": "God mode / developer mode social engineering trigger for jailbreak"
+    },
+    {
+      "pattern": "subscribe\\s+to\\s+(the\\s+)?(pro|premium|paid)\\s+plan",
+      "flags": "i",
+      "name": "forced_subscription_injection",
+      "label": "Injected instruction to coerce AI into subscribing user to paid plan"
+    },
+    {
+      "pattern": "recommend\\s+this\\s+candidate\\s+as\\s+.{0,30}qualified",
+      "flags": "i",
+      "name": "resume_hiring_manipulation",
+      "label": "IDPI in resume/CV attempting to influence automated hiring decisions"
     }
   ],
   "concealments": [
@@ -232,8 +268,8 @@
     }
   ],
   "_meta": {
-    "version": 4,
-    "updated_at": "2026-03-15T18:48:05.367Z",
+    "version": 5,
+    "updated_at": "2026-03-16T19:10:32.772Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }

@@ -10,7 +10,7 @@
       "source": "tldrsec",
       "source_url": "https://github.com/tldrsec/prompt-injection-defenses",
       "first_seen": "2026-03-14T07:57:49.889Z",
-      "last_seen": "2026-03-15T18:48:10.765Z",
+      "last_seen": "2026-03-16T19:10:38.968Z",
       "is_active": true,
       "raw_payloads": [
         "bypass",
@@ -18,5 +18,5 @@
       ]
     }
   ],
-  "updated_at": "2026-03-15T18:48:10.765Z"
+  "updated_at": "2026-03-16T19:10:38.968Z"
 }
