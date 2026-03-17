@@ -137,6 +137,18 @@
       "flags": "i",
       "name": "resume_hiring_manipulation",
       "label": "IDPI in resume/CV attempting to influence automated hiring decisions"
+    },
+    {
+      "pattern": "(?:go\\s+to|navigate\\s+to|open|visit)\\s+[\\w.-]+\\.[\\w]{2,}[/\\w?=&]*\\s+(?:and\\s+)?(?:login|sign\\s*in|authorize|authenticate)\\s+(?:via|with|using)\\s+(?:google|oauth|sso)",
+      "flags": "i",
+      "name": "forced_oauth_navigation",
+      "label": "Instruction directing AI to navigate to URL and perform OAuth authentication"
+    },
+    {
+      "pattern": "(?:this\\s+(?:ad|advertisement|product|listing)\\s+(?:is|should\\s+be)\\s+(?:approved|legitimate|safe|compliant))|(?:approve\\s+this\\s+(?:ad|advertisement|listing|product))",
+      "flags": "i",
+      "name": "ai_review_bypass_instruction",
+      "label": "Instruction targeting AI content moderation/review systems to approve content"
     }
   ],
   "concealments": [
@@ -265,11 +277,32 @@
       "name": "same_color_text_background",
       "technique": "color_matched_camouflage",
       "label": "Text color matches background color for camouflaged injection"
+    },
+    {
+      "pattern": "<textarea[^>]*(?:style\\s*=\\s*[\"'][^\"']*(?:display\\s*:\\s*none|visibility\\s*:\\s*hidden|height\\s*:\\s*0|width\\s*:\\s*0)[^\"']*[\"'])[^>]*>",
+      "flags": "i",
+      "name": "textarea_hidden_injection",
+      "technique": "html_textarea_hidden",
+      "label": "Hidden textarea element used as IDPI payload container"
+    },
+    {
+      "pattern": "position\\s*:\\s*absolute[^;]*;[^}]*(?:left|top)\\s*:\\s*-\\d{4,}px",
+      "flags": "i",
+      "name": "extreme_offscreen_positioning",
+      "technique": "css_offscreen_extreme_negative",
+      "label": "Extreme negative coordinate offscreen positioning (e.g., -9999px)"
+    },
+    {
+      "pattern": "Layer\\s*\\d+\\s*:",
+      "flags": "i",
+      "name": "labeled_injection_layers",
+      "technique": "multi_layer_labeled_injection",
+      "label": "Attacker-labeled multi-layer injection technique markers"
     }
   ],
   "_meta": {
-    "version": 5,
-    "updated_at": "2026-03-16T19:10:32.772Z",
+    "version": 6,
+    "updated_at": "2026-03-17T19:10:24.543Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }
