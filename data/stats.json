@@ -1,9 +1,9 @@
 {
-  "total_threats": 86,
+  "total_threats": 87,
   "total_domains": 41,
   "by_severity": {
     "critical": 4,
-    "high": 32,
+    "high": 33,
     "medium": 22,
     "low": 28
   },
@@ -14,6 +14,7 @@
     "anti_ai_protest": 1,
     "anti_scraping": 1,
     "biased_content_generation": 1,
+    "biased_promotional_content": 1,
     "data_destruction": 4,
     "donation_solicitation": 1,
     "financial_solicitation": 1,
@@ -29,10 +30,10 @@
   },
   "by_source": {
     "htsbp": 20,
-    "openclaw": 36,
+    "openclaw": 37,
     "tldrsec": 19,
     "unit42": 11
   },
-  "last_updated": "2026-03-17T19:11:07.407Z",
-  "generated_at": "2026-03-17T19:11:11.723Z"
+  "last_updated": "2026-03-18T19:08:25.983Z",
+  "generated_at": "2026-03-18T19:08:30.412Z"
 }

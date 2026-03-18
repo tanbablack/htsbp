@@ -149,6 +149,24 @@
       "flags": "i",
       "name": "ai_review_bypass_instruction",
       "label": "Instruction targeting AI content moderation/review systems to approve content"
+    },
+    {
+      "pattern": "(?:god\\s*mode|developer\\s*mode|admin(?:istrator)?\\s*mode)\\s*(?:enabled|activated|on)",
+      "flags": "i",
+      "name": "privilege_mode_activation",
+      "label": "Privilege escalation via fake mode activation trigger"
+    },
+    {
+      "pattern": "(?:subscribe|sign\\s*up|purchase|authorize|log\\s*in|click|navigate)\\s+(?:to|for|via|through)\\s+(?:the\\s+)?(?:pro|premium|paid)\\s+(?:plan|tier|account)",
+      "flags": "i",
+      "name": "unauthorized_transaction_coercion",
+      "label": "Injected instruction coercing AI into unauthorized subscription or purchase actions"
+    },
+    {
+      "pattern": "(?:if|when)\\s+(?:you\\s+are|this\\s+is)\\s+(?:ChatGPT|Gemini|Claude|Copilot|Bing|Perplexity|GPT)",
+      "flags": "i",
+      "name": "model_conditional_targeting",
+      "label": "Conditional instruction targeting specific AI model by name"
     }
   ],
   "concealments": [
@@ -298,11 +316,18 @@
       "name": "labeled_injection_layers",
       "technique": "multi_layer_labeled_injection",
       "label": "Attacker-labeled multi-layer injection technique markers"
+    },
+    {
+      "pattern": "<script[^>]*>[^<]*(?:document\\.(?:write|createElement|insertAdjacentHTML|innerHTML)|eval\\s*\\()[^<]*(?:ignore|override|disregard|system|prompt|instruction)",
+      "flags": "i",
+      "name": "javascript_dynamic_injection",
+      "technique": "javascript_runtime_injection",
+      "label": "IDPI payload delivered via dynamic JavaScript DOM injection at runtime"
     }
   ],
   "_meta": {
-    "version": 6,
-    "updated_at": "2026-03-17T19:10:24.543Z",
+    "version": 7,
+    "updated_at": "2026-03-18T19:07:45.348Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }

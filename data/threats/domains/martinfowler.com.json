@@ -10,12 +10,12 @@
       "source": "tldrsec",
       "source_url": "https://github.com/tldrsec/prompt-injection-defenses",
       "first_seen": "2026-03-14T07:57:49.889Z",
-      "last_seen": "2026-03-17T19:08:14.676Z",
+      "last_seen": "2026-03-18T19:06:23.913Z",
       "is_active": false,
       "raw_payloads": [
         "ignore previous instructions"
       ]
     }
   ],
-  "updated_at": "2026-03-17T19:10:34.366Z"
+  "updated_at": "2026-03-18T19:07:53.283Z"
 }
