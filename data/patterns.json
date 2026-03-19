@@ -167,6 +167,30 @@
       "flags": "i",
       "name": "model_conditional_targeting",
       "label": "Conditional instruction targeting specific AI model by name"
+    },
+    {
+      "pattern": "(?:approve|accept|pass)\\s+(?:this|the)\\s+(?:ad|advertisement|product|content|review)",
+      "flags": "i",
+      "name": "ai_ad_review_bypass",
+      "label": "Instruction to AI ad review/moderation system to approve content"
+    },
+    {
+      "pattern": "(?:subscribe|sign\\s*up|enroll|register)\\s+(?:to|for)\\s+(?:the\\s+)?(?:pro|premium|paid)\\s+plan",
+      "flags": "i",
+      "name": "forced_subscription_instruction",
+      "label": "Instruction to force AI agent into subscribing to a paid service"
+    },
+    {
+      "pattern": "(?:delete|drop|truncate|destroy)\\s+(?:your|the|my|all)\\s+(?:database|files?|data|system|records)",
+      "flags": "i",
+      "name": "destructive_data_operation",
+      "label": "Instruction to perform destructive data/system operations"
+    },
+    {
+      "pattern": ":\\(\\)\\s*\\{\\s*:\\|:\\s*&\\s*\\}\\s*;\\s*:",
+      "flags": "i",
+      "name": "fork_bomb_instruction",
+      "label": "Unix fork bomb pattern embedded as IDPI payload"
     }
   ],
   "concealments": [
@@ -323,11 +347,18 @@
       "name": "javascript_dynamic_injection",
       "technique": "javascript_runtime_injection",
       "label": "IDPI payload delivered via dynamic JavaScript DOM injection at runtime"
+    },
+    {
+      "pattern": "\\burl\\s*\\(\\s*['\"]?#[^)]*['\"]?\\s*\\)",
+      "flags": "i",
+      "name": "url_fragment_injection",
+      "technique": "url_hash_fragment_injection",
+      "label": "URL fragment-based prompt injection invisible to server-side detection"
     }
   ],
   "_meta": {
-    "version": 7,
-    "updated_at": "2026-03-18T19:07:45.348Z",
+    "version": 8,
+    "updated_at": "2026-03-19T19:07:17.094Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }
