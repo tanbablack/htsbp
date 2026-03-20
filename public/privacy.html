@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — HTSBP</title>
+  <meta name="description" content="Privacy Policy for Has This Site Been Poisoned?">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { bg: '#0a0a0a', 'bg-alt': '#111827', accent: '#06b6d4' } } }
+    }
+  </script>
+</head>
+<body class="text-gray-50 min-h-screen" style="background:#0a0a0a">
+
+  <!-- Nav -->
+  <nav class="fixed top-0 w-full z-50 bg-bg/80 backdrop-blur border-b border-gray-800" style="background:rgba(10,10,10,0.8)">
+    <div class="max-w-4xl mx-auto px-4 h-14 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2 text-lg font-bold tracking-tight">
+        <img src="/favicon.svg" alt="" class="w-7 h-7">
+        <span style="color:#06b6d4">HTSBP</span>
+      </a>
+      <div class="flex items-center gap-6 text-sm text-gray-400">
+        <a href="/docs.html" class="hover:text-gray-100 transition">API</a>
+        <a href="https://github.com/tanbablack/htsbp" target="_blank" rel="noopener" class="hover:text-gray-100 transition">GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-3xl mx-auto px-4 pt-24 pb-20">
+    <h1 class="text-3xl font-bold mb-2">Privacy Policy</h1>
+    <p class="text-gray-400 text-sm mb-10">Last updated: March 2026</p>
+
+    <div class="space-y-10 text-gray-300 leading-relaxed">
+
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">1. Overview</h2>
+        <p>Has This Site Been Poisoned? ("HTSBP", "we", "the service") is an open-source threat intelligence service for AI agents. This policy describes what data is collected, how it is used, and your rights.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">2. Data Collected</h2>
+        <h3 class="text-base font-medium text-gray-200 mb-2">2a. API & MCP Usage</h3>
+        <p>When you query the REST API or MCP server, we may log:</p>
+        <ul class="list-disc ml-6 mt-2 space-y-1">
+          <li>The domain or URL queried</li>
+          <li>Timestamp of the request</li>
+          <li>HTTP method and response status</li>
+        </ul>
+        <p class="mt-3">We do <strong class="text-white">not</strong> collect IP addresses, user identifiers, or personal information from API requests. Analytics are server-side via Netlify Analytics and contain no personally identifiable information.</p>
+
+        <h3 class="text-base font-medium text-gray-200 mt-5 mb-2">2b. Threat Reports</h3>
+        <p>When you submit a threat report (via MCP <code class="text-cyan-400">report_threat</code>, POST API, or GitHub Issues), we collect:</p>
+        <ul class="list-disc ml-6 mt-2 space-y-1">
+          <li>The reported URL</li>
+          <li>Optional description you provide</li>
+          <li>Submission timestamp</li>
+        </ul>
+        <p class="mt-3">Reports submitted via GitHub Issues are governed by <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener" class="text-cyan-400 hover:underline">GitHub's Privacy Policy</a>.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">3. How Data Is Used</h2>
+        <ul class="list-disc ml-6 space-y-2">
+          <li>API logs: operational monitoring and abuse prevention only. Not used for tracking.</li>
+          <li>Threat reports: verification and, if confirmed, publication in the public threat database on GitHub.</li>
+          <li>Aggregate statistics (total threats, domains flagged) are published on the site. No individual request data is published.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">4. Data Storage & Retention</h2>
+        <ul class="list-disc ml-6 space-y-2">
+          <li>All threat data is stored as JSON files in the public <a href="https://github.com/tanbablack/htsbp" target="_blank" rel="noopener" class="text-cyan-400 hover:underline">GitHub repository</a>.</li>
+          <li>Server logs are retained for up to 30 days via Netlify's infrastructure.</li>
+          <li>No database. No third-party analytics services beyond Netlify's server-side analytics.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">5. Third-Party Sharing</h2>
+        <p>We do not sell, rent, or share personal data with third parties. Threat intelligence data (domain names, attack patterns) is published publicly as part of the service's open-source mission.</p>
+        <p class="mt-3">Infrastructure providers:</p>
+        <ul class="list-disc ml-6 mt-2 space-y-1">
+          <li><a href="https://www.netlify.com/privacy/" target="_blank" rel="noopener" class="text-cyan-400 hover:underline">Netlify</a> — hosting and serverless functions</li>
+          <li><a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener" class="text-cyan-400 hover:underline">GitHub</a> — source code and data storage</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">6. MCP Server & Claude Integration</h2>
+        <p>When used as an MCP connector via Claude, tool call parameters (domains/URLs queried) may be logged by Anthropic per their <a href="https://www.anthropic.com/legal/privacy" target="_blank" rel="noopener" class="text-cyan-400 hover:underline">Privacy Policy</a>. HTSBP does not receive or store user identity information from MCP connections.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">7. Open Source</h2>
+        <p>HTSBP is fully open source under the MIT license. All data processing logic is publicly auditable at <a href="https://github.com/tanbablack/htsbp" target="_blank" rel="noopener" class="text-cyan-400 hover:underline">github.com/tanbablack/htsbp</a>.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">8. Your Rights</h2>
+        <p>If you submitted a threat report and wish to have it reviewed or removed, open a <a href="https://github.com/tanbablack/htsbp/issues" target="_blank" rel="noopener" class="text-cyan-400 hover:underline">GitHub Issue</a>. We will respond within 14 days.</p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-white mb-3">9. Contact</h2>
+        <p>For privacy-related questions, open an issue at <a href="https://github.com/tanbablack/htsbp/issues" target="_blank" rel="noopener" class="text-cyan-400 hover:underline">github.com/tanbablack/htsbp/issues</a>.</p>
+      </section>
+
+    </div>
+  </main>
+
+</body>
+</html>

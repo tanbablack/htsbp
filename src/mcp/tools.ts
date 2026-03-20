@@ -1,5 +1,12 @@
 /** MCP Tool definitions for HTSBP */
 
+export interface McpToolAnnotations {
+  readOnlyHint?: boolean;
+  destructiveHint?: boolean;
+  idempotentHint?: boolean;
+  openWorldHint?: boolean;
+}
+
 export interface McpToolDefinition {
   name: string;
   description: string;
@@ -8,6 +15,7 @@ export interface McpToolDefinition {
     properties: Record<string, unknown>;
     required?: string[];
   };
+  annotations?: McpToolAnnotations;
 }
 
 export const MCP_TOOLS: McpToolDefinition[] = [
@@ -25,6 +33,10 @@ export const MCP_TOOLS: McpToolDefinition[] = [
       },
       required: ["domain"],
     },
+    annotations: {
+      readOnlyHint: true,
+      destructiveHint: false,
+    },
   },
   {
     name: "check_url",
@@ -38,6 +50,10 @@ export const MCP_TOOLS: McpToolDefinition[] = [
         },
       },
       required: ["url"],
+    },
+    annotations: {
+      readOnlyHint: true,
+      destructiveHint: false,
     },
   },
   {
@@ -60,6 +76,10 @@ export const MCP_TOOLS: McpToolDefinition[] = [
           description: "Maximum number of results (default: 20, max: 50)",
         },
       },
+    },
+    annotations: {
+      readOnlyHint: true,
+      destructiveHint: false,
     },
   },
   {
@@ -84,6 +104,10 @@ export const MCP_TOOLS: McpToolDefinition[] = [
         },
       },
       required: ["url"],
+    },
+    annotations: {
+      readOnlyHint: false,
+      destructiveHint: true,
     },
   },
 ];
