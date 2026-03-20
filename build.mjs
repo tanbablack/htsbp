@@ -1,5 +1,8 @@
 import { build } from "esbuild";
-import { readdirSync, writeFileSync, mkdirSync } from "node:fs";
+import { readdirSync, writeFileSync, mkdirSync, rmSync } from "node:fs";
+
+// Clean output directory to remove stale compiled files
+rmSync("dist/api", { recursive: true, force: true });
 
 const apiFiles = readdirSync("src/api")
   .filter(f => f.endsWith(".ts"))
