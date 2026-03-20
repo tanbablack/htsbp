@@ -109,7 +109,7 @@ interface Threat {
   intent: AttackIntent;
   techniques: Technique[];
   description: string;
-  source: string;                // "unit42" | "otx" | "community" | "openclaw" 等
+  source: string;                // "unit42" | "htsbp" | "community" | "openclaw" 等
   source_url?: string;
   first_seen: string;            // ISO 8601
   last_seen: string;
@@ -214,9 +214,9 @@ interface Stats {
   },
   {
     "id": "otx",
-    "name": "AlienVault OTX",
+    "name": "AlienVault OTX (discovery trigger)",
     "url": "https://otx.alienvault.com/",
-    "type": "threat_pulse",
+    "type": "discovery_trigger",
     "update_frequency": "daily"
   },
   {
@@ -1826,15 +1826,17 @@ OpenClawはWeb検索でリアルタイムに最新の脅威情報を発見する
   1. src/openclaw/discovery-prompt.md をClaude APIに送信
   2. ClaudeがWeb検索ツール（web_search）を使い、セキュリティブログ・
      GitHub・学術論文・CVE等をリアルタイム検索
-  3. 検索結果から IDPI攻撃が確認されたドメイン/URLをJSON配列で回答
+  3. 検索結果から IDPI攻撃が確認されたドメイン/URLをJSONオブジェクト `{ threats: [...], suggested_patterns: [...] }` で回答
   4. 回答をパースし、data/ 配下のドメイン別JSONにupsert
-  5. 新規URLがあればanalysis-prompt.mdで詳細分析も実行
+  5. suggested_patterns があれば検証後 data/patterns.json に自動追加（自己改善ループ）
+  6. 新規URLがあればanalysis-prompt.mdで詳細分析も実行
 
 技術詳細:
   - Anthropic Messages API の web_search_20250305 ツールを使用
   - 1回の実行で最大10回のWeb検索を実行（max_uses: 10）
   - レスポンスにはtext/server_tool_use/web_search_tool_resultが混在
-  - textブロックのみを結合してJSON配列を抽出
+  - textブロックのみを結合してJSONオブジェクトを抽出（後方互換: 配列形式も対応）
+  - パターン提案は正規表現コンパイル検証・名前重複チェック後に追加
 
 設定値:
   - モデル: claude-opus-4-6（src/openclaw/cron-runner.ts内）

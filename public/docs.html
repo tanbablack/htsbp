@@ -229,7 +229,7 @@
           <pre><code class="language-json">{
   "mcpServers": {
     "htsbp": {
-      "url": "https://hasthissitebeenpoisoned.ai/api/mcp-sse"
+      "url": "https://hasthissitebeenpoisoned.ai/api/mcp"
     }
   }
 }</code></pre>
@@ -341,7 +341,7 @@ curl -s "https://hasthissitebeenpoisoned.ai/api/stats" | jq .</code></pre>
 import { SSEClientTransport } from "@modelcontextprotocol/sdk/client/sse.js";
 
 const transport = new SSEClientTransport(
-  new URL("https://hasthissitebeenpoisoned.ai/api/mcp-sse")
+  new URL("https://hasthissitebeenpoisoned.ai/api/mcp")
 );
 const client = new Client({ name: "my-app", version: "1.0.0" });
 await client.connect(transport);

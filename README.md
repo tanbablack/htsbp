@@ -24,7 +24,7 @@ curl "https://hasthissitebeenpoisoned.ai/api/check-domain?domain=reviewerpress.c
 {
   "mcpServers": {
     "htsbp": {
-      "url": "https://hasthissitebeenpoisoned.ai/api/mcp-sse"
+      "url": "https://hasthissitebeenpoisoned.ai/api/mcp"
     }
   }
 }
