@@ -191,6 +191,30 @@
       "flags": "i",
       "name": "fork_bomb_instruction",
       "label": "Unix fork bomb pattern embedded as IDPI payload"
+    },
+    {
+      "pattern": "ULTRA\\s*THINK\\s*:?\\s*(if\\s+you\\s+are|you\\s+are)\\s+(an?\\s+)?LLM",
+      "flags": "i",
+      "name": "ultra_think_llm_directive",
+      "label": "ULTRA THINK LLM-targeted directive"
+    },
+    {
+      "pattern": "SYSTEM\\s+OVERRIDE\\s+INITIATED|PRIORITY\\s*:\\s*CRITICAL|USER_ADMIN_ROOT",
+      "flags": "i",
+      "name": "authority_spoofing_system_override",
+      "label": "System override authority spoofing pattern"
+    },
+    {
+      "pattern": "(?:subscribe|sign\\s*up|purchase|buy|pay|donate|checkout|confirm\\s+purchase).*(?:pro\\s+plan|premium|stripe|paypal|oauth|google\\s+auth)",
+      "flags": "i",
+      "name": "forced_transaction_directive",
+      "label": "Directive to force unauthorized financial transaction or subscription"
+    },
+    {
+      "pattern": "recommend\\s+this\\s+candidate\\s+as\\s+[\"']?(?:extremely|highly)\\s+qualified",
+      "flags": "i",
+      "name": "hiring_manipulation_directive",
+      "label": "AI hiring decision manipulation directive"
     }
   ],
   "concealments": [
@@ -354,11 +378,18 @@
       "name": "url_fragment_injection",
       "technique": "url_hash_fragment_injection",
       "label": "URL fragment-based prompt injection invisible to server-side detection"
+    },
+    {
+      "pattern": "<meta[^>]+content\\s*=\\s*[\"'][^\"']*(ignore|disregard|forget|override|you\\s+are\\s+(an?\\s+)?LLM)[^\"']*[\"'][^>]*>",
+      "flags": "i",
+      "name": "meta_tag_injection",
+      "technique": "html_meta_tag_injection",
+      "label": "Prompt injection hidden in HTML meta tag content attribute"
     }
   ],
   "_meta": {
-    "version": 8,
-    "updated_at": "2026-03-19T19:07:17.094Z",
+    "version": 9,
+    "updated_at": "2026-03-20T18:58:44.961Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }

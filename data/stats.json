@@ -1,41 +1,43 @@
 {
-  "total_threats": 89,
+  "total_threats": 98,
   "total_domains": 41,
   "by_severity": {
-    "critical": 4,
-    "high": 35,
-    "medium": 22,
-    "low": 28
+    "critical": 5,
+    "high": 45,
+    "medium": 23,
+    "low": 25
   },
   "by_intent": {
     "ad_review_bypass": 1,
     "ai_ad_review_evasion": 2,
     "ai_content_moderation_bypass": 1,
+    "ai_disruption": 2,
     "ai_output_manipulation": 7,
     "anti_ai_protest": 1,
     "anti_scraping": 1,
     "biased_content_generation": 1,
     "biased_promotional_content": 1,
-    "data_destruction": 4,
+    "data_destruction": 6,
     "donation_solicitation": 1,
     "financial_solicitation": 1,
     "fraudulent_transaction": 1,
+    "hiring_manipulation": 1,
     "irrelevant_output": 1,
     "monetization": 1,
     "other": 43,
     "phishing_redirect": 1,
-    "sensitive_information_leakage": 1,
+    "sensitive_information_leakage": 2,
     "seo_manipulation": 1,
-    "seo_poisoning": 3,
-    "unauthorized_transaction": 6,
+    "seo_poisoning": 4,
+    "unauthorized_transaction": 8,
     "unknown": 10
   },
   "by_source": {
     "htsbp": 20,
-    "openclaw": 39,
+    "openclaw": 48,
     "tldrsec": 19,
     "unit42": 11
   },
-  "last_updated": "2026-03-19T19:07:52.610Z",
-  "generated_at": "2026-03-19T19:08:04.679Z"
+  "last_updated": "2026-03-20T18:59:15.642Z",
+  "generated_at": "2026-03-20T18:59:28.932Z"
 }
