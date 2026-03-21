@@ -118,11 +118,9 @@ export async function collect(): Promise<{ added: number; updated: number }> {
           is_active: true,
         };
 
-        const changed = upsertThreat(domain, threat);
-        if (changed) {
-          if (updated === 0) added++;
-          else updated++;
-        }
+        const result = upsertThreat(domain, threat);
+        if (result === "added") added++;
+        else if (result === "updated") updated++;
       }
     }
   }

@@ -67,9 +67,9 @@ export function saveDomainFile(data: ThreatFile): void {
 /**
  * Upsert a threat into a domain's threat file.
  * Deduplication: same source + same intent = update existing entry.
- * Returns true if data was changed (new or updated).
+ * Returns "added" if new, "updated" if existing was changed, false if no change.
  */
-export function upsertThreat(domain: string, threat: Threat): boolean {
+export function upsertThreat(domain: string, threat: Threat): "added" | "updated" | false {
   const normalized = normalizeDomain(domain);
   const data = loadDomainFile(normalized);
 
@@ -93,7 +93,7 @@ export function upsertThreat(domain: string, threat: Threat): boolean {
         existing.raw_payloads = [...existingPayloads];
       }
       saveDomainFile(data);
-      return true;
+      return "updated";
     }
     return false;
   }
@@ -101,7 +101,7 @@ export function upsertThreat(domain: string, threat: Threat): boolean {
   // New threat — add it
   data.threats.push(threat);
   saveDomainFile(data);
-  return true;
+  return "added";
 }
 
 /** Sanitize a payload string to prevent execution (HTML entity encoding) */

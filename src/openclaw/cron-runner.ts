@@ -20,6 +20,8 @@ import type { Threat, AttackIntent, Technique, Severity } from "../types/index.j
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DISCOVERY_PROMPT_PATH = path.join(__dirname, "discovery-prompt.md");
 const ANALYSIS_PROMPT_PATH = path.join(__dirname, "analysis-prompt.md");
+const PROJECT_ROOT = path.resolve(__dirname, "../..");
+const DOMAINS_DIR = path.join(PROJECT_ROOT, "data/threats/domains");
 
 const ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages";
 const MODEL = "claude-opus-4-6";
@@ -214,10 +216,91 @@ function appendSuggestedPatterns(suggestions: unknown[]): number {
   return added;
 }
 
+/**
+ * Weekly search query rotation.
+ * Week number (0-based mod 4) selects a distinct query set to avoid
+ * hitting the same pages repeatedly across days.
+ */
+const WEEKLY_QUERY_SETS: Record<number, { focus: string; queries: string[] }> = {
+  0: {
+    focus: "SEOポイズニング・AIアシスタント悪用",
+    queries: [
+      '"indirect prompt injection" site:github.com',
+      '"prompt injection" "hidden instruction" filetype:html',
+      '"AI poisoning" OR "LLM poisoning" site:paloaltonetworks.com OR site:kaspersky.com',
+      'site:reddit.com/r/netsec "prompt injection" "website"',
+      '"ignore previous instructions" site:bleepingcomputer.com OR site:threatpost.com',
+    ],
+  },
+  1: {
+    focus: "リサーチ論文・学術的in-the-wild報告",
+    queries: [
+      'site:arxiv.org "indirect prompt injection" "in the wild"',
+      'site:simonwillison.net "prompt injection"',
+      '"IDPI" OR "indirect prompt injection" site:llmsecurity.net',
+      '"prompt injection attack" "real world" OR "live site" 2026',
+      'site:github.com "prompt injection" "discovered" OR "found in wild" 2026',
+    ],
+  },
+  2: {
+    focus: "CVE・脆弱性レポート・インシデント",
+    queries: [
+      'site:nvd.nist.gov "prompt injection"',
+      '"prompt injection" CVE 2025 OR 2026',
+      '"AI agent" "compromised" OR "hijacked" site:news.ycombinator.com',
+      '"indirect prompt injection" "disclosed" OR "reported" 2026',
+      '"hidden instructions" "web page" "AI" -poc -demo -proof',
+    ],
+  },
+  3: {
+    focus: "新興手法・ソーシャル・コミュニティ報告",
+    queries: [
+      'twitter.com OR x.com "indirect prompt injection" "found" 2026',
+      'site:infosec.exchange "prompt injection" "website"',
+      '"LLM attack" "poisoned" website 2026',
+      '"AI agent" "malicious website" OR "malicious content" 2026',
+      '"prompt injection" "SEO" OR "search result" "poisoning" 2026',
+    ],
+  },
+};
+
+/** Build a prompt with dynamic context injected */
+function buildPrompt(template: string): string {
+  const now = new Date();
+  const date = now.toISOString().split("T")[0];
+
+  // ISO week number (1-based), mod 4 for rotation
+  const startOfYear = new Date(now.getFullYear(), 0, 1);
+  const weekOfYear = Math.floor(
+    (now.getTime() - startOfYear.getTime()) / (7 * 24 * 60 * 60 * 1000)
+  );
+  const slot = weekOfYear % 4;
+  const { focus, queries } = WEEKLY_QUERY_SETS[slot];
+
+  // Load known domains for deduplication hint
+  let knownDomains: string[] = [];
+  if (fs.existsSync(DOMAINS_DIR)) {
+    knownDomains = fs.readdirSync(DOMAINS_DIR)
+      .filter(f => f.endsWith(".json"))
+      .map(f => f.replace(".json", ""));
+  }
+  const sample = knownDomains.slice(0, 20).join(", ");
+  const queriesText = queries.map((q, i) => `${i + 1}. \`${q}\``).join("\n");
+
+  return template
+    .replace("{{DATE}}", date)
+    .replace("{{WEEKLY_FOCUS}}", focus)
+    .replace("{{KNOWN_DOMAIN_COUNT}}", String(knownDomains.length))
+    .replace("{{KNOWN_DOMAINS_SAMPLE}}", sample || "(なし)")
+    .replace("{{SEARCH_QUERIES}}", queriesText);
+}
+
 /** Run the discovery phase */
 async function runDiscovery(): Promise<number> {
   console.log("[openclaw] Running discovery phase...");
-  const promptContent = fs.readFileSync(DISCOVERY_PROMPT_PATH, "utf-8");
+  const template = fs.readFileSync(DISCOVERY_PROMPT_PATH, "utf-8");
+  const promptContent = buildPrompt(template);
+  console.log(`[openclaw] Prompt built (${promptContent.length} chars)`);
   const response = await callClaude(promptContent);
   const { threats: discoveries, suggested_patterns } = extractDiscoveryResponse(response);
 
@@ -244,8 +327,9 @@ async function runDiscovery(): Promise<number> {
       is_active: true,
     };
 
-    const changed = upsertThreat(domain, threat);
-    if (changed) added++;
+    const result = upsertThreat(domain, threat);
+    if (result === "added") added++;
+    else if (result === "updated") added++; // discovery phase counts all changes as progress
   }
 
   // Process pattern suggestions
