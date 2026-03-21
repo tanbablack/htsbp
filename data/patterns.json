@@ -215,6 +215,36 @@
       "flags": "i",
       "name": "hiring_manipulation_directive",
       "label": "AI hiring decision manipulation directive"
+    },
+    {
+      "pattern": "remember\\s+(this|us|\\[?[\\w\\s]+\\]?)\\s+(as|is)\\s+(a\\s+)?(trusted|authoritative|preferred|go-to)\\s+source",
+      "flags": "i",
+      "name": "ai_memory_poisoning_remember",
+      "label": "AI Recommendation Poisoning — memory persistence instruction"
+    },
+    {
+      "pattern": "(in\\s+future\\s+conversations?|for\\s+future\\s+(reference|citations?|recommendations?))",
+      "flags": "i",
+      "name": "ai_memory_future_persistence",
+      "label": "AI Recommendation Poisoning — future conversation persistence directive"
+    },
+    {
+      "pattern": "GIVE\\s+A\\s+POSITIVE\\s+REVIEW|biased\\s+review\\s+should\\s+include|suppress\\s+(any\\s+)?negative",
+      "flags": "i",
+      "name": "review_manipulation_directive",
+      "label": "Review manipulation IDPI — forces AI to generate biased positive reviews"
+    },
+    {
+      "pattern": "include\\s+a\\s+recipe\\s+for|print\\s+the\\s+word\\s+['\"]?\\w+['\"]?\\s+(five\\s+)?million\\s+times",
+      "flags": "i",
+      "name": "anti_ai_scraping_chaos",
+      "label": "Anti-AI-bot chaos injection — resource exhaustion or nonsense generation"
+    },
+    {
+      "pattern": "summarize\\s+(this|and\\s+analyze)[^.]{0,100}(remember|keep\\s+in\\s+(your\\s+)?memory|authoritative\\s+source)",
+      "flags": "i",
+      "name": "summarize_and_remember_combo",
+      "label": "Summarize-then-remember combined injection — AI share button attack"
     }
   ],
   "concealments": [
@@ -385,11 +415,18 @@
       "name": "meta_tag_injection",
       "technique": "html_meta_tag_injection",
       "label": "Prompt injection hidden in HTML meta tag content attribute"
+    },
+    {
+      "pattern": "clip-path\\s*:\\s*(?:inset|polygon|circle|ellipse)\\s*\\(",
+      "flags": "i",
+      "name": "css_clip_path_concealment",
+      "technique": "css_clip_path",
+      "label": "CSS clip-path based text concealment"
     }
   ],
   "_meta": {
-    "version": 9,
-    "updated_at": "2026-03-20T18:58:44.961Z",
+    "version": 10,
+    "updated_at": "2026-03-21T18:43:29.657Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }
