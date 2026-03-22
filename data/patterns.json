@@ -245,6 +245,48 @@
       "flags": "i",
       "name": "summarize_and_remember_combo",
       "label": "Summarize-then-remember combined injection — AI share button attack"
+    },
+    {
+      "pattern": "(summarize|analyze)\\s+.{1,200}(remember|keep\\s+in\\s+(your\\s+)?memory|store\\s+in\\s+memory|in\\s+future\\s+conversations)",
+      "flags": "i",
+      "name": "summarize_plus_memory_injection",
+      "label": "Combined summarize + memory manipulation instruction"
+    },
+    {
+      "pattern": "SYSTEM\\s+OVERRIDE\\s+INITIATED|USER_ADMIN_ROOT|PRIORITY:\\s*CRITICAL",
+      "flags": "i",
+      "name": "fake_system_authority_escalation",
+      "label": "Fake system/admin authority claim for override"
+    },
+    {
+      "pattern": "GIVE\\s+A\\s+POSITIVE\\s+REVIEW|(?:write|leave|post|give)\\s+(?:a\\s+)?(?:5[- ]?star|positive|good|great|excellent)\\s+review",
+      "flags": "i",
+      "name": "forced_positive_review",
+      "label": "Hidden instruction forcing AI to produce positive reviews"
+    },
+    {
+      "pattern": "(?:go\\s+to|navigate\\s+to|visit|open|hit\\s+send).{0,50}(?:\\$[\\d,.]+|confirm\\s+purchase|send\\s+payment|transfer\\s+funds)",
+      "flags": "i",
+      "name": "unauthorized_financial_transaction",
+      "label": "IDPI attempting to force unauthorized financial transaction"
+    },
+    {
+      "pattern": "email\\s+.{0,60}(contact\\s+data|list\\s+of\\s+contacts|current\\s+projects|company\\s+.{0,20}intentions)",
+      "flags": "i",
+      "name": "contact_data_exfiltration",
+      "label": "IDPI requesting exfiltration of contact data or company intel"
+    },
+    {
+      "pattern": "(?:print|output|repeat|write)\\s+.{0,30}(?:million|\\d{4,})\\s+times",
+      "flags": "i",
+      "name": "denial_of_service_repeat",
+      "label": "DoS-style IDPI instruction demanding massive repetition"
+    },
+    {
+      "pattern": "(?:include|insert|add)\\s+(?:a\\s+)?recipe\\s+for",
+      "flags": "i",
+      "name": "canary_recipe_injection",
+      "label": "Anti-bot canary recipe injection instruction"
     }
   ],
   "concealments": [
@@ -422,11 +464,18 @@
       "name": "css_clip_path_concealment",
       "technique": "css_clip_path",
       "label": "CSS clip-path based text concealment"
+    },
+    {
+      "pattern": "font-size:\\s*0(?:px|em|rem|%|\\b)|font:\\s*0(?:px|em|rem|%|\\s)",
+      "flags": "i",
+      "name": "zero_font_size_extended",
+      "technique": "zero_font_size_with_units",
+      "label": "Zero font-size text concealment (extended unit coverage)"
     }
   ],
   "_meta": {
-    "version": 10,
-    "updated_at": "2026-03-21T18:43:29.657Z",
+    "version": 11,
+    "updated_at": "2026-03-22T18:44:56.168Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }
