@@ -287,6 +287,24 @@
       "flags": "i",
       "name": "canary_recipe_injection",
       "label": "Anti-bot canary recipe injection instruction"
+    },
+    {
+      "pattern": "(?:in\\s+(?:future|all|upcoming|subsequent)\\s+(?:conversations?|sessions?|responses?|recommendations?))",
+      "flags": "i",
+      "name": "memory_persistence_future_sessions",
+      "label": "Instruction targeting AI memory persistence across future sessions"
+    },
+    {
+      "pattern": "(?:cite|citation|recommend|prioritize)\\s+(?:(?:this|our|the)\\s+)?(?:source|website|brand|company|domain)\\s+(?:first|always|exclusively)",
+      "flags": "i",
+      "name": "ai_recommendation_bias_injection",
+      "label": "Instruction to bias AI recommendations toward specific source"
+    },
+    {
+      "pattern": "(?:GIVE\\s+A\\s+POSITIVE\\s+REVIEW|recommend\\s+this\\s+candidate\\s+as|Extremely\\s+qualified)",
+      "flags": "i",
+      "name": "review_hiring_manipulation",
+      "label": "IDPI payload manipulating AI-driven review or hiring decisions"
     }
   ],
   "concealments": [
@@ -471,11 +489,25 @@
       "name": "zero_font_size_extended",
       "technique": "zero_font_size_with_units",
       "label": "Zero font-size text concealment (extended unit coverage)"
+    },
+    {
+      "pattern": "<svg[^>]*>[\\s\\S]*?(?:ignore|override|system|instruction)[\\s\\S]*?<\\/svg>",
+      "flags": "i",
+      "name": "svg_encapsulation_concealment",
+      "technique": "svg_payload_encapsulation",
+      "label": "Prompt injection payload hidden within SVG elements"
+    },
+    {
+      "pattern": "(?:atob|btoa|base64|fromCharCode)\\s*\\(",
+      "flags": "i",
+      "name": "base64_runtime_assembly",
+      "technique": "base64_js_dynamic_assembly",
+      "label": "Base64-encoded JavaScript runtime assembly of prompt injection payload"
     }
   ],
   "_meta": {
-    "version": 11,
-    "updated_at": "2026-03-22T18:44:56.168Z",
+    "version": 12,
+    "updated_at": "2026-03-23T19:03:34.495Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }

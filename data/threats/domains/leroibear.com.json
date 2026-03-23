@@ -9,7 +9,7 @@
       "source": "unit42",
       "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
       "first_seen": "2026-03-03T00:00:00Z",
-      "last_seen": "2026-03-22T18:45:04.598Z",
+      "last_seen": "2026-03-23T19:03:45.118Z",
       "is_active": true,
       "raw_payloads": [
         "override"
@@ -23,7 +23,7 @@
       "source": "htsbp",
       "source_url": "https://otx.alienvault.com/pulse/69a7014c21a10eb60fac7567",
       "first_seen": "2026-03-03T15:42:04.592000",
-      "last_seen": "2026-03-22T18:45:04.598Z",
+      "last_seen": "2026-03-23T19:03:45.118Z",
       "is_active": true,
       "raw_payloads": [
         "override"
@@ -40,7 +40,7 @@
       "source": "openclaw",
       "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
       "first_seen": "2026-03-14T12:19:43.419Z",
-      "last_seen": "2026-03-22T18:45:04.598Z",
+      "last_seen": "2026-03-23T19:03:45.118Z",
       "is_active": true
     },
     {
@@ -54,7 +54,7 @@
       "source": "openclaw",
       "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
       "first_seen": "2026-03-14T18:47:58.153Z",
-      "last_seen": "2026-03-22T18:45:04.598Z",
+      "last_seen": "2026-03-23T19:03:45.118Z",
       "is_active": true
     },
     {
@@ -68,9 +68,9 @@
       "source": "openclaw",
       "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
       "first_seen": "2026-03-20T18:58:44.956Z",
-      "last_seen": "2026-03-22T18:45:04.598Z",
+      "last_seen": "2026-03-23T19:03:45.118Z",
       "is_active": true
     }
   ],
-  "updated_at": "2026-03-22T18:45:04.598Z"
+  "updated_at": "2026-03-23T19:03:45.118Z"
 }

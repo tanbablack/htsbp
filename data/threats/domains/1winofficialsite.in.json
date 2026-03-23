@@ -11,7 +11,7 @@
       "source": "unit42",
       "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
       "first_seen": "2026-03-03T00:00:00Z",
-      "last_seen": "2026-03-22T18:44:59.954Z",
+      "last_seen": "2026-03-23T19:03:37.869Z",
       "is_active": true
     },
     {
@@ -22,7 +22,7 @@
       "source": "htsbp",
       "source_url": "https://otx.alienvault.com/pulse/69a7014c21a10eb60fac7567",
       "first_seen": "2026-03-03T15:42:04.592000",
-      "last_seen": "2026-03-22T18:44:59.954Z",
+      "last_seen": "2026-03-23T19:03:37.869Z",
       "is_active": true
     },
     {
@@ -37,9 +37,9 @@
       "source": "openclaw",
       "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
       "first_seen": "2026-03-14T12:19:43.419Z",
-      "last_seen": "2026-03-22T18:44:59.954Z",
+      "last_seen": "2026-03-23T19:03:37.869Z",
       "is_active": true
     }
   ],
-  "updated_at": "2026-03-22T18:44:59.954Z"
+  "updated_at": "2026-03-23T19:03:37.869Z"
 }

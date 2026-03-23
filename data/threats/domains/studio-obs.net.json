@@ -1,0 +1,22 @@
+{
+  "domain": "studio-obs.net",
+  "threats": [
+    {
+      "url": "https://studio-obs.net/",
+      "severity": "low",
+      "intent": "seo_poisoning_malware_delivery",
+      "techniques": [
+        "domain_impersonation",
+        "seo_poisoning",
+        "token_based_delivery"
+      ],
+      "description": "SEO poisoning lure domain impersonating OBS Studio. Part of same AsyncRAT campaign using tokenized delivery URLs to bypass URL-based blocking. Poisons both traditional search and AI agent search results",
+      "source": "openclaw",
+      "source_url": "https://gbhackers.com/seo-poisoning-campaign/",
+      "first_seen": "2026-03-23T19:03:34.493Z",
+      "last_seen": "2026-03-23T19:04:17.949Z",
+      "is_active": true
+    }
+  ],
+  "updated_at": "2026-03-23T19:04:17.949Z"
+}
