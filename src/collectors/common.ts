@@ -11,6 +11,31 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = path.resolve(__dirname, "../..");
 const DOMAINS_DIR = path.join(PROJECT_ROOT, "data/threats/domains");
 
+/**
+ * Domains that must never be added as threats (major platforms, CDNs, etc.)
+ * Collectors should check this before calling upsertThreat.
+ */
+export const EXCLUDED_DOMAINS = new Set([
+  // Package registries
+  "npmjs.com", "pypi.org", "rubygems.org", "crates.io", "pkg.go.dev",
+  // Major platforms
+  "github.com", "gitlab.com", "bitbucket.org",
+  "google.com", "docs.google.com", "youtube.com", "googleapis.com",
+  "microsoft.com", "azure.com", "live.com", "office.com",
+  "apple.com", "icloud.com",
+  "amazon.com", "aws.amazon.com", "amazonaws.com",
+  "facebook.com", "instagram.com", "meta.com", "ai.meta.com",
+  "twitter.com", "x.com",
+  "linkedin.com", "reddit.com",
+  "wikipedia.org", "wikimedia.org",
+  "cloudflare.com",
+  "medium.com", "notion.so",
+  "huggingface.co", "openai.com", "anthropic.com",
+  "arxiv.org",
+  // AI/ML known legitimate
+  "langchain.com", "langchain.dev",
+]);
+
 /** Normalize a domain name: lowercase, strip trailing dot, reverse defanging */
 export function normalizeDomain(raw: string): string {
   let domain = raw.trim().toLowerCase();
@@ -71,6 +96,12 @@ export function saveDomainFile(data: ThreatFile): void {
  */
 export function upsertThreat(domain: string, threat: Threat): "added" | "updated" | false {
   const normalized = normalizeDomain(domain);
+
+  // Reject globally excluded domains
+  if (EXCLUDED_DOMAINS.has(normalized)) {
+    console.log(`[common] Skipping excluded domain: ${normalized}`);
+    return false;
+  }
   const data = loadDomainFile(normalized);
 
   // Find existing threat with same source + intent

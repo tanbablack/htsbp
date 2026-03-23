@@ -217,11 +217,11 @@ function appendSuggestedPatterns(suggestions: unknown[]): number {
 }
 
 /**
- * Weekly search query rotation.
- * Week number (0-based mod 4) selects a distinct query set to avoid
- * hitting the same pages repeatedly across days.
+ * Daily search query rotation.
+ * Day-of-year mod 4 selects a distinct query set so every 4 days
+ * all query categories are covered without repeating on the same day.
  */
-const WEEKLY_QUERY_SETS: Record<number, { focus: string; queries: string[] }> = {
+const DAILY_QUERY_SETS: Record<number, { focus: string; queries: string[] }> = {
   0: {
     focus: "SEOポイズニング・AIアシスタント悪用",
     queries: [
@@ -269,13 +269,13 @@ function buildPrompt(template: string): string {
   const now = new Date();
   const date = now.toISOString().split("T")[0];
 
-  // ISO week number (1-based), mod 4 for rotation
+  // Day-of-year mod 4 for daily rotation
   const startOfYear = new Date(now.getFullYear(), 0, 1);
-  const weekOfYear = Math.floor(
-    (now.getTime() - startOfYear.getTime()) / (7 * 24 * 60 * 60 * 1000)
+  const dayOfYear = Math.floor(
+    (now.getTime() - startOfYear.getTime()) / (24 * 60 * 60 * 1000)
   );
-  const slot = weekOfYear % 4;
-  const { focus, queries } = WEEKLY_QUERY_SETS[slot];
+  const slot = dayOfYear % 4;
+  const { focus, queries } = DAILY_QUERY_SETS[slot];
 
   // Load known domains for deduplication hint
   let knownDomains: string[] = [];
