@@ -10,15 +10,6 @@
       "last_seen": "2026-03-23T19:03:37.869Z",
       "is_active": true
     },
-    "ai.meta.com": {
-      "max_severity": "high",
-      "intents": [
-        "other"
-      ],
-      "threat_count": 1,
-      "last_seen": "2026-03-23T19:03:39.504Z",
-      "is_active": true
-    },
     "artifact-research.com": {
       "max_severity": "low",
       "intents": [
@@ -234,16 +225,6 @@
       ],
       "threat_count": 8,
       "last_seen": "2026-03-23T19:03:45.924Z",
-      "is_active": true
-    },
-    "npmjs.com": {
-      "max_severity": "high",
-      "intents": [
-        "ai_memory_poisoning",
-        "ai_memory_poisoning_tooling"
-      ],
-      "threat_count": 2,
-      "last_seen": "2026-03-23T19:03:34.493Z",
       "is_active": true
     },
     "occidpisol.pro": {
@@ -483,7 +464,7 @@
       "is_active": true
     }
   },
-  "total_threats": 106,
-  "total_domains": 48,
-  "generated_at": "2026-03-23T19:04:22.771Z"
+  "total_threats": 103,
+  "total_domains": 46,
+  "generated_at": "2026-03-23T23:53:32.491Z"
 }
