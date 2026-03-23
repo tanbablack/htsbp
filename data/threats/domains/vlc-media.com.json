@@ -1,0 +1,22 @@
+{
+  "domain": "vlc-media.com",
+  "threats": [
+    {
+      "url": "https://vlc-media.com/",
+      "severity": "low",
+      "intent": "seo_poisoning_malware_delivery",
+      "techniques": [
+        "domain_impersonation",
+        "seo_poisoning",
+        "dll_sideloading"
+      ],
+      "description": "SEO poisoning lure domain impersonating VLC. Part of AsyncRAT campaign active since Oct 2025 delivering trojanized installers. While primarily traditional malware delivery, the SEO poisoning technique poisons LLM search results and AI recommendations",
+      "source": "openclaw",
+      "source_url": "https://gbhackers.com/seo-poisoning-campaign/",
+      "first_seen": "2026-03-23T19:03:34.493Z",
+      "last_seen": "2026-03-23T19:04:18.749Z",
+      "is_active": true
+    }
+  ],
+  "updated_at": "2026-03-23T19:04:18.749Z"
+}

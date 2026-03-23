@@ -191,6 +191,120 @@
       "flags": "i",
       "name": "fork_bomb_instruction",
       "label": "Unix fork bomb pattern embedded as IDPI payload"
+    },
+    {
+      "pattern": "ULTRA\\s*THINK\\s*:?\\s*(if\\s+you\\s+are|you\\s+are)\\s+(an?\\s+)?LLM",
+      "flags": "i",
+      "name": "ultra_think_llm_directive",
+      "label": "ULTRA THINK LLM-targeted directive"
+    },
+    {
+      "pattern": "SYSTEM\\s+OVERRIDE\\s+INITIATED|PRIORITY\\s*:\\s*CRITICAL|USER_ADMIN_ROOT",
+      "flags": "i",
+      "name": "authority_spoofing_system_override",
+      "label": "System override authority spoofing pattern"
+    },
+    {
+      "pattern": "(?:subscribe|sign\\s*up|purchase|buy|pay|donate|checkout|confirm\\s+purchase).*(?:pro\\s+plan|premium|stripe|paypal|oauth|google\\s+auth)",
+      "flags": "i",
+      "name": "forced_transaction_directive",
+      "label": "Directive to force unauthorized financial transaction or subscription"
+    },
+    {
+      "pattern": "recommend\\s+this\\s+candidate\\s+as\\s+[\"']?(?:extremely|highly)\\s+qualified",
+      "flags": "i",
+      "name": "hiring_manipulation_directive",
+      "label": "AI hiring decision manipulation directive"
+    },
+    {
+      "pattern": "remember\\s+(this|us|\\[?[\\w\\s]+\\]?)\\s+(as|is)\\s+(a\\s+)?(trusted|authoritative|preferred|go-to)\\s+source",
+      "flags": "i",
+      "name": "ai_memory_poisoning_remember",
+      "label": "AI Recommendation Poisoning — memory persistence instruction"
+    },
+    {
+      "pattern": "(in\\s+future\\s+conversations?|for\\s+future\\s+(reference|citations?|recommendations?))",
+      "flags": "i",
+      "name": "ai_memory_future_persistence",
+      "label": "AI Recommendation Poisoning — future conversation persistence directive"
+    },
+    {
+      "pattern": "GIVE\\s+A\\s+POSITIVE\\s+REVIEW|biased\\s+review\\s+should\\s+include|suppress\\s+(any\\s+)?negative",
+      "flags": "i",
+      "name": "review_manipulation_directive",
+      "label": "Review manipulation IDPI — forces AI to generate biased positive reviews"
+    },
+    {
+      "pattern": "include\\s+a\\s+recipe\\s+for|print\\s+the\\s+word\\s+['\"]?\\w+['\"]?\\s+(five\\s+)?million\\s+times",
+      "flags": "i",
+      "name": "anti_ai_scraping_chaos",
+      "label": "Anti-AI-bot chaos injection — resource exhaustion or nonsense generation"
+    },
+    {
+      "pattern": "summarize\\s+(this|and\\s+analyze)[^.]{0,100}(remember|keep\\s+in\\s+(your\\s+)?memory|authoritative\\s+source)",
+      "flags": "i",
+      "name": "summarize_and_remember_combo",
+      "label": "Summarize-then-remember combined injection — AI share button attack"
+    },
+    {
+      "pattern": "(summarize|analyze)\\s+.{1,200}(remember|keep\\s+in\\s+(your\\s+)?memory|store\\s+in\\s+memory|in\\s+future\\s+conversations)",
+      "flags": "i",
+      "name": "summarize_plus_memory_injection",
+      "label": "Combined summarize + memory manipulation instruction"
+    },
+    {
+      "pattern": "SYSTEM\\s+OVERRIDE\\s+INITIATED|USER_ADMIN_ROOT|PRIORITY:\\s*CRITICAL",
+      "flags": "i",
+      "name": "fake_system_authority_escalation",
+      "label": "Fake system/admin authority claim for override"
+    },
+    {
+      "pattern": "GIVE\\s+A\\s+POSITIVE\\s+REVIEW|(?:write|leave|post|give)\\s+(?:a\\s+)?(?:5[- ]?star|positive|good|great|excellent)\\s+review",
+      "flags": "i",
+      "name": "forced_positive_review",
+      "label": "Hidden instruction forcing AI to produce positive reviews"
+    },
+    {
+      "pattern": "(?:go\\s+to|navigate\\s+to|visit|open|hit\\s+send).{0,50}(?:\\$[\\d,.]+|confirm\\s+purchase|send\\s+payment|transfer\\s+funds)",
+      "flags": "i",
+      "name": "unauthorized_financial_transaction",
+      "label": "IDPI attempting to force unauthorized financial transaction"
+    },
+    {
+      "pattern": "email\\s+.{0,60}(contact\\s+data|list\\s+of\\s+contacts|current\\s+projects|company\\s+.{0,20}intentions)",
+      "flags": "i",
+      "name": "contact_data_exfiltration",
+      "label": "IDPI requesting exfiltration of contact data or company intel"
+    },
+    {
+      "pattern": "(?:print|output|repeat|write)\\s+.{0,30}(?:million|\\d{4,})\\s+times",
+      "flags": "i",
+      "name": "denial_of_service_repeat",
+      "label": "DoS-style IDPI instruction demanding massive repetition"
+    },
+    {
+      "pattern": "(?:include|insert|add)\\s+(?:a\\s+)?recipe\\s+for",
+      "flags": "i",
+      "name": "canary_recipe_injection",
+      "label": "Anti-bot canary recipe injection instruction"
+    },
+    {
+      "pattern": "(?:in\\s+(?:future|all|upcoming|subsequent)\\s+(?:conversations?|sessions?|responses?|recommendations?))",
+      "flags": "i",
+      "name": "memory_persistence_future_sessions",
+      "label": "Instruction targeting AI memory persistence across future sessions"
+    },
+    {
+      "pattern": "(?:cite|citation|recommend|prioritize)\\s+(?:(?:this|our|the)\\s+)?(?:source|website|brand|company|domain)\\s+(?:first|always|exclusively)",
+      "flags": "i",
+      "name": "ai_recommendation_bias_injection",
+      "label": "Instruction to bias AI recommendations toward specific source"
+    },
+    {
+      "pattern": "(?:GIVE\\s+A\\s+POSITIVE\\s+REVIEW|recommend\\s+this\\s+candidate\\s+as|Extremely\\s+qualified)",
+      "flags": "i",
+      "name": "review_hiring_manipulation",
+      "label": "IDPI payload manipulating AI-driven review or hiring decisions"
     }
   ],
   "concealments": [
@@ -354,11 +468,46 @@
       "name": "url_fragment_injection",
       "technique": "url_hash_fragment_injection",
       "label": "URL fragment-based prompt injection invisible to server-side detection"
+    },
+    {
+      "pattern": "<meta[^>]+content\\s*=\\s*[\"'][^\"']*(ignore|disregard|forget|override|you\\s+are\\s+(an?\\s+)?LLM)[^\"']*[\"'][^>]*>",
+      "flags": "i",
+      "name": "meta_tag_injection",
+      "technique": "html_meta_tag_injection",
+      "label": "Prompt injection hidden in HTML meta tag content attribute"
+    },
+    {
+      "pattern": "clip-path\\s*:\\s*(?:inset|polygon|circle|ellipse)\\s*\\(",
+      "flags": "i",
+      "name": "css_clip_path_concealment",
+      "technique": "css_clip_path",
+      "label": "CSS clip-path based text concealment"
+    },
+    {
+      "pattern": "font-size:\\s*0(?:px|em|rem|%|\\b)|font:\\s*0(?:px|em|rem|%|\\s)",
+      "flags": "i",
+      "name": "zero_font_size_extended",
+      "technique": "zero_font_size_with_units",
+      "label": "Zero font-size text concealment (extended unit coverage)"
+    },
+    {
+      "pattern": "<svg[^>]*>[\\s\\S]*?(?:ignore|override|system|instruction)[\\s\\S]*?<\\/svg>",
+      "flags": "i",
+      "name": "svg_encapsulation_concealment",
+      "technique": "svg_payload_encapsulation",
+      "label": "Prompt injection payload hidden within SVG elements"
+    },
+    {
+      "pattern": "(?:atob|btoa|base64|fromCharCode)\\s*\\(",
+      "flags": "i",
+      "name": "base64_runtime_assembly",
+      "technique": "base64_js_dynamic_assembly",
+      "label": "Base64-encoded JavaScript runtime assembly of prompt injection payload"
     }
   ],
   "_meta": {
-    "version": 8,
-    "updated_at": "2026-03-19T19:07:17.094Z",
+    "version": 12,
+    "updated_at": "2026-03-23T19:03:34.495Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }

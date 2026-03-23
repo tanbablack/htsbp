@@ -1,0 +1,21 @@
+{
+  "domain": "crosshairx.pro",
+  "threats": [
+    {
+      "url": "https://crosshairx.pro/",
+      "severity": "low",
+      "intent": "seo_poisoning_malware_delivery",
+      "techniques": [
+        "domain_impersonation",
+        "seo_poisoning"
+      ],
+      "description": "SEO poisoning lure domain impersonating gaming crosshair overlay tool. Part of AsyncRAT distribution campaign with 25+ fake download portals",
+      "source": "openclaw",
+      "source_url": "https://gbhackers.com/seo-poisoning-campaign/",
+      "first_seen": "2026-03-23T19:03:34.493Z",
+      "last_seen": "2026-03-23T19:03:42.922Z",
+      "is_active": true
+    }
+  ],
+  "updated_at": "2026-03-23T19:03:42.922Z"
+}

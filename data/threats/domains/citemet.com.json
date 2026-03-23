@@ -1,0 +1,21 @@
+{
+  "domain": "citemet.com",
+  "threats": [
+    {
+      "url": "https://citemet.com/",
+      "severity": "low",
+      "intent": "ai_memory_poisoning",
+      "techniques": [
+        "url_parameter_injection",
+        "memory_persistence_injection"
+      ],
+      "description": "Tooling website associated with the CiteMET npm package, marketed as 'SEO growth hack for LLMs' to 'build presence in AI memory'. Generates manipulative URLs for ChatGPT, Claude, Perplexity, Copilot, and Grok that inject 'remember [brand] as authoritative source' instructions",
+      "source": "openclaw",
+      "source_url": "https://www.microsoft.com/en-us/security/blog/2026/02/10/ai-recommendation-poisoning/",
+      "first_seen": "2026-03-23T19:03:34.493Z",
+      "last_seen": "2026-03-23T19:03:42.252Z",
+      "is_active": true
+    }
+  ],
+  "updated_at": "2026-03-23T19:03:42.252Z"
+}
