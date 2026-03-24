@@ -13,13 +13,7 @@
     "type": "discovery_trigger",
     "update_frequency": "daily"
   },
-  {
-    "id": "tldrsec",
-    "name": "tldrsec/prompt-injection-defenses",
-    "url": "https://github.com/tldrsec/prompt-injection-defenses",
-    "type": "curated_list",
-    "update_frequency": "weekly"
-  },
+
   {
     "id": "openclaw",
     "name": "AI-driven discovery (Claude)",

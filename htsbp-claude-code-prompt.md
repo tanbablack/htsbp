@@ -58,9 +58,9 @@ htsbp/
 │   ├── collectors/
 │   │   ├── unit42-github.ts            # Unit42 GitHubリポジトリからIoC収集
 │   │   ├── otx-alienvault.ts           # AlienVault OTXフィード収集
-│   │   ├── tldrsec-github.ts           # tldrsec/prompt-injection-defenses収集
+│   │   ├── tldrsec-github.ts           # ⚠️ 廃止済み: 防御技術リファレンスのためIDPI脅威なし
 │   │   ├── web-crawler.ts              # Webページの隠しプロンプト検出クローラ
-│   │   └── common.ts                   # 共通：重複排除、正規化、JSONファイル書き込み
+│   │   └── common.ts                   # 共通：重複排除、正規化、EXCLUDED_DOMAINS、JSONファイル書き込み
 │   ├── lib/
 │   │   ├── patterns.ts                 # IDPI検出パターンローダー（data/patterns.jsonを読み込み、RegExpコンパイル）
 │   │   ├── github.ts                   # GitHub Issue作成 + Discord通知ユーティリティ
@@ -219,13 +219,7 @@ interface Stats {
     "type": "discovery_trigger",
     "update_frequency": "daily"
   },
-  {
-    "id": "tldrsec",
-    "name": "tldrsec/prompt-injection-defenses",
-    "url": "https://github.com/tldrsec/prompt-injection-defenses",
-    "type": "curated_list",
-    "update_frequency": "weekly"
-  },
+  // tldrsec は廃止済み（防御技術リファレンスのためIDPI脅威なし）
   {
     "id": "openclaw",
     "name": "AI-driven discovery (Claude)",
@@ -377,11 +371,15 @@ MCP SSE実装の要件:
 ```typescript
 // 実装要件:
 // 1. ドメイン名の正規化（小文字化、trailing dot除去、defang解除）
-// 2. 既存の data/threats/domains/{domain}.json を読み込み
-// 3. 新規脅威の追加 or 既存脅威の last_seen / is_active 更新
-// 4. 重複排除（同一source + 同一intentの組み合わせで判定）
-// 5. JSONファイル書き込み（pretty print、ソート済み）
-// 6. data/threats/index.json と data/stats.json を再生成（rebuild-stats.ts呼び出し）
+// 2. EXCLUDED_DOMAINS チェック（主要プラットフォーム・CDN・パッケージレジストリを除外）
+//    例: npmjs.com, github.com, google.com, meta.com, ai.meta.com, openai.com 等
+//    → upsertThreat() がこのリストを参照し、除外ドメインは全コレクターでブロック
+// 3. 既存の data/threats/domains/{domain}.json を読み込み
+// 4. 新規脅威の追加 or 既存脅威の last_seen / is_active 更新
+// 5. 重複排除（同一source + 同一intentの組み合わせで判定）
+// 6. upsertThreat() の戻り値: "added" | "updated" | false（boolean ではない）
+// 7. JSONファイル書き込み（pretty print、ソート済み）
+// 8. data/threats/index.json と data/stats.json を再生成（rebuild-stats.ts呼び出し）
 ```
 
 ### `collectors/unit42-github.ts`
@@ -411,15 +409,14 @@ MCP SSE実装の要件:
 3. common.ts 経由でJSONファイルに upsert
 ```
 
-### `collectors/tldrsec-github.ts`
+### `collectors/tldrsec-github.ts` ⚠️ 廃止済み
 
 ```
-対象: https://github.com/tldrsec/prompt-injection-defenses
-
-処理:
-1. README.md を fetch
-2. 攻撃事例・URL・ドメインの言及を抽出
-3. common.ts 経由でJSONファイルに upsert
+廃止理由:
+  tldrsec/prompt-injection-defenses は「プロンプトインジェクション防御技術」の
+  解説文書であり、攻撃サイトのリストではない。READMEの全URLは防御技術の参考文献
+  として引用されており、IDPI脅威ドメインは含まれていない。
+  → run-collectors.ts のコレクターリストから除外済み（コードは残存）
 ```
 
 ### `collectors/web-crawler.ts`
@@ -1228,7 +1225,7 @@ No database. No backend state. All threat data lives as JSON files in this repos
 |--------|------|-----------|
 | Unit 42 (Palo Alto Networks) | IoC feeds | Daily |
 | AlienVault OTX | Threat pulses | Daily |
-| tldrsec/prompt-injection-defenses | Curated list | Weekly |
+| ~~tldrsec/prompt-injection-defenses~~ | ~~Curated list~~ | ~~Weekly~~ (廃止: 防御技術リファレンスのためIDPI脅威なし) |
 | AI Web Crawler (Claude) | Active analysis | Daily |
 | Community Reports | GitHub Issues | Continuous |
 
