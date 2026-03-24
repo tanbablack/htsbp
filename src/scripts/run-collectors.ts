@@ -105,7 +105,9 @@ async function main(): Promise<void> {
   const collectors: Array<[string, string]> = [
     ["unit42-github", "../collectors/unit42-github.js"],
     ["otx-alienvault", "../collectors/otx-alienvault.js"],
-    ["tldrsec-github", "../collectors/tldrsec-github.js"],
+    // tldrsec-github removed: tldrsec/prompt-injection-defenses is a defense
+    // techniques reference, not an attack site list. All URLs it contained
+    // were research/tool references, not actual IDPI threat domains.
     ["web-crawler", "../collectors/web-crawler.js"],
   ];
 
