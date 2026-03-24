@@ -10,24 +10,6 @@
       "last_seen": "2026-03-23T19:03:37.869Z",
       "is_active": true
     },
-    "artifact-research.com": {
-      "max_severity": "low",
-      "intents": [
-        "other"
-      ],
-      "threat_count": 1,
-      "last_seen": "2026-03-23T19:03:39.739Z",
-      "is_active": true
-    },
-    "artificialintelligencemadesimple.substack.com": {
-      "max_severity": "low",
-      "intents": [
-        "other"
-      ],
-      "threat_count": 1,
-      "last_seen": "2026-03-23T19:01:56.457Z",
-      "is_active": true
-    },
     "cblanke2.pages.dev": {
       "max_severity": "critical",
       "intents": [
@@ -117,15 +99,6 @@
       ],
       "threat_count": 1,
       "last_seen": "2025-07-10T04:36:17.355000",
-      "is_active": true
-    },
-    "kai-greshake.de": {
-      "max_severity": "low",
-      "intents": [
-        "other"
-      ],
-      "threat_count": 1,
-      "last_seen": "2026-03-23T19:03:44.569Z",
       "is_active": true
     },
     "kms-tools.com": {
@@ -365,7 +338,7 @@
       "is_active": true
     }
   },
-  "total_threats": 92,
-  "total_domains": 35,
-  "generated_at": "2026-03-24T00:17:11.774Z"
+  "total_threats": 89,
+  "total_domains": 32,
+  "generated_at": "2026-03-24T00:33:43.078Z"
 }
