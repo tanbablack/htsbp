@@ -51,7 +51,7 @@ No database. No backend state. All threat data lives as JSON files in this repos
 |--------|------|-----------|
 | Unit 42 (Palo Alto Networks) | IoC feeds | Daily |
 | AlienVault OTX | Discovery trigger (independently verified) | Daily |
-| tldrsec/prompt-injection-defenses | Curated list | Weekly |
+
 | AI Web Crawler (Claude) | Active analysis | Daily |
 | Community Reports | GitHub Issues | Continuous |
 
