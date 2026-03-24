@@ -13,9 +13,21 @@
       "source": "openclaw",
       "source_url": "https://www.microsoft.com/en-us/security/blog/2026/02/10/ai-recommendation-poisoning/",
       "first_seen": "2026-03-23T19:03:34.493Z",
-      "last_seen": "2026-03-23T19:03:42.252Z",
+      "last_seen": "2026-03-24T19:12:42.505Z",
+      "is_active": true
+    },
+    {
+      "url": "https://cite-met.com/blog/post/what-is-citemet/",
+      "severity": "low",
+      "intent": "EXCLUDED",
+      "techniques": [],
+      "description": "EXCLUDED: Already in known domain list (citemet.com)",
+      "source": "openclaw",
+      "source_url": "N/A",
+      "first_seen": "2026-03-24T19:12:36.954Z",
+      "last_seen": "2026-03-24T19:12:42.505Z",
       "is_active": true
     }
   ],
-  "updated_at": "2026-03-23T19:03:42.252Z"
+  "updated_at": "2026-03-24T19:12:42.505Z"
 }
