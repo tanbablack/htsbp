@@ -4,7 +4,7 @@
  *
  * Source: https://github.com/tldrsec/prompt-injection-defenses
  */
-import { normalizeDomain, upsertThreat, extractDomain } from "./common.js";
+import { normalizeDomain, upsertThreat, extractDomain, EXCLUDED_DOMAINS } from "./common.js";
 import type { Threat, AttackIntent, Technique } from "../types/index.js";
 
 const README_URL =
@@ -28,42 +28,56 @@ function extractUrls(content: string): string[] {
   return [...new Set(content.match(urlRegex) ?? [])];
 }
 
-/** Check if a URL is likely an attack example (not a defense tool/paper) */
+/**
+ * Additional domains that are legitimate research/defense resources,
+ * not attack sites. These appear in tldrsec README as references, not threats.
+ */
+const TLDRSEC_EXCLUDED_DOMAINS = new Set([
+  ...EXCLUDED_DOMAINS,
+  // Security research blogs / tools (cited as references, not attack sites)
+  "simonwillison.net", "martinfowler.com", "splintered.co.uk",
+  "kai-greshake.de", "learnprompting.org", "llm-guard.com",
+  "research.kudelskisecurity.com", "developer.nvidia.com",
+  "blog.langchain.dev", "llm7-landing.pages.dev",
+  // Academic / publishing platforms
+  "www.researchgate.net", "www.researchsquare.com", "www.scirp.org",
+  "static1.squarespace.com",
+  // AI company blogs
+  "www.akaike.ai",
+]);
+
+/**
+ * Check if a URL is likely an attack example (not a defense tool/paper).
+ * Requires BOTH:
+ * 1. Strong attack-specific keyword in context
+ * 2. No defense/research framing nearby
+ */
 function isAttackExample(url: string, context: string): boolean {
   const lower = context.toLowerCase();
-  const attackIndicators = [
-    "attack",
-    "malicious",
-    "exploit",
+
+  // Hard exclusion: if context frames this as defense/research/tool
+  const defenseIndicators = [
+    "defense", "defend", "protect", "mitigat", "prevent",
+    "research", "paper", "study", "analysis", "example of",
+    "demonstrate", "proof of concept", "poc", "tool", "library",
+    "framework", "plugin", "extension", "blog post", "write-up",
+  ];
+  if (defenseIndicators.some(kw => lower.includes(kw))) return false;
+
+  // Must have strong attack-specific keywords (not generic "attack")
+  const strongAttackIndicators = [
     "injection site",
     "in the wild",
-    "real-world",
-    "payload",
+    "real-world attack",
     "weaponized",
+    "actively exploit",
+    "malicious site",
+    "poisoned site",
+    "idpi payload",
+    "confirmed threat",
   ];
-  return attackIndicators.some(kw => lower.includes(kw));
+  return strongAttackIndicators.some(kw => lower.includes(kw));
 }
-
-/** Filter out known non-threat domains (GitHub, arxiv, etc.) */
-const EXCLUDED_DOMAINS = new Set([
-  "github.com",
-  "arxiv.org",
-  "twitter.com",
-  "x.com",
-  "youtube.com",
-  "medium.com",
-  "huggingface.co",
-  "openai.com",
-  "anthropic.com",
-  "google.com",
-  "docs.google.com",
-  "linkedin.com",
-  "reddit.com",
-  "notion.so",
-  "wikipedia.org",
-  "npmjs.com",
-  "pypi.org",
-]);
 
 /** Run the tldrsec GitHub collector */
 export async function collect(): Promise<{ added: number; updated: number }> {
@@ -83,7 +97,7 @@ export async function collect(): Promise<{ added: number; updated: number }> {
 
   for (const url of urls) {
     const domain = extractDomain(url);
-    if (!domain || domain.length < 4 || EXCLUDED_DOMAINS.has(domain)) continue;
+    if (!domain || domain.length < 4 || TLDRSEC_EXCLUDED_DOMAINS.has(domain)) continue;
 
     // Get surrounding context (lines near the URL mention)
     const contextLines: string[] = [];

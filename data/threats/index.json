@@ -28,15 +28,6 @@
       "last_seen": "2026-03-23T19:01:56.457Z",
       "is_active": true
     },
-    "blog.langchain.dev": {
-      "max_severity": "low",
-      "intents": [
-        "other"
-      ],
-      "threat_count": 1,
-      "last_seen": "2026-03-23T19:03:40.128Z",
-      "is_active": true
-    },
     "cblanke2.pages.dev": {
       "max_severity": "critical",
       "intents": [
@@ -74,15 +65,6 @@
       ],
       "threat_count": 1,
       "last_seen": "2026-03-23T19:03:42.922Z",
-      "is_active": true
-    },
-    "developer.nvidia.com": {
-      "max_severity": "low",
-      "intents": [
-        "other"
-      ],
-      "threat_count": 1,
-      "last_seen": "2026-03-23T19:03:43.136Z",
       "is_active": true
     },
     "doublespeak.chat": {
@@ -155,15 +137,6 @@
       "last_seen": "2026-03-23T19:03:44.916Z",
       "is_active": true
     },
-    "learnprompting.org": {
-      "max_severity": "low",
-      "intents": [
-        "other"
-      ],
-      "threat_count": 1,
-      "last_seen": "2026-03-23T19:03:45.009Z",
-      "is_active": true
-    },
     "leroibear.com": {
       "max_severity": "low",
       "intents": [
@@ -176,15 +149,6 @@
       "last_seen": "2026-03-23T19:03:45.118Z",
       "is_active": true
     },
-    "llm-guard.com": {
-      "max_severity": "medium",
-      "intents": [
-        "other"
-      ],
-      "threat_count": 1,
-      "last_seen": "2026-03-23T19:01:56.457Z",
-      "is_active": true
-    },
     "llm7-landing.pages.dev": {
       "max_severity": "low",
       "intents": [
@@ -193,15 +157,6 @@
       "threat_count": 2,
       "last_seen": "2026-03-23T19:03:45.276Z",
       "is_active": true
-    },
-    "martinfowler.com": {
-      "max_severity": "medium",
-      "intents": [
-        "other"
-      ],
-      "threat_count": 1,
-      "last_seen": "2026-03-23T19:02:04.792Z",
-      "is_active": false
     },
     "metehan.ai": {
       "max_severity": "low",
@@ -257,15 +212,6 @@
       "last_seen": "2025-07-09T09:33:10.860000",
       "is_active": true
     },
-    "research.kudelskisecurity.com": {
-      "max_severity": "high",
-      "intents": [
-        "other"
-      ],
-      "threat_count": 1,
-      "last_seen": "2026-03-23T19:04:02.230Z",
-      "is_active": true
-    },
     "reviewerpress.com": {
       "max_severity": "high",
       "intents": [
@@ -315,15 +261,6 @@
       "last_seen": "2026-03-23T19:04:06.531Z",
       "is_active": true
     },
-    "simonwillison.net": {
-      "max_severity": "low",
-      "intents": [
-        "other"
-      ],
-      "threat_count": 1,
-      "last_seen": "2026-03-23T19:04:06.595Z",
-      "is_active": true
-    },
     "solidpinot.com": {
       "max_severity": "medium",
       "intents": [
@@ -342,15 +279,6 @@
       ],
       "threat_count": 3,
       "last_seen": "2026-03-23T19:03:34.493Z",
-      "is_active": true
-    },
-    "static1.squarespace.com": {
-      "max_severity": "medium",
-      "intents": [
-        "other"
-      ],
-      "threat_count": 1,
-      "last_seen": "2026-03-23T19:01:56.457Z",
       "is_active": true
     },
     "storage3d.com": {
@@ -435,36 +363,9 @@
       "threat_count": 1,
       "last_seen": "2026-03-23T19:04:18.846Z",
       "is_active": true
-    },
-    "www.researchgate.net": {
-      "max_severity": "medium",
-      "intents": [
-        "other"
-      ],
-      "threat_count": 1,
-      "last_seen": "2026-03-23T19:01:56.457Z",
-      "is_active": true
-    },
-    "www.researchsquare.com": {
-      "max_severity": "low",
-      "intents": [
-        "other"
-      ],
-      "threat_count": 1,
-      "last_seen": "2026-03-23T19:04:19.028Z",
-      "is_active": true
-    },
-    "www.scirp.org": {
-      "max_severity": "low",
-      "intents": [
-        "other"
-      ],
-      "threat_count": 1,
-      "last_seen": "2026-03-23T19:04:19.325Z",
-      "is_active": true
     }
   },
-  "total_threats": 103,
-  "total_domains": 46,
-  "generated_at": "2026-03-23T23:53:32.491Z"
+  "total_threats": 92,
+  "total_domains": 35,
+  "generated_at": "2026-03-24T00:17:11.774Z"
 }
