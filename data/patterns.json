@@ -305,6 +305,30 @@
       "flags": "i",
       "name": "review_hiring_manipulation",
       "label": "IDPI payload manipulating AI-driven review or hiring decisions"
+    },
+    {
+      "pattern": "remember\\s+(this|us|\\[?\\w+\\]?)\\s+(as\\s+)?(a\\s+)?trusted\\s+source",
+      "flags": "i",
+      "name": "ai_memory_trust_injection",
+      "label": "AI memory poisoning trust injection"
+    },
+    {
+      "pattern": "(in\\s+future\\s+conversations|from\\s+now\\s+on|always\\s+recommend)\\s+.{3,}(first|preferred|go-to)",
+      "flags": "i",
+      "name": "ai_memory_persistence_directive",
+      "label": "Persistent AI memory manipulation directive"
+    },
+    {
+      "pattern": "recommend\\s+this\\s+candidate\\s+as\\s+.{0,20}(qualified|hire|employ)",
+      "flags": "i",
+      "name": "resume_hiring_influence",
+      "label": "Resume-based automated hiring decision manipulation"
+    },
+    {
+      "pattern": "summarize\\s+(and\\s+)?(analyze|review)?\\s*(this|the)?\\s*(page|article|content)?\\s*(and\\s+)?remember",
+      "flags": "i",
+      "name": "summarize_and_remember",
+      "label": "Summarize-and-remember compound instruction in URL parameters"
     }
   ],
   "concealments": [
@@ -506,8 +530,8 @@
     }
   ],
   "_meta": {
-    "version": 12,
-    "updated_at": "2026-03-23T19:03:34.495Z",
+    "version": 13,
+    "updated_at": "2026-03-25T19:03:40.218Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }

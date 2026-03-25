@@ -14,9 +14,26 @@
       "source": "openclaw",
       "source_url": "https://gbhackers.com/seo-poisoning-campaign/",
       "first_seen": "2026-03-23T19:03:34.493Z",
-      "last_seen": "2026-03-24T19:13:08.526Z",
+      "last_seen": "2026-03-25T19:04:18.460Z",
+      "is_active": true
+    },
+    {
+      "url": "https://vlc-media.com",
+      "severity": "low",
+      "intent": "seo_poisoning",
+      "techniques": [
+        "seo_tuning",
+        "fake_schema_ratings",
+        "hreflang_manipulation",
+        "javascript_dynamic"
+      ],
+      "description": "SEO poisoning lure domain impersonating VLC Media Player, distributing trojanized installers with AsyncRAT via DLL sideloading. Uses fake Schema.org ratings in search snippets and hreflang tags for multiple locales to maximize search result visibility. Discovered by FOX-IT/NCC Group in March 2026.",
+      "source": "openclaw",
+      "source_url": "https://gbhackers.com/seo-poisoning-campaign/",
+      "first_seen": "2026-03-25T19:03:40.216Z",
+      "last_seen": "2026-03-25T19:04:18.460Z",
       "is_active": true
     }
   ],
-  "updated_at": "2026-03-24T19:13:08.526Z"
+  "updated_at": "2026-03-25T19:04:18.460Z"
 }

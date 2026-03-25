@@ -14,9 +14,26 @@
       "source": "openclaw",
       "source_url": "https://gbhackers.com/seo-poisoning-campaign/",
       "first_seen": "2026-03-23T19:03:34.493Z",
-      "last_seen": "2026-03-24T19:13:07.890Z",
+      "last_seen": "2026-03-25T19:04:17.249Z",
+      "is_active": true
+    },
+    {
+      "url": "https://studio-obs.net",
+      "severity": "low",
+      "intent": "seo_poisoning",
+      "techniques": [
+        "seo_tuning",
+        "fake_schema_ratings",
+        "javascript_dynamic",
+        "token_based_delivery"
+      ],
+      "description": "SEO poisoning lure domain impersonating OBS Studio. Uses custom download-link.js component to orchestrate token-based payload delivery, Bing/Yandex verification tokens, and Chinese-language keywords. Part of coordinated AsyncRAT distribution campaign active since October 2025.",
+      "source": "openclaw",
+      "source_url": "https://cybersecuritynews.com/seo-poisoning-campaign-impersonates-25-popular-apps/",
+      "first_seen": "2026-03-25T19:03:40.216Z",
+      "last_seen": "2026-03-25T19:04:17.249Z",
       "is_active": true
     }
   ],
-  "updated_at": "2026-03-24T19:13:07.890Z"
+  "updated_at": "2026-03-25T19:04:17.249Z"
 }
