@@ -18,6 +18,11 @@ jobs:
         with:
           node-version: '22'
       - run: npm ci
+      - name: Snapshot domains before collection
+        id: snapshot
+        run: |
+          BEFORE=$(ls data/threats/domains/*.json 2>/dev/null | xargs -I{} basename {} .json | tr '\n' ' ')
+          echo "domains_before=${BEFORE}" >> "$GITHUB_OUTPUT"
       - run: npm run collect
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -36,6 +41,11 @@ jobs:
       - run: npm run verify
       - run: npm run rebuild-stats
         name: Rebuild stats after verification
+      - name: Report new domains
+        run: npx tsx src/scripts/report-new-domains.ts
+        env:
+          NOTIFICATION_WEBHOOK_URL: ${{ secrets.NOTIFICATION_WEBHOOK_URL }}
+          DOMAINS_BEFORE: ${{ steps.snapshot.outputs.domains_before }}
       - name: Commit and push data
         run: |
           git config user.name "htsbp-bot"
