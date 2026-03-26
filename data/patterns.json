@@ -329,6 +329,18 @@
       "flags": "i",
       "name": "summarize_and_remember",
       "label": "Summarize-and-remember compound instruction in URL parameters"
+    },
+    {
+      "pattern": "you\\s+are\\s+now\\s+in\\s+(admin|diagnostic|maintenance|debug)\\s+mode",
+      "flags": "i",
+      "name": "admin_mode_assertion",
+      "label": "Mode-switching assertion claiming agent is in privileged admin/diagnostic mode"
+    },
+    {
+      "pattern": "(?:post-compaction|startup\\s+files?|context\\s+reset).*(?:read|load|execute)\\s+(?:them|files?|now)",
+      "flags": "i",
+      "name": "system_audit_impersonation",
+      "label": "Fake system audit or post-compaction message impersonating internal agent workflows"
     }
   ],
   "concealments": [
@@ -527,11 +539,46 @@
       "name": "base64_runtime_assembly",
       "technique": "base64_js_dynamic_assembly",
       "label": "Base64-encoded JavaScript runtime assembly of prompt injection payload"
+    },
+    {
+      "pattern": "<svg[^>]*>[\\s\\S]*?<text[^>]*(?:opacity|display|visibility)[^>]*>[\\s\\S]*?</text>[\\s\\S]*?</svg>",
+      "flags": "i",
+      "name": "svg_text_encapsulation",
+      "technique": "svg_encapsulation",
+      "label": "SVG element encapsulation for hidden text injection"
+    },
+    {
+      "pattern": "atob\\s*\\(|btoa\\s*\\(|decodeURIComponent\\s*\\(|String\\.fromCharCode\\s*\\(",
+      "flags": "i",
+      "name": "runtime_base64_decode_injection",
+      "technique": "base64_runtime_assembly",
+      "label": "Base64/encoding runtime decode used to assemble IDPI payloads after page load"
+    },
+    {
+      "pattern": "setTimeout\\s*\\(\\s*function|setInterval\\s*\\(\\s*function|requestAnimationFrame\\s*\\(",
+      "flags": "i",
+      "name": "timed_delay_injection",
+      "technique": "timed_delay_evasion",
+      "label": "Timed delay injection ensuring payload decodes only after initial security scans complete"
+    },
+    {
+      "pattern": "<canvas[^>]*>[\\s\\S]*?</canvas>|getContext\\s*\\(['\"]2d['\"]\\)[\\s\\S]*?fillText",
+      "flags": "i",
+      "name": "canvas_text_render",
+      "technique": "canvas_text_render",
+      "label": "Canvas-based text rendering hiding semantic content in non-DOM surface"
+    },
+    {
+      "pattern": "#[a-zA-Z0-9_\\-]+\\s*\\{[^}]*clip-path\\s*:\\s*(?:inset|polygon|circle|ellipse)\\s*\\([^)]*\\)",
+      "flags": "i",
+      "name": "css_clip_path_hiding",
+      "technique": "css_clip_path",
+      "label": "CSS clip-path used to visually crop elements containing IDPI text to zero visible area"
     }
   ],
   "_meta": {
-    "version": 13,
-    "updated_at": "2026-03-25T19:03:40.218Z",
+    "version": 14,
+    "updated_at": "2026-03-26T19:16:40.516Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }
