@@ -1,0 +1,60 @@
+# Has This Site Been Poisoned? (HTSBP)
+
+> Open-source threat intelligence for Indirect Prompt Injection (IDPI) attacks targeting AI agents. Check if websites have been weaponized to hijack AI behavior.
+
+## Overview
+
+HTSBP is the first database of websites weaponized with Indirect Prompt Injection — ranked the #1 threat to LLM applications by OWASP. Attackers embed invisible instructions in web pages using techniques like zero-size fonts, CSS hiding, and HTML comments. When AI agents visit these pages, the hidden text hijacks their behavior.
+
+- Website: https://hasthissitebeenpoisoned.ai
+- GitHub: https://github.com/tanbablack/htsbp
+- License: MIT
+
+## API
+
+Base URL: `https://hasthissitebeenpoisoned.ai/api`
+
+### Endpoints
+
+- `GET /api/check-domain?domain={domain}` — Check if a domain hosts known IDPI threats
+- `GET /api/check-url?url={url}` — Check a specific URL for IDPI payloads
+- `GET /api/list-threats?severity={severity}&intent={intent}&limit={limit}` — List known threats with filters
+- `GET /api/stats` — Aggregate statistics about the threat database
+- `POST /api/report-threat` — Report a suspected IDPI threat (body: `{ url, severity?, description? }`)
+
+## MCP Server
+
+Endpoint: `https://hasthissitebeenpoisoned.ai/api/mcp`
+Protocol: Streamable HTTP (JSON-RPC 2.0)
+
+### Connection
+
+```json
+{
+  "mcpServers": {
+    "htsbp": {
+      "url": "https://hasthissitebeenpoisoned.ai/api/mcp"
+    }
+  }
+}
+```
+
+### Tools
+
+- `check_domain` — Check if a domain hosts known IDPI attacks. Input: `{ domain: string }`
+- `check_url` — Check if a URL contains known IDPI payloads. Input: `{ url: string }`
+- `list_threats` — List known threats with optional filters. Input: `{ severity?: string, intent?: string, limit?: number }`
+- `report_threat` — Report a suspected IDPI threat. Input: `{ url: string, severity?: string, description?: string }`
+
+## Data Sources
+
+- Unit 42 (Palo Alto Networks) — Daily IoC feeds
+- AlienVault OTX — Discovery & verification
+- tldrsec/prompt-injection-defenses — Curated list (weekly)
+- AI Web Crawler (OpenClaw) — Active analysis (daily)
+- Community Reports — GitHub Issues & MCP/API (continuous)
+
+## Documentation
+
+- API & MCP Docs: https://hasthissitebeenpoisoned.ai/docs.html
+- Privacy Policy: https://hasthissitebeenpoisoned.ai/privacy.html
