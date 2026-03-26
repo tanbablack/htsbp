@@ -30,6 +30,47 @@ const LEVEL_EMOJI: Record<ThreatLevel, string> = {
   UNREACHABLE: "❌",
 };
 
+/** Trusted sources that provide high-confidence threat data */
+const TRUSTED_SOURCES = new Set(["unit42", "htsbp"]);
+
+/**
+ * Evaluate whether a newly added domain is likely a valid threat.
+ * Returns a verdict and reason string, independent of the collector's description.
+ *
+ * Criteria:
+ *   VALID   — IDPI scan confirms threat, or trusted source with specific description
+ *   SUSPECT — CLEAN/UNREACHABLE scan + untrusted source or vague description
+ *   REVIEW  — Inconclusive (UNREACHABLE with trusted source, etc.)
+ */
+function evaluateValidity(
+  scanLevel: ThreatLevel,
+  source: string,
+  description: string
+): { verdict: "✅ 妥当" | "⚠️ 要確認" | "❌ 誤検知疑い"; reason: string } {
+  const isTrusted = TRUSTED_SOURCES.has(source);
+  const isVague = description.length < 40 || description.includes("curated list") || description.includes("telemetry");
+  const scanConfirmed = scanLevel === "HIGH" || scanLevel === "MEDIUM";
+  const scanDenied = scanLevel === "CLEAN";
+  const unreachable = scanLevel === "UNREACHABLE" || scanLevel === "LOW";
+
+  if (scanConfirmed) {
+    return { verdict: "✅ 妥当", reason: `IDPIスキャンで ${scanLevel} 検出` };
+  }
+  if (scanDenied && !isTrusted) {
+    return { verdict: "❌ 誤検知疑い", reason: "IDPIパターン未検出 + 低信頼ソース" };
+  }
+  if (scanDenied && isTrusted) {
+    return { verdict: "⚠️ 要確認", reason: "IDPIパターン未検出だが信頼ソース（脅威除去済みの可能性）" };
+  }
+  if (unreachable && isTrusted && !isVague) {
+    return { verdict: "✅ 妥当", reason: "信頼ソース + 具体的説明（URL到達不能は一時的な可能性）" };
+  }
+  if (unreachable && !isTrusted && isVague) {
+    return { verdict: "❌ 誤検知疑い", reason: "URL到達不能 + 低信頼ソース + 説明が曖昧" };
+  }
+  return { verdict: "⚠️ 要確認", reason: "自動判定不能 — 手動確認を推奨" };
+}
+
 /** Send a message to Discord webhook */
 async function sendDiscord(content: string): Promise<void> {
   const webhookUrl = process.env.NOTIFICATION_WEBHOOK_URL;
@@ -89,18 +130,16 @@ async function main(): Promise<void> {
     const result = await checkUrl(scanUrl);
     const emoji = LEVEL_EMOJI[result.level];
 
+    // Independent validity evaluation
+    const { verdict, reason } = evaluateValidity(result.level, threat.source, threat.description ?? "");
+
     lines.push(`**${domain}**`);
+    lines.push(`  妥当性評価: ${verdict} — ${reason}`);
     lines.push(`  IDPIスキャン: ${emoji} ${result.level}`);
-    lines.push(`  重大度: ${threat.severity} | 意図: ${threat.intent}`);
-    lines.push(`  ソース: ${threat.source}`);
-    lines.push(`  説明: ${(threat.description ?? "").slice(0, 120)}`);
+    lines.push(`  重大度: ${threat.severity} | 意図: ${threat.intent} | ソース: ${threat.source}`);
+    lines.push(`  説明(収集時): ${(threat.description ?? "").slice(0, 100)}`);
     if (threat.source_url) {
       lines.push(`  参照: <${threat.source_url}>`);
-    }
-    if (result.level === "CLEAN") {
-      lines.push(`  ⚠️ IDPIパターン未検出 — 削除検討を推奨`);
-    } else if (result.level === "UNREACHABLE") {
-      lines.push(`  ⚠️ URLに到達不能 — 削除検討を推奨`);
     }
     lines.push("");
   }
