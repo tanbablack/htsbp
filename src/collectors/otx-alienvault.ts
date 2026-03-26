@@ -48,7 +48,26 @@ function isPulseRelevant(pulse: OtxPulse): boolean {
   return RELEVANCE_KEYWORDS.some(kw => text.includes(kw));
 }
 
-/** Search OTX for relevant pulses */
+/** Fetch with timeout helper */
+async function fetchWithTimeout(url: string, options: RequestInit, timeoutMs = 15000): Promise<Response> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/**
+ * Search OTX for relevant pulses.
+ * Returns empty array on transient server errors (504/503/429/timeout)
+ * instead of throwing, so other search terms can continue.
+ * Retries up to MAX_RETRIES times with exponential backoff.
+ */
+const MAX_RETRIES = 2;
+const RETRY_BASE_MS = 3000;
+
 async function searchPulses(query: string): Promise<OtxPulse[]> {
   const url = `${OTX_API}/search/pulses?q=${encodeURIComponent(query)}&limit=20`;
   const headers: Record<string, string> = {
@@ -59,13 +78,46 @@ async function searchPulses(query: string): Promise<OtxPulse[]> {
     headers["X-OTX-API-KEY"] = process.env.OTX_API_KEY;
   }
 
-  const res = await fetch(url, { headers });
-  if (!res.ok) {
-    throw new Error(`[otx] Search failed for "${query}": HTTP ${res.status}`);
+  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      const res = await fetchWithTimeout(url, { headers });
+
+      // Transient server errors — skip gracefully (do not throw)
+      if (res.status === 504 || res.status === 503 || res.status === 429) {
+        const retryAfter = res.headers.get("Retry-After");
+        const waitMs = retryAfter ? parseInt(retryAfter) * 1000 : RETRY_BASE_MS * Math.pow(2, attempt);
+        if (attempt < MAX_RETRIES) {
+          console.warn(`[otx] HTTP ${res.status} for "${query}", retrying in ${waitMs}ms (attempt ${attempt + 1}/${MAX_RETRIES})...`);
+          await new Promise(r => setTimeout(r, waitMs));
+          continue;
+        }
+        console.warn(`[otx] HTTP ${res.status} for "${query}" after ${MAX_RETRIES} retries, skipping term.`);
+        return [];
+      }
+
+      if (!res.ok) {
+        console.warn(`[otx] HTTP ${res.status} for "${query}", skipping term.`);
+        return [];
+      }
+
+      const data = (await res.json()) as { results: OtxPulse[] };
+      return data.results ?? [];
+
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      const isTimeout = message.includes("abort") || message.includes("timeout");
+      if (attempt < MAX_RETRIES) {
+        const waitMs = RETRY_BASE_MS * Math.pow(2, attempt);
+        console.warn(`[otx] ${isTimeout ? "Timeout" : "Error"} for "${query}", retrying in ${waitMs}ms (attempt ${attempt + 1}/${MAX_RETRIES})...`);
+        await new Promise(r => setTimeout(r, waitMs));
+        continue;
+      }
+      console.warn(`[otx] Failed for "${query}" after ${MAX_RETRIES} retries: ${message}, skipping term.`);
+      return [];
+    }
   }
 
-  const data = (await res.json()) as { results: OtxPulse[] };
-  return data.results ?? [];
+  return [];
 }
 
 /** Fetch indicators for a specific pulse (with error handling) */
