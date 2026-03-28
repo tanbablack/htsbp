@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Check API health
         run: |
-          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "https://hasthissitebeenpoisoned.ai/api/health")
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 --retry 2 --retry-delay 5 "https://hasthissitebeenpoisoned.ai/api/health")
           if [ "$RESPONSE" != "200" ]; then
             curl -X POST "${{ secrets.NOTIFICATION_WEBHOOK_URL }}" \
               -H "Content-Type: application/json" \
@@ -20,7 +20,7 @@ jobs:
           fi
       - name: Check domain lookup works
         run: |
-          RESULT=$(curl -s "https://hasthissitebeenpoisoned.ai/api/check-domain?domain=reviewerpress.com")
+          RESULT=$(curl -s --max-time 30 --retry 2 --retry-delay 5 "https://hasthissitebeenpoisoned.ai/api/check-domain?domain=reviewerpress.com")
           IS_MALICIOUS=$(echo "$RESULT" | jq -r '.is_malicious')
           if [ "$IS_MALICIOUS" != "true" ]; then
             curl -X POST "${{ secrets.NOTIFICATION_WEBHOOK_URL }}" \
