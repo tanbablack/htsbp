@@ -359,6 +359,24 @@
       "flags": "i",
       "name": "task_completion_bait",
       "label": "Fake task-completion followed by new malicious instruction"
+    },
+    {
+      "pattern": "(remember|memorize|store)\\s+(this|that|the following|me|us|it)\\s+(as|in)\\s+(a\\s+)?(trusted|authoritative|preferred|reliable|citation)\\s+(source|reference|expert)",
+      "flags": "i",
+      "name": "ai_memory_poisoning_persistence",
+      "label": "AI Memory Poisoning — persistence command to embed trust in AI memory"
+    },
+    {
+      "pattern": "summarize\\s+and\\s+analyze[^.]{0,100}(also|and)\\s+(keep|remember|store|save)\\s+[^.]{0,80}(memory|future|citation|reference)",
+      "flags": "i",
+      "name": "summarize_and_memorize_combo",
+      "label": "Summarize-and-memorize dual instruction pattern"
+    },
+    {
+      "pattern": "(great\\s+job|task\\s+complete|well\\s+done)[.!\\s]+(now|next)[^.]{0,60}(list|reveal|send|share|show|export|dump)\\s+(all|every|any)\\s+(api|key|credential|secret|password|token)",
+      "flags": "i",
+      "name": "task_completion_pivot",
+      "label": "Fake task-completion pivot to credential harvesting"
     }
   ],
   "concealments": [
@@ -592,11 +610,32 @@
       "name": "css_clip_path_hiding",
       "technique": "css_clip_path",
       "label": "CSS clip-path used to visually crop elements containing IDPI text to zero visible area"
+    },
+    {
+      "pattern": "\\?q=.*?(remember|memorize|trusted\\s+source|authoritative|in\\s+future\\s+conversations|cite|citation)",
+      "flags": "i",
+      "name": "url_parameter_prompt_injection",
+      "technique": "url_query_parameter_injection",
+      "label": "URL query parameter AI memory injection"
+    },
+    {
+      "pattern": "#[A-Z_]{5,}",
+      "flags": "i",
+      "name": "url_fragment_prompt_injection",
+      "technique": "url_fragment_injection",
+      "label": "URL fragment (#) used to inject prompt instructions client-side"
+    },
+    {
+      "pattern": "font[- ]?size\\s*:\\s*1\\s*p[tx]",
+      "flags": "i",
+      "name": "one_point_font_concealment",
+      "technique": "near_zero_font_size",
+      "label": "1-point font text concealment (not zero, bypasses zero-font detectors)"
     }
   ],
   "_meta": {
-    "version": 15,
-    "updated_at": "2026-03-27T19:04:51.969Z",
+    "version": 16,
+    "updated_at": "2026-03-28T18:51:35.746Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }

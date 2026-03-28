@@ -2,10 +2,10 @@
   "total_threats": 91,
   "total_domains": 29,
   "by_severity": {
-    "critical": 6,
+    "critical": 5,
     "high": 43,
-    "medium": 15,
-    "low": 27
+    "medium": 13,
+    "low": 30
   },
   "by_intent": {
     "EXCLUDED": 2,
@@ -42,6 +42,6 @@
     "openclaw": 60,
     "unit42": 11
   },
-  "last_updated": "2026-03-27T19:05:36.163Z",
-  "generated_at": "2026-03-27T19:05:48.945Z"
+  "last_updated": "2026-03-28T18:52:18.938Z",
+  "generated_at": "2026-03-28T18:52:28.228Z"
 }

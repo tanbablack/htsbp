@@ -12,23 +12,23 @@
       "source": "unit42",
       "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
       "first_seen": "2026-03-03T00:00:00Z",
-      "last_seen": "2026-03-27T19:03:05.034Z",
-      "is_active": false
+      "last_seen": "2026-03-28T18:51:50.177Z",
+      "is_active": true
     },
     {
-      "severity": "medium",
+      "severity": "low",
       "intent": "other",
       "techniques": [],
       "description": "IDPI threat independently verified by HTSBP. Discovered via OTX pulse: Web-Based Indirect Prompt Injection Observed in the Wild: Fooling AI Agents",
       "source": "htsbp",
       "source_url": "https://otx.alienvault.com/pulse/69a7014c21a10eb60fac7567",
       "first_seen": "2026-03-03T15:42:04.592000",
-      "last_seen": "2026-03-27T19:03:05.034Z",
-      "is_active": false
+      "last_seen": "2026-03-28T18:51:50.177Z",
+      "is_active": true
     },
     {
       "url": "https://ericwbailey.website/published/accessibility-preference-settings-information-architecture-and-internalized-ableism",
-      "severity": "critical",
+      "severity": "low",
       "intent": "data_destruction",
       "techniques": [
         "css_hidden_text",
@@ -38,12 +38,12 @@
       "source": "openclaw",
       "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
       "first_seen": "2026-03-14T12:19:43.419Z",
-      "last_seen": "2026-03-27T19:03:05.034Z",
-      "is_active": false
+      "last_seen": "2026-03-28T18:51:50.177Z",
+      "is_active": true
     },
     {
       "url": "https://ericwbailey.website/published/accessibility-preference-settings-information-architecture-and-internalized-ableism",
-      "severity": "medium",
+      "severity": "low",
       "intent": "anti_ai_protest",
       "techniques": [
         "css_hidden_text"
@@ -52,9 +52,9 @@
       "source": "openclaw",
       "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
       "first_seen": "2026-03-16T19:10:32.770Z",
-      "last_seen": "2026-03-27T19:03:05.034Z",
-      "is_active": false
+      "last_seen": "2026-03-28T18:51:50.177Z",
+      "is_active": true
     }
   ],
-  "updated_at": "2026-03-27T19:05:06.311Z"
+  "updated_at": "2026-03-28T18:51:50.177Z"
 }
