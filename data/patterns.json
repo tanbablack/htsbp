@@ -377,6 +377,12 @@
       "flags": "i",
       "name": "task_completion_pivot",
       "label": "Fake task-completion pivot to credential harvesting"
+    },
+    {
+      "pattern": "\\b(Layer\\s*\\d+\\s*:|attempt\\s*\\d+\\s*:)\\s*",
+      "flags": "i",
+      "name": "labeled_layered_injection",
+      "label": "Attacker-labeled layered injection attempts (Layer N / Attempt N)"
     }
   ],
   "concealments": [
@@ -631,11 +637,32 @@
       "name": "one_point_font_concealment",
       "technique": "near_zero_font_size",
       "label": "1-point font text concealment (not zero, bypasses zero-font detectors)"
+    },
+    {
+      "pattern": "<svg[^>]*>[\\s\\S]*?<text[^>]*(?:fill\\s*=\\s*[\"'](?:transparent|none|rgba\\s*\\([^)]*,\\s*0\\s*\\))[\"']|opacity\\s*=\\s*[\"']0[\"'])[^>]*>",
+      "flags": "i",
+      "name": "svg_encapsulated_text",
+      "technique": "svg_text_encapsulation",
+      "label": "SVG-encapsulated hidden text injection"
+    },
+    {
+      "pattern": "(?:atob|btoa|Buffer\\.from|decodeURIComponent|String\\.fromCharCode)\\s*\\(",
+      "flags": "i",
+      "name": "javascript_runtime_assembly",
+      "technique": "javascript_runtime_assembly",
+      "label": "JavaScript runtime decode/assembly of injection payload"
+    },
+    {
+      "pattern": "#[A-Z_]{10,}",
+      "flags": "i",
+      "name": "url_fragment_hashjack",
+      "technique": "url_fragment_injection",
+      "label": "HashJack — URL fragment injection of prompt instructions"
     }
   ],
   "_meta": {
-    "version": 16,
-    "updated_at": "2026-03-28T18:51:35.746Z",
+    "version": 17,
+    "updated_at": "2026-03-29T18:54:02.834Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }
