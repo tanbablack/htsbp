@@ -26,6 +26,7 @@
     "check": "npx tsx src/scripts/check-url.ts",
     "verify": "npx tsx src/scripts/verify-threats.ts",
     "process-reports": "npx tsx src/scripts/process-reports.ts",
-    "report-new": "npx tsx src/scripts/report-new-domains.ts"
+    "report-new": "npx tsx src/scripts/report-new-domains.ts",
+    "validate-new": "npx tsx src/scripts/validate-new-domains.ts"
   }
 }

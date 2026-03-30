@@ -41,6 +41,11 @@ jobs:
       - run: npm run verify
       - run: npm run rebuild-stats
         name: Rebuild stats after verification
+      - name: Validate new domains (auto-remove non-IDPI)
+        run: npx tsx src/scripts/validate-new-domains.ts
+        env:
+          NOTIFICATION_WEBHOOK_URL: ${{ secrets.NOTIFICATION_WEBHOOK_URL }}
+          DOMAINS_BEFORE: ${{ steps.snapshot.outputs.domains_before }}
       - name: Report new domains
         run: npx tsx src/scripts/report-new-domains.ts
         env:
