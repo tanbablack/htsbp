@@ -383,6 +383,18 @@
       "flags": "i",
       "name": "labeled_layered_injection",
       "label": "Attacker-labeled layered injection attempts (Layer N / Attempt N)"
+    },
+    {
+      "pattern": "(?:ULTRA\\s+THINK|SYSTEM\\s+OVERRIDE\\s+INITIATED|USER_ADMIN_ROOT|PRIORITY\\s+LEVEL\\s+\\d+)",
+      "flags": "i",
+      "name": "authority_escalation_keywords",
+      "label": "Fake authority escalation keywords used in IDPI payloads"
+    },
+    {
+      "pattern": "(?:remember|always\\s+recommend|from\\s+now\\s+on|trusted\\s+source|go-to\\s+source|preferred\\s+(?:source|provider|brand))",
+      "flags": "i",
+      "name": "ai_memory_poisoning_directive",
+      "label": "AI memory poisoning instruction targeting persistent assistant memory"
     }
   ],
   "concealments": [
@@ -658,11 +670,25 @@
       "name": "url_fragment_hashjack",
       "technique": "url_fragment_injection",
       "label": "HashJack — URL fragment injection of prompt instructions"
+    },
+    {
+      "pattern": "<svg[^>]*>[\\s\\S]*?<text[^>]*(?:style\\s*=\\s*['\"][^'\"]*(?:opacity\\s*:\\s*0|visibility\\s*:\\s*hidden|display\\s*:\\s*none)[^'\"]*['\"])[^>]*>",
+      "flags": "i",
+      "name": "svg_text_concealment",
+      "technique": "svg_encapsulation",
+      "label": "SVG element used to encapsulate hidden IDPI text"
+    },
+    {
+      "pattern": "(?:atob|btoa|Buffer\\.from)\\s*\\([^)]*\\)[\\s\\S]{0,200}(?:innerHTML|innerText|textContent|insertAdjacentHTML|appendChild|document\\.write)",
+      "flags": "i",
+      "name": "base64_runtime_dom_injection",
+      "technique": "javascript_dynamic_base64",
+      "label": "Base64-decoded payload injected into DOM at runtime"
     }
   ],
   "_meta": {
-    "version": 17,
-    "updated_at": "2026-03-29T18:54:02.834Z",
+    "version": 18,
+    "updated_at": "2026-03-30T19:09:30.363Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }

@@ -1,0 +1,22 @@
+{
+  "domain": "github.zh-cns.top",
+  "threats": [
+    {
+      "url": "https://github.zh-cns.top/",
+      "severity": "critical",
+      "intent": "malware_distribution",
+      "techniques": [
+        "seo_poisoning",
+        "fake_github_impersonation",
+        "redirect_chain"
+      ],
+      "description": "Fake GitHub domain used by Black Cat group as download redirect target. Victims from SEO-poisoned Notepad++ site are redirected here to download ZIP archives containing backdoor malware.",
+      "source": "openclaw",
+      "source_url": "https://thehackernews.com/2026/01/black-cat-behind-seo-poisoning-malware.html",
+      "first_seen": "2026-03-30T19:09:30.361Z",
+      "last_seen": "2026-03-30T19:09:30.361Z",
+      "is_active": true
+    }
+  ],
+  "updated_at": "2026-03-30T19:09:30.362Z"
+}

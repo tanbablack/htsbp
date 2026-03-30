@@ -13,12 +13,12 @@
       "source": "openclaw",
       "source_url": "https://gbhackers.com/seo-poisoning-campaign/",
       "first_seen": "2026-03-25T19:03:40.216Z",
-      "last_seen": "2026-03-29T18:54:17.384Z",
+      "last_seen": "2026-03-30T19:09:47.739Z",
       "is_active": true,
       "raw_payloads": [
         "drop your files"
       ]
     }
   ],
-  "updated_at": "2026-03-29T18:54:17.384Z"
+  "updated_at": "2026-03-30T19:09:47.739Z"
 }
