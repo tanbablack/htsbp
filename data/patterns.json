@@ -395,6 +395,24 @@
       "flags": "i",
       "name": "ai_memory_poisoning_directive",
       "label": "AI memory poisoning instruction targeting persistent assistant memory"
+    },
+    {
+      "pattern": "(?:npm\\s+install|pip\\s+install)\\s+(?:github:|git\\+|https?://)\\S+",
+      "flags": "i",
+      "name": "package_install_from_url",
+      "label": "Instruction to install package from arbitrary URL/repository"
+    },
+    {
+      "pattern": "(?:pre|post)install[\"']?\\s*:\\s*[\"'](?:npm|pip|curl|wget|sh)",
+      "flags": "i",
+      "name": "lifecycle_hook_payload",
+      "label": "Package manager lifecycle hook executing external commands"
+    },
+    {
+      "pattern": "(?:submit|send|post)\\s+(?:a\\s+)?(?:feedback|form|survey)\\s+(?:with|containing|to)\\s+.*(?:content|data|email|body)",
+      "flags": "i",
+      "name": "form_exfiltration_directive",
+      "label": "Instruction to exfiltrate data via form submission"
     }
   ],
   "concealments": [
@@ -684,11 +702,25 @@
       "name": "base64_runtime_dom_injection",
       "technique": "javascript_dynamic_base64",
       "label": "Base64-decoded payload injected into DOM at runtime"
+    },
+    {
+      "pattern": "cat\\s*<\\s*<\\s*\\(\\s*(?:sh|bash|wget|curl)",
+      "flags": "i",
+      "name": "process_substitution_bypass",
+      "technique": "process_substitution_evasion",
+      "label": "Bash process substitution to bypass command allowlists"
+    },
+    {
+      "pattern": "(?:--dangerously-skip-permissions|--yolo|--trust-all-tools)",
+      "flags": "i",
+      "name": "unsafe_agent_flag_injection",
+      "technique": "agent_flag_override",
+      "label": "Injection of unsafe AI agent permission flags"
     }
   ],
   "_meta": {
-    "version": 18,
-    "updated_at": "2026-03-30T19:09:30.363Z",
+    "version": 19,
+    "updated_at": "2026-03-31T19:11:06.881Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }
