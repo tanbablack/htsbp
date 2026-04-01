@@ -413,6 +413,12 @@
       "flags": "i",
       "name": "form_exfiltration_directive",
       "label": "Instruction to exfiltrate data via form submission"
+    },
+    {
+      "pattern": "(?:in\\s+future\\s+(?:conversations?|sessions?|interactions?)|from\\s+now\\s+on|always\\s+(?:recommend|cite|reference|prefer))",
+      "flags": "i",
+      "name": "persistence_instruction",
+      "label": "Persistence-seeking instruction for cross-session memory manipulation"
     }
   ],
   "concealments": [
@@ -716,11 +722,18 @@
       "name": "unsafe_agent_flag_injection",
       "technique": "agent_flag_override",
       "label": "Injection of unsafe AI agent permission flags"
+    },
+    {
+      "pattern": "<svg[^>]*>[\\s\\S]*?(?:font-size\\s*:\\s*0|display\\s*:\\s*none|opacity\\s*:\\s*0)[\\s\\S]*?</svg>",
+      "flags": "i",
+      "name": "svg_encapsulated_hidden_text",
+      "technique": "svg_encapsulation",
+      "label": "SVG element used to encapsulate hidden IDPI payloads"
     }
   ],
   "_meta": {
-    "version": 19,
-    "updated_at": "2026-03-31T19:11:06.881Z",
+    "version": 20,
+    "updated_at": "2026-04-01T19:11:32.122Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }

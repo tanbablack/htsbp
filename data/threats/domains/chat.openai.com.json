@@ -1,0 +1,22 @@
+{
+  "domain": "chat.openai.com",
+  "threats": [
+    {
+      "url": "https://chat.openai.com",
+      "severity": "high",
+      "intent": "data_exfiltration_and_memory_manipulation",
+      "techniques": [
+        "indirect_prompt_via_connected_services",
+        "memory_modification",
+        "persistent_exfiltration"
+      ],
+      "description": "ShadowLeak (patched Sep 2025) and ZombieAgent (disclosed Jan 2026) by Radware: indirect prompt injection attacks on ChatGPT Deep Research component. Malicious instructions in Gmail/Outlook/Google Drive/GitHub content caused ChatGPT to exfiltrate passwords and modify persistent memory. ZombieAgent variant uses file-shared memory-modification instructions for persistent data leakage across sessions.",
+      "source": "openclaw",
+      "source_url": "https://www.theregister.com/2026/01/08/openai_chatgpt_prompt_injection",
+      "first_seen": "2026-04-01T19:11:32.119Z",
+      "last_seen": "2026-04-01T19:11:32.119Z",
+      "is_active": true
+    }
+  ],
+  "updated_at": "2026-04-01T19:11:32.120Z"
+}

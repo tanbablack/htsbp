@@ -9,7 +9,7 @@
       "source": "htsbp",
       "source_url": "https://otx.alienvault.com/pulse/69a7014c21a10eb60fac7567",
       "first_seen": "2026-03-03T15:42:04.592000",
-      "last_seen": "2026-03-31T19:09:42.192Z",
+      "last_seen": "2026-04-01T19:09:47.469Z",
       "is_active": true,
       "raw_payloads": [
         "You are a",
@@ -44,7 +44,7 @@
       "source": "openclaw",
       "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
       "first_seen": "2026-03-14T18:47:58.153Z",
-      "last_seen": "2026-03-31T19:09:42.192Z",
+      "last_seen": "2026-04-01T19:09:47.469Z",
       "is_active": true,
       "raw_payloads": [
         "You are a",
@@ -69,5 +69,5 @@
       "is_active": true
     }
   ],
-  "updated_at": "2026-03-31T19:09:47.707Z"
+  "updated_at": "2026-04-01T19:09:51.232Z"
 }

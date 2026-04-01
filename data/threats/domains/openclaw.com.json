@@ -1,0 +1,21 @@
+{
+  "domain": "openclaw.com",
+  "threats": [
+    {
+      "url": "https://openclaw.com",
+      "severity": "high",
+      "intent": "data_exfiltration",
+      "techniques": [
+        "link_preview_exfiltration",
+        "indirect_prompt_injection_via_messaging"
+      ],
+      "description": "CVE-2026-25253 (CVSS 8.8): PromptArmor found that link preview features in Telegram/Discord can be turned into data exfiltration pathways when communicating with OpenClaw via indirect prompt injection. The agent constructs attacker-controlled URLs with dynamically generated query parameters containing sensitive data, exfiltrated automatically via link preview without user click. Over 40,214 exposed instances detected.",
+      "source": "openclaw",
+      "source_url": "https://thehackernews.com/2026/03/openclaw-ai-agent-flaws-could-enable.html",
+      "first_seen": "2026-04-01T19:11:32.119Z",
+      "last_seen": "2026-04-01T19:11:32.119Z",
+      "is_active": true
+    }
+  ],
+  "updated_at": "2026-04-01T19:11:32.120Z"
+}
