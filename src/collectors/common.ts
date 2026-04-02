@@ -34,6 +34,15 @@ export const EXCLUDED_DOMAINS = new Set([
   "arxiv.org",
   // AI/ML known legitimate
   "langchain.com", "langchain.dev",
+  // 正規AIサービス（攻撃対象になり得るがHTSBP対象外）
+  "chat.openai.com", "openai.com",
+  "copilot.microsoft.com", "bing.com",
+  "cursor.sh", "cursor.com",
+  "claude.ai",
+  "gemini.google.com",
+  "perplexity.ai",
+  "superhuman.com",
+  "notion.com",
 ]);
 
 /** Normalize a domain name: lowercase, strip trailing dot, reverse defanging */
