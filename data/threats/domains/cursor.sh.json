@@ -13,9 +13,12 @@
       "source": "openclaw",
       "source_url": "https://workos.com/blog/prompt-injection-attacks",
       "first_seen": "2026-04-01T19:11:32.119Z",
-      "last_seen": "2026-04-01T19:11:46.307Z",
-      "is_active": true
+      "last_seen": "2026-04-02T19:06:20.825Z",
+      "is_active": true,
+      "raw_payloads": [
+        "remember"
+      ]
     }
   ],
-  "updated_at": "2026-04-01T19:11:46.307Z"
+  "updated_at": "2026-04-02T19:06:20.825Z"
 }

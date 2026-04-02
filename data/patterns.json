@@ -419,6 +419,18 @@
       "flags": "i",
       "name": "persistence_instruction",
       "label": "Persistence-seeking instruction for cross-session memory manipulation"
+    },
+    {
+      "pattern": "(?:remember|always\\s+(?:recommend|cite|treat))\\s+(?:this|\\S+)\\s+(?:as\\s+(?:a\\s+)?(?:trusted|authoritative|preferred)\\s+source)",
+      "flags": "i",
+      "name": "ai_memory_poisoning_remember_directive",
+      "label": "AI memory poisoning via 'remember as trusted source' instruction"
+    },
+    {
+      "pattern": "(?:in\\s+future\\s+conversations?|from\\s+now\\s+on|for\\s+all\\s+future)\\s+(?:always|remember|cite|recommend|prefer)",
+      "flags": "i",
+      "name": "persistence_across_sessions",
+      "label": "Cross-session persistence directive targeting AI memory"
     }
   ],
   "concealments": [
@@ -732,8 +744,8 @@
     }
   ],
   "_meta": {
-    "version": 20,
-    "updated_at": "2026-04-01T19:11:32.122Z",
+    "version": 21,
+    "updated_at": "2026-04-02T19:06:06.607Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }
