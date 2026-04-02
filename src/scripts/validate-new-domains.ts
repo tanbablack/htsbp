@@ -42,8 +42,8 @@ const TRUSTED_SOURCE_DOMAINS = new Set([
   "microsoft.com",
   "google.com",
   "cert.org",
-  "nvd.nist.gov",
-  "cve.mitre.org",
+  // nvd.nist.gov / cve.mitre.org は除外：CVEはソフトウェア脆弱性であり
+  // ウェブIDPIサイトの証拠にはならない
   "arxiv.org",
   "pillar.security",
   "lakera.ai",
