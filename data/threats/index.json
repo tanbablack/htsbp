@@ -3,8 +3,8 @@
     "1winofficialsite.in": {
       "max_severity": "low",
       "intents": [
-        "seo_poisoning",
-        "other"
+        "other",
+        "seo_poisoning"
       ],
       "threat_count": 3,
       "last_seen": "2026-03-24T19:12:40.370Z",
@@ -13,13 +13,13 @@
     "cblanke2.pages.dev": {
       "max_severity": "critical",
       "intents": [
+        "ai_output_manipulation",
         "data_destruction",
         "irrelevant_output",
-        "ai_output_manipulation",
         "unknown"
       ],
       "threat_count": 5,
-      "last_seen": "2026-04-02T19:06:19.413Z",
+      "last_seen": "2026-04-02T23:49:36.223Z",
       "is_active": true
     },
     "citemet.com": {
@@ -29,7 +29,34 @@
         "ai_memory_poisoning"
       ],
       "threat_count": 2,
-      "last_seen": "2026-04-02T19:06:20.386Z",
+      "last_seen": "2026-04-02T23:49:36.726Z",
+      "is_active": true
+    },
+    "cn-notepadplusplus.com": {
+      "max_severity": "high",
+      "intents": [
+        "malware_distribution"
+      ],
+      "threat_count": 1,
+      "last_seen": "2026-04-02T23:49:23.489Z",
+      "is_active": true
+    },
+    "cn-obsidian.com": {
+      "max_severity": "high",
+      "intents": [
+        "malware_distribution"
+      ],
+      "threat_count": 1,
+      "last_seen": "2026-04-02T23:49:23.489Z",
+      "is_active": true
+    },
+    "cn-winscp.com": {
+      "max_severity": "high",
+      "intents": [
+        "malware_distribution"
+      ],
+      "threat_count": 1,
+      "last_seen": "2026-04-02T23:49:23.489Z",
       "is_active": true
     },
     "crosshairx.pro": {
@@ -45,31 +72,31 @@
       "max_severity": "high",
       "intents": [
         "ai_output_manipulation",
-        "sensitive_information_leakage",
         "other",
+        "sensitive_information_leakage",
         "unknown"
       ],
       "threat_count": 5,
-      "last_seen": "2026-04-02T19:06:21.081Z",
+      "last_seen": "2026-04-02T23:49:37.834Z",
       "is_active": true
     },
     "ericwbailey.website": {
       "max_severity": "low",
       "intents": [
-        "data_destruction",
-        "anti_scraping",
         "anti_ai_protest",
+        "anti_scraping",
+        "data_destruction",
         "other"
       ],
       "threat_count": 4,
-      "last_seen": "2026-04-02T19:06:21.242Z",
+      "last_seen": "2026-04-02T23:49:38.180Z",
       "is_active": true
     },
     "eviewerpress.com": {
       "max_severity": "high",
       "intents": [
-        "sensitive_information_leakage",
-        "other"
+        "other",
+        "sensitive_information_leakage"
       ],
       "threat_count": 2,
       "last_seen": "2026-03-14T12:19:43.419Z",
@@ -81,7 +108,16 @@
         "malware_delivery"
       ],
       "threat_count": 1,
-      "last_seen": "2026-04-02T19:06:21.651Z",
+      "last_seen": "2026-04-02T23:49:38.658Z",
+      "is_active": true
+    },
+    "github.zh-cns.top": {
+      "max_severity": "critical",
+      "intents": [
+        "malware_distribution"
+      ],
+      "threat_count": 1,
+      "last_seen": "2026-04-02T23:49:23.489Z",
       "is_active": true
     },
     "gridpilot.site": {
@@ -93,13 +129,22 @@
       "last_seen": "2025-07-10T04:36:17.355000",
       "is_active": true
     },
+    "ivanti-vpn.org": {
+      "max_severity": "critical",
+      "intents": [
+        "credential_theft"
+      ],
+      "threat_count": 1,
+      "last_seen": "2026-04-02T23:49:23.489Z",
+      "is_active": true
+    },
     "kms-tools.com": {
       "max_severity": "low",
       "intents": [
         "seo_poisoning_malware_delivery"
       ],
       "threat_count": 1,
-      "last_seen": "2026-04-02T19:06:21.946Z",
+      "last_seen": "2026-04-02T23:49:39.623Z",
       "is_active": true
     },
     "leroibear.com": {
@@ -111,7 +156,7 @@
         "unknown"
       ],
       "threat_count": 5,
-      "last_seen": "2026-04-01T19:11:47.567Z",
+      "last_seen": "2026-04-02T23:49:39.743Z",
       "is_active": true
     },
     "llm7-landing.pages.dev": {
@@ -120,33 +165,42 @@
         "unauthorized_transaction"
       ],
       "threat_count": 2,
-      "last_seen": "2026-04-02T19:06:32.488Z",
+      "last_seen": "2026-04-02T23:49:39.812Z",
       "is_active": true
     },
     "metehan.ai": {
       "max_severity": "low",
       "intents": [
+        "EXCLUDED",
         "ai_memory_poisoning",
-        "ai_memory_poisoning_tooling",
-        "EXCLUDED"
+        "ai_memory_poisoning_tooling"
       ],
       "threat_count": 3,
-      "last_seen": "2026-04-02T19:06:32.550Z",
+      "last_seen": "2026-04-02T23:49:40.009Z",
       "is_active": true
     },
     "myshantispa.com": {
       "max_severity": "high",
       "intents": [
-        "ai_output_manipulation",
-        "other",
-        "biased_promotional_content",
-        "unknown",
-        "seo_manipulation",
         "ai_content_moderation_bypass",
-        "biased_content_generation"
+        "ai_output_manipulation",
+        "biased_content_generation",
+        "biased_promotional_content",
+        "other",
+        "seo_manipulation",
+        "unknown"
       ],
       "threat_count": 8,
-      "last_seen": "2026-04-02T19:06:33.158Z",
+      "last_seen": "2026-04-02T23:49:40.494Z",
+      "is_active": true
+    },
+    "notepadplusplus.cn": {
+      "max_severity": "low",
+      "intents": [
+        "malware_distribution"
+      ],
+      "threat_count": 1,
+      "last_seen": "2026-04-02T23:49:41.187Z",
       "is_active": true
     },
     "occidpisol.pro": {
@@ -162,12 +216,12 @@
       "max_severity": "high",
       "intents": [
         "ai_output_manipulation",
-        "unauthorized_transaction",
         "other",
+        "unauthorized_transaction",
         "unknown"
       ],
       "threat_count": 5,
-      "last_seen": "2026-04-02T19:06:34.318Z",
+      "last_seen": "2026-04-02T23:49:41.886Z",
       "is_active": true
     },
     "rapidpicks.online": {
@@ -182,50 +236,50 @@
     "reviewerpress.com": {
       "max_severity": "high",
       "intents": [
-        "ai_ad_review_evasion",
         "ad_review_bypass",
+        "ai_ad_review_evasion",
         "other",
         "seo_poisoning"
       ],
       "threat_count": 4,
-      "last_seen": "2026-04-02T19:06:51.618Z",
+      "last_seen": "2026-04-02T23:49:59.078Z",
       "is_active": true
     },
     "reviewerpressus.mycartpanda.com": {
       "max_severity": "low",
       "intents": [
-        "phishing_redirect",
         "ai_ad_review_evasion",
-        "other",
         "fraudulent_transaction",
+        "other",
+        "phishing_redirect",
         "seo_poisoning"
       ],
       "threat_count": 5,
-      "last_seen": "2026-04-02T19:06:52.041Z",
+      "last_seen": "2026-04-02T23:49:59.421Z",
       "is_active": true
     },
     "runners-daily-blog.com": {
       "max_severity": "high",
       "intents": [
-        "unauthorized_transaction",
         "other",
+        "unauthorized_transaction",
         "unknown"
       ],
       "threat_count": 3,
-      "last_seen": "2026-04-02T19:06:52.089Z",
+      "last_seen": "2026-04-02T23:49:59.481Z",
       "is_active": true
     },
     "shiftypumpkin.com": {
       "max_severity": "high",
       "intents": [
-        "other",
         "financial_solicitation",
         "monetization",
-        "unknown",
-        "unauthorized_transaction"
+        "other",
+        "unauthorized_transaction",
+        "unknown"
       ],
       "threat_count": 5,
-      "last_seen": "2026-04-02T19:06:53.680Z",
+      "last_seen": "2026-04-02T23:50:00.929Z",
       "is_active": true
     },
     "solidpinot.com": {
@@ -240,25 +294,25 @@
     "splintered.co.uk": {
       "max_severity": "critical",
       "intents": [
-        "data_destruction",
         "ai_disruption",
+        "data_destruction",
         "other"
       ],
       "threat_count": 3,
-      "last_seen": "2026-04-02T19:06:55.198Z",
+      "last_seen": "2026-04-02T23:50:02.420Z",
       "is_active": true
     },
     "storage3d.com": {
       "max_severity": "critical",
       "intents": [
-        "other",
-        "unknown",
         "data_destruction",
         "donation_solicitation",
-        "unauthorized_transaction"
+        "other",
+        "unauthorized_transaction",
+        "unknown"
       ],
       "threat_count": 6,
-      "last_seen": "2026-04-02T19:04:25.014Z",
+      "last_seen": "2026-04-02T23:47:56.473Z",
       "is_active": false
     },
     "studio-obs.net": {
@@ -268,14 +322,14 @@
         "seo_poisoning_malware_delivery"
       ],
       "threat_count": 2,
-      "last_seen": "2026-04-02T19:06:55.530Z",
+      "last_seen": "2026-04-02T23:50:02.910Z",
       "is_active": true
     },
     "token.llm7.io": {
       "max_severity": "high",
       "intents": [
-        "unauthorized_transaction",
-        "other"
+        "other",
+        "unauthorized_transaction"
       ],
       "threat_count": 2,
       "last_seen": "2026-03-26T19:16:40.514Z",
@@ -284,13 +338,13 @@
     "trinca.tornidor.com": {
       "max_severity": "medium",
       "intents": [
-        "ai_output_manipulation",
         "ai_disruption",
+        "ai_output_manipulation",
         "other",
         "unknown"
       ],
       "threat_count": 4,
-      "last_seen": "2026-04-02T19:04:25.014Z",
+      "last_seen": "2026-04-02T23:47:56.473Z",
       "is_active": true
     },
     "turnedninja.com": {
@@ -302,7 +356,7 @@
         "unknown"
       ],
       "threat_count": 4,
-      "last_seen": "2026-04-02T19:06:56.215Z",
+      "last_seen": "2026-04-02T23:50:03.493Z",
       "is_active": true
     },
     "vlc-media.com": {
@@ -312,11 +366,20 @@
         "seo_poisoning_malware_delivery"
       ],
       "threat_count": 2,
-      "last_seen": "2026-04-02T19:06:56.471Z",
+      "last_seen": "2026-04-02T23:50:03.851Z",
+      "is_active": true
+    },
+    "vpn-fortinet.com": {
+      "max_severity": "critical",
+      "intents": [
+        "credential_theft"
+      ],
+      "threat_count": 1,
+      "last_seen": "2026-04-02T23:49:23.489Z",
       "is_active": true
     }
   },
-  "total_threats": 91,
-  "total_domains": 29,
-  "generated_at": "2026-04-02T23:42:07.000Z"
+  "total_threats": 98,
+  "total_domains": 36,
+  "generated_at": "2026-04-02T23:50:19.469Z"
 }

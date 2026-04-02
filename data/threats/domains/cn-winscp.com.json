@@ -1,0 +1,22 @@
+{
+  "domain": "cn-winscp.com",
+  "threats": [
+    {
+      "url": "https://cn-winscp.com/",
+      "severity": "high",
+      "intent": "malware_distribution",
+      "techniques": [
+        "seo_poisoning",
+        "typosquatting",
+        "dll_sideloading"
+      ],
+      "description": "Fake WinSCP download site operated by Black Cat group. Same campaign infrastructure targeting Chinese users. Nearly 278,000 systems reportedly infected.",
+      "source": "openclaw",
+      "source_url": "https://thehackernews.com/2026/01/black-cat-behind-seo-poisoning-malware.html",
+      "first_seen": "2026-04-02T23:49:23.489Z",
+      "last_seen": "2026-04-02T23:49:23.489Z",
+      "is_active": true
+    }
+  ],
+  "updated_at": "2026-04-02T23:49:23.490Z"
+}

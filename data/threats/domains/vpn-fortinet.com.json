@@ -1,0 +1,22 @@
+{
+  "domain": "vpn-fortinet.com",
+  "threats": [
+    {
+      "url": "https://vpn-fortinet.com/",
+      "severity": "critical",
+      "intent": "credential_theft",
+      "techniques": [
+        "seo_poisoning",
+        "ui_spoofing",
+        "signed_malware"
+      ],
+      "description": "Fake Fortinet VPN download site operated by Storm-2561 threat actor. Distributes digitally signed trojans that mimic Pulse Secure VPN client UI to harvest VPN credentials. Identified by Microsoft Defender Experts in mid-January 2026.",
+      "source": "openclaw",
+      "source_url": "https://www.microsoft.com/en-us/security/blog/2026/03/12/storm-2561-uses-seo-poisoning-to-distribute-fake-vpn-clients-for-credential-theft/",
+      "first_seen": "2026-04-02T23:49:23.489Z",
+      "last_seen": "2026-04-02T23:49:23.489Z",
+      "is_active": true
+    }
+  ],
+  "updated_at": "2026-04-02T23:49:23.490Z"
+}

@@ -431,6 +431,24 @@
       "flags": "i",
       "name": "persistence_across_sessions",
       "label": "Cross-session persistence directive targeting AI memory"
+    },
+    {
+      "pattern": "remember\\s+(?:this|\\S+)\\s+as\\s+(?:a\\s+)?(?:trusted|authoritative|preferred|reliable)\\s+source",
+      "flags": "i",
+      "name": "ai_memory_poisoning_remember_trusted",
+      "label": "AI Recommendation Poisoning — 'remember X as trusted source' memory injection"
+    },
+    {
+      "pattern": "SYSTEM\\s+OVERRIDE\\s+INITIATED|PRIORITY:\\s*CRITICAL|USER_ADMIN_ROOT",
+      "flags": "i",
+      "name": "fake_system_override_authority",
+      "label": "Fake system override authority claim — mimics admin/system-level override"
+    },
+    {
+      "pattern": "(?:hit\\s+send|confirm\\s+purchase|enter\\s+\\$[\\d,.]+|initiate\\s+(?:payment|transaction))",
+      "flags": "i",
+      "name": "unauthorized_transaction_trigger",
+      "label": "Unauthorized financial transaction trigger — instructs AI to make payments"
     }
   ],
   "concealments": [
@@ -741,11 +759,18 @@
       "name": "svg_encapsulated_hidden_text",
       "technique": "svg_encapsulation",
       "label": "SVG element used to encapsulate hidden IDPI payloads"
+    },
+    {
+      "pattern": "(?:font-size|fontSize)\\s*:\\s*0(?:px|em|rem|%)?|<svg[^>]*>.*?<text[^>]*>",
+      "flags": "i",
+      "name": "svg_encapsulated_text_injection",
+      "technique": "svg_text_encapsulation",
+      "label": "SVG-encapsulated text injection — hides prompts inside SVG elements"
     }
   ],
   "_meta": {
-    "version": 21,
-    "updated_at": "2026-04-02T19:06:06.607Z",
+    "version": 22,
+    "updated_at": "2026-04-02T23:49:23.491Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }

@@ -1,0 +1,22 @@
+{
+  "domain": "cn-notepadplusplus.com",
+  "threats": [
+    {
+      "url": "https://cn-notepadplusplus.com/",
+      "severity": "high",
+      "intent": "malware_distribution",
+      "techniques": [
+        "seo_poisoning",
+        "typosquatting",
+        "dll_sideloading"
+      ],
+      "description": "Fake Notepad++ download site operated by Black Cat cybercrime gang targeting Chinese users. Redirects to fake GitHub domain (github.zh-cns.top) for ZIP download containing backdoor via DLL sideloading. Reported January 2026.",
+      "source": "openclaw",
+      "source_url": "https://thehackernews.com/2026/01/black-cat-behind-seo-poisoning-malware.html",
+      "first_seen": "2026-04-02T23:49:23.489Z",
+      "last_seen": "2026-04-02T23:49:23.489Z",
+      "is_active": true
+    }
+  ],
+  "updated_at": "2026-04-02T23:49:23.490Z"
+}

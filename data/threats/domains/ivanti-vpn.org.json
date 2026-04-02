@@ -1,0 +1,22 @@
+{
+  "domain": "ivanti-vpn.org",
+  "threats": [
+    {
+      "url": "https://ivanti-vpn.org/",
+      "severity": "critical",
+      "intent": "credential_theft",
+      "techniques": [
+        "seo_poisoning",
+        "ui_spoofing",
+        "signed_malware"
+      ],
+      "description": "Fake Ivanti VPN download site also operated by Storm-2561. Same credential theft campaign targeting enterprise VPN users. Digitally signed by 'Taiyuan Lihua Near Information Technology Co., Ltd.'",
+      "source": "openclaw",
+      "source_url": "https://www.microsoft.com/en-us/security/blog/2026/03/12/storm-2561-uses-seo-poisoning-to-distribute-fake-vpn-clients-for-credential-theft/",
+      "first_seen": "2026-04-02T23:49:23.489Z",
+      "last_seen": "2026-04-02T23:49:23.489Z",
+      "is_active": true
+    }
+  ],
+  "updated_at": "2026-04-02T23:49:23.490Z"
+}

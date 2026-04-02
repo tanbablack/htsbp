@@ -1,0 +1,22 @@
+{
+  "domain": "github.zh-cns.top",
+  "threats": [
+    {
+      "url": "https://github.zh-cns.top/",
+      "severity": "critical",
+      "intent": "malware_distribution",
+      "techniques": [
+        "typosquatting",
+        "fake_github_ui",
+        "zip_archive_delivery"
+      ],
+      "description": "Fake GitHub domain used by Black Cat gang as secondary download host. Users redirected here from fake software sites to download ZIP archives containing backdoor.",
+      "source": "openclaw",
+      "source_url": "https://thehackernews.com/2026/01/black-cat-behind-seo-poisoning-malware.html",
+      "first_seen": "2026-04-02T23:49:23.489Z",
+      "last_seen": "2026-04-02T23:49:23.489Z",
+      "is_active": true
+    }
+  ],
+  "updated_at": "2026-04-02T23:49:23.490Z"
+}

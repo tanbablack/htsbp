@@ -1,0 +1,22 @@
+{
+  "domain": "notepadplusplus.cn",
+  "threats": [
+    {
+      "url": "https://notepadplusplus.cn/",
+      "severity": "low",
+      "intent": "malware_distribution",
+      "techniques": [
+        "seo_poisoning",
+        "typosquatting",
+        "dll_sideloading"
+      ],
+      "description": "Another fake Notepad++ domain registered by Black Cat group. Part of same Chinese-targeted SEO poisoning campaign.",
+      "source": "openclaw",
+      "source_url": "https://thehackernews.com/2026/01/black-cat-behind-seo-poisoning-malware.html",
+      "first_seen": "2026-04-02T23:49:23.489Z",
+      "last_seen": "2026-04-02T23:49:41.187Z",
+      "is_active": true
+    }
+  ],
+  "updated_at": "2026-04-02T23:49:41.187Z"
+}
