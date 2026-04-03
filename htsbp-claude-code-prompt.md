@@ -474,8 +474,6 @@ AIセキュリティリサーチャーとして、間接プロンプトインジ
    - "indirect prompt injection" "IDPI" "prompt injection website" で検索
 3. 学術論文（arXiv cs.CR, cs.AI）
    - "indirect prompt injection" "wild" "in-the-wild" で検索
-4. CVE/脆弱性データベース
-   - prompt injection 関連CVE
 
 ### 出力形式（厳守）
 以下のJSONオブジェクトとして出力。自然言語の前置き・後書きは一切不要。
