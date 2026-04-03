@@ -1759,7 +1759,8 @@ Secrets登録（GitHub Actions Secretsのみ。Netlifyには不要）:
 │  │                                       │              │
 │  │ 2. OpenClaw（自動）                     │              │
 │  │    Claude API に discovery-prompt.md を送信│            │
-│  │    → 日次クエリローテーション（4種/4日周期）  │              │
+│  │    Claudeが自律的にweb_searchで調査      │              │
+│  │    （クエリは固定せず、ソースリストに沿って）│              │
 │  │    → AIがWeb検索で新規IDPI脅威を発見      │              │
 │  │                                       │              │
 │  │ 3. process-reports（自動）              │              │
@@ -1841,13 +1842,15 @@ OpenClaw = Claude API + Web検索を使ったAI駆動の脅威発見エンジン
 OpenClawはWeb検索でリアルタイムに最新の脅威情報を発見する。
 
 実行の流れ:
-  1. src/openclaw/discovery-prompt.md をClaude APIに送信
-  2. ClaudeがWeb検索ツール（web_search）を使い、セキュリティブログ・
-     GitHub・学術論文・CVE等をリアルタイム検索
+  1. src/openclaw/discovery-prompt.md に動的コンテキストを注入してClaude APIに送信
+     注入項目: 実行日 / 既知ドメイン数 / 既知ドメインサンプル（重複防止）
+  2. ClaudeがWeb検索ツール（web_search）を使い、discovery-prompt.mdに
+     定義されたソースリスト（Unit42/Pillar Security/Lakera/simonwillison.net等）を
+     自律的に検索（固定クエリなし）
+     ※NVD/CVEは対象外（ソフトウェア脆弱性DB、HTSBPスコープ外）
   3. 検索結果から IDPI攻撃が確認されたドメイン/URLをJSONオブジェクト `{ threats: [...], suggested_patterns: [...] }` で回答
   4. 回答をパースし、data/ 配下のドメイン別JSONにupsert
   5. suggested_patterns があれば検証後 data/patterns.json に自動追加（自己改善ループ）
-  6. 新規URLがあればanalysis-prompt.mdで詳細分析も実行
 
 技術詳細:
   - Anthropic Messages API の web_search_20250305 ツールを使用
