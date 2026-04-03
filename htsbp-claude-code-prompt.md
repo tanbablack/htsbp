@@ -865,17 +865,39 @@ jobs:
         with:
           node-version: '22'
       - run: npm ci
+      - name: Snapshot domains before collection
+        id: snapshot
+        run: |
+          BEFORE=$(ls data/threats/domains/*.json 2>/dev/null | xargs -I{} basename {} .json | tr '\n' ' ')
+          echo "domains_before=${BEFORE}" >> "$GITHUB_OUTPUT"
       - run: npm run collect
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           NOTIFICATION_WEBHOOK_URL: ${{ secrets.NOTIFICATION_WEBHOOK_URL }}
+          OTX_API_KEY: ${{ secrets.OTX_API_KEY }}
       - run: npm run collect:openclaw
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      - name: Process threat reports
+        run: npm run process-reports
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          NOTIFICATION_WEBHOOK_URL: ${{ secrets.NOTIFICATION_WEBHOOK_URL }}
       - run: npm run rebuild-stats
       - run: npm run verify
       - run: npm run rebuild-stats
         name: Rebuild stats after verification
+      - name: Validate new domains (auto-remove non-IDPI)
+        run: npx tsx src/scripts/validate-new-domains.ts
+        env:
+          NOTIFICATION_WEBHOOK_URL: ${{ secrets.NOTIFICATION_WEBHOOK_URL }}
+          DOMAINS_BEFORE: ${{ steps.snapshot.outputs.domains_before }}
+      - name: Report new domains
+        run: npx tsx src/scripts/report-new-domains.ts
+        env:
+          NOTIFICATION_WEBHOOK_URL: ${{ secrets.NOTIFICATION_WEBHOOK_URL }}
+          DOMAINS_BEFORE: ${{ steps.snapshot.outputs.domains_before }}
       - name: Commit and push data
         run: |
           git config user.name "htsbp-bot"
@@ -915,7 +937,7 @@ jobs:
     steps:
       - name: Check API health
         run: |
-          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "https://hasthissitebeenpoisoned.ai/api/health")
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 --retry 2 --retry-delay 5 "https://hasthissitebeenpoisoned.ai/api/health")
           if [ "$RESPONSE" != "200" ]; then
             curl -X POST "${{ secrets.NOTIFICATION_WEBHOOK_URL }}" \
               -H "Content-Type: application/json" \
@@ -924,7 +946,7 @@ jobs:
           fi
       - name: Check domain lookup works
         run: |
-          RESULT=$(curl -s "https://hasthissitebeenpoisoned.ai/api/check-domain?domain=reviewerpress.com")
+          RESULT=$(curl -s --max-time 30 --retry 2 --retry-delay 5 "https://hasthissitebeenpoisoned.ai/api/check-domain?domain=reviewerpress.com")
           IS_MALICIOUS=$(echo "$RESULT" | jq -r '.is_malicious')
           if [ "$IS_MALICIOUS" != "true" ]; then
             curl -X POST "${{ secrets.NOTIFICATION_WEBHOOK_URL }}" \
