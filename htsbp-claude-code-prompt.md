@@ -4,6 +4,18 @@
 
 AIエージェント向けの悪意あるWebサイト（間接プロンプトインジェクション = IDPI）の脅威インテリジェンスAPIおよびMCPサーバーを構築する。
 
+## 対象スコープ（重要）
+
+**登録対象：**
+- AIエージェントがウェブを閲覧した際に実行されるIDPIペイロードが仕込まれたサイト
+- AIエージェントの検索推薦・閲覧結果を汚染するサイト（SEOポイズニング等）
+
+**登録対象外：**
+- 人間ユーザーのみを標的にしたマルウェア配布・認証情報窃取（AIエージェント経由のIDPIなし）
+- 正規AIサービスのドメイン（ChatGPT・Copilot等の攻撃被害者）
+- CVE等ソフトウェア脆弱性の対象となった正規サービスのドメイン
+- 正規企業・プラットフォーム（EXCLUDED_DOMAINSリストで自動ブロック）
+
 ---
 
 ## 技術スタック（厳守）
@@ -57,10 +69,9 @@ htsbp/
 │   │   └── handlers.ts                 # 各Toolのハンドラ
 │   ├── collectors/
 │   │   ├── unit42-github.ts            # Unit42 GitHubリポジトリからIoC収集
-│   │   ├── otx-alienvault.ts           # AlienVault OTXフィード収集
-│   │   ├── tldrsec-github.ts           # ⚠️ 廃止済み: 防御技術リファレンスのためIDPI脅威なし
-│   │   ├── web-crawler.ts              # Webページの隠しプロンプト検出クローラ
-│   │   └── common.ts                   # 共通：重複排除、正規化、EXCLUDED_DOMAINS、JSONファイル書き込み
+│   │   ├── otx-alienvault.ts           # AlienVault OTXフィード収集（504/503/429はリトライ後スキップ）
+│   │   ├── web-crawler.ts              # Webページの隠しプロンプト検出クローラ（既存ドメインのactiveチェック）
+│   │   └── common.ts                   # 共通：重複排除、正規化、EXCLUDED_DOMAINS、upsertThreat（"added"|"updated"|false）
 │   ├── lib/
 │   │   ├── patterns.ts                 # IDPI検出パターンローダー（data/patterns.jsonを読み込み、RegExpコンパイル）
 │   │   ├── github.ts                   # GitHub Issue作成 + Discord通知ユーティリティ
@@ -71,10 +82,12 @@ htsbp/
 │   │   └── cron-runner.ts              # Claude API呼び出し + 結果パース + JSONファイル書き込み
 │   └── scripts/
 │       ├── seed-initial-data.ts        # 初期データセット生成スクリプト
-│       ├── run-collectors.ts           # 全コレクター一括実行 + git commit & push
+│       ├── run-collectors.ts           # 全コレクター一括実行（unit42/otx/web-crawler）
 │       ├── rebuild-stats.ts            # stats.json + index.json を再生成
 │       ├── check-url.ts               # CLI: 単一URL のIDPIスキャン
-│       └── verify-threats.ts           # 全ドメイン一括検証 + severity自動反映
+│       ├── verify-threats.ts           # 全ドメイン一括検証 + severity/is_active自動更新
+│       ├── validate-new-domains.ts     # 新規ドメインをClaude APIのweb検索で実態調査・自動除外
+│       └── report-new-domains.ts       # 新規ドメインをDiscordに通知（判定理由・証拠付き）
 ├── public/
 │   ├── index.html                      # LP（HIBPオマージュ — ドメイン検索中心）
 │   ├── docs.html                       # API/MCP仕様 + サンプルスクリプト
@@ -1737,12 +1750,16 @@ Secrets登録（GitHub Actions Secretsのみ。Netlifyには不要）:
 │                                                         │
 │  GitHub Actions「Daily IDPI Collection」                 │
 │  ┌───────────────────────────────────────┐              │
+│  │ 0. Snapshot（収集前ドメイン一覧を記録）      │              │
+│  │                                       │              │
 │  │ 1. コレクター（自動）                    │              │
-│  │    Unit42 / OTX / tldrsec / web-crawler │              │
-│  │    → 既知ソースを巡回し脅威データ取得      │              │
+│  │    Unit42 / OTX / web-crawler          │              │
+│  │    ※tldrsec廃止済み（防御技術リファレンス）  │              │
+│  │    OTX: 504/503/429はリトライ後スキップ    │              │
 │  │                                       │              │
 │  │ 2. OpenClaw（自動）                     │              │
 │  │    Claude API に discovery-prompt.md を送信│            │
+│  │    → 日次クエリローテーション（4種/4日周期）  │              │
 │  │    → AIがWeb検索で新規IDPI脅威を発見      │              │
 │  │                                       │              │
 │  │ 3. process-reports（自動）              │              │
@@ -1757,17 +1774,21 @@ Secrets登録（GitHub Actions Secretsのみ。Netlifyには不要）:
 │  │                                       │              │
 │  │ 5. verify（自動検証）                    │              │
 │  │    → 全ドメインにHTTPアクセスしIDPIスキャン │              │
-│  │    → 結果に応じてseverityを自動更新:      │              │
 │  │      HIGH検出 → severity: high          │              │
-│  │      MEDIUM検出 → severity: medium      │              │
-│  │      LOW検出 → severity: low            │              │
 │  │      CLEAN → is_active: false           │              │
 │  │      UNREACHABLE → 変更なし              │              │
 │  │                                       │              │
 │  │ 6. rebuild-stats 再実行（自動）          │              │
-│  │    → 検証結果を反映した統計を再生成       │              │
 │  │                                       │              │
-│  │ 7. git commit & push（自動）            │              │
+│  │ 7. validate-new-domains（自動除外）      │              │
+│  │    → 新規ドメインをClaude APIのweb検索で調査│             │
+│  │      正規サービス/攻撃被害者/スコープ外     │              │
+│  │      → 自動削除 + Discord通知            │              │
+│  │                                       │              │
+│  │ 8. report-new-domains（Discord通知）    │              │
+│  │    → 保持された新規ドメインを通知          │              │
+│  │                                       │              │
+│  │ 9. git commit & push（自動）            │              │
 │  │    → Netlifyが検知して自動デプロイ        │              │
 │  └───────────────────────────────────────┘              │
 │                                                         │
