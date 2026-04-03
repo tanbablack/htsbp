@@ -216,61 +216,10 @@ function appendSuggestedPatterns(suggestions: unknown[]): number {
   return added;
 }
 
-/**
- * Daily search query rotation for new IDPI site discovery.
- * Goal: find new malicious websites with IDPI payloads targeting AI agents.
- * Day-of-year mod 3 selects a distinct query set (3-day cycle).
- *
- * Design principles:
- * - Queries target actual attack sites, not research/defense articles
- * - Avoid CVE databases (they track software vulnerabilities, not IDPI sites)
- * - Security media coverage is already handled by discovery-prompt.md sources list
- */
-const IDPI_DISCOVERY_QUERY_SETS: Record<number, { focus: string; queries: string[] }> = {
-  0: {
-    focus: "野生のIDPIペイロード検出（新規サイト）",
-    queries: [
-      '"ignore previous instructions" -site:github.com -site:arxiv.org -site:wikipedia.org',
-      '"you are now a" -site:github.com -site:arxiv.org "hidden" OR "inject"',
-      '"indirect prompt injection" "found" OR "discovered" OR "confirmed" -site:arxiv.org -site:wikipedia.org 2026',
-      '"IDPI" "domain" OR "website" OR "url" "in the wild" 2026',
-      '"prompt injection" "payload" "embedded" site:thehackernews.com OR site:bleepingcomputer.com OR site:cybersecuritynews.com',
-    ],
-  },
-  1: {
-    focus: "AIエージェント経由の悪意あるサイト報告",
-    queries: [
-      '"AI agent" "malicious" "website" "prompt" 2026 -site:arxiv.org',
-      'site:unit42.paloaltonetworks.com "indirect prompt injection" 2025 OR 2026',
-      '"LLM" "poisoned" "website" OR "page" -site:arxiv.org 2026',
-      '"prompt injection" "weaponized" OR "in the wild" -poc -demo site:thehackernews.com OR site:wired.com OR site:arstechnica.com',
-      '"hidden instructions" "AI" "website" -site:arxiv.org -site:github.com 2026',
-    ],
-  },
-  2: {
-    focus: "SEOポイズニング経由のAIエージェント汚染",
-    queries: [
-      '"SEO poisoning" "AI" OR "LLM" OR "agent" "search results" 2026',
-      '"search result poisoning" "AI agent" OR "chatbot" OR "LLM" 2026',
-      '"AI recommendation" "malicious" OR "poisoned" "website" 2026',
-      'site:pillar.security OR site:lakera.ai OR site:llmsecurity.net "in the wild" 2026',
-      '"prompt injection" "SEO" "confirmed" OR "observed" -poc -demo 2026',
-    ],
-  },
-};
-
 /** Build a prompt with dynamic context injected */
 function buildPrompt(template: string): string {
   const now = new Date();
   const date = now.toISOString().split("T")[0];
-
-  // Day-of-year mod 3 for daily rotation (3-day cycle)
-  const startOfYear = new Date(now.getFullYear(), 0, 1);
-  const dayOfYear = Math.floor(
-    (now.getTime() - startOfYear.getTime()) / (24 * 60 * 60 * 1000)
-  );
-  const slot = dayOfYear % 3;
-  const { focus, queries } = IDPI_DISCOVERY_QUERY_SETS[slot];
 
   // Load known domains for deduplication hint
   let knownDomains: string[] = [];
@@ -280,14 +229,11 @@ function buildPrompt(template: string): string {
       .map(f => f.replace(".json", ""));
   }
   const sample = knownDomains.slice(0, 20).join(", ");
-  const queriesText = queries.map((q, i) => `${i + 1}. \`${q}\``).join("\n");
 
   return template
     .replace("{{DATE}}", date)
-    .replace("{{WEEKLY_FOCUS}}", focus)
     .replace("{{KNOWN_DOMAIN_COUNT}}", String(knownDomains.length))
-    .replace("{{KNOWN_DOMAINS_SAMPLE}}", sample || "(なし)")
-    .replace("{{SEARCH_QUERIES}}", queriesText);
+    .replace("{{KNOWN_DOMAINS_SAMPLE}}", sample || "(なし)");
 }
 
 /** Run the discovery phase */
