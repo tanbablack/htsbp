@@ -217,49 +217,44 @@ function appendSuggestedPatterns(suggestions: unknown[]): number {
 }
 
 /**
- * Daily search query rotation.
- * Day-of-year mod 4 selects a distinct query set so every 4 days
- * all query categories are covered without repeating on the same day.
+ * Daily search query rotation for new IDPI site discovery.
+ * Goal: find new malicious websites with IDPI payloads targeting AI agents.
+ * Day-of-year mod 3 selects a distinct query set (3-day cycle).
+ *
+ * Design principles:
+ * - Queries target actual attack sites, not research/defense articles
+ * - Avoid CVE databases (they track software vulnerabilities, not IDPI sites)
+ * - Security media coverage is already handled by discovery-prompt.md sources list
  */
-const DAILY_QUERY_SETS: Record<number, { focus: string; queries: string[] }> = {
+const IDPI_DISCOVERY_QUERY_SETS: Record<number, { focus: string; queries: string[] }> = {
   0: {
-    focus: "SEOポイズニング・AIアシスタント悪用",
+    focus: "野生のIDPIペイロード検出（新規サイト）",
     queries: [
-      '"indirect prompt injection" site:github.com',
-      '"prompt injection" "hidden instruction" filetype:html',
-      '"AI poisoning" OR "LLM poisoning" site:paloaltonetworks.com OR site:kaspersky.com',
-      'site:reddit.com/r/netsec "prompt injection" "website"',
-      '"ignore previous instructions" site:bleepingcomputer.com OR site:threatpost.com',
+      '"ignore previous instructions" -site:github.com -site:arxiv.org -site:wikipedia.org',
+      '"you are now a" -site:github.com -site:arxiv.org "hidden" OR "inject"',
+      '"indirect prompt injection" "found" OR "discovered" OR "confirmed" -site:arxiv.org -site:wikipedia.org 2026',
+      '"IDPI" "domain" OR "website" OR "url" "in the wild" 2026',
+      '"prompt injection" "payload" "embedded" site:thehackernews.com OR site:bleepingcomputer.com OR site:cybersecuritynews.com',
     ],
   },
   1: {
-    focus: "リサーチ論文・学術的in-the-wild報告",
+    focus: "AIエージェント経由の悪意あるサイト報告",
     queries: [
-      'site:arxiv.org "indirect prompt injection" "in the wild"',
-      'site:simonwillison.net "prompt injection"',
-      '"IDPI" OR "indirect prompt injection" site:llmsecurity.net',
-      '"prompt injection attack" "real world" OR "live site" 2026',
-      'site:github.com "prompt injection" "discovered" OR "found in wild" 2026',
+      '"AI agent" "malicious" "website" "prompt" 2026 -site:arxiv.org',
+      'site:unit42.paloaltonetworks.com "indirect prompt injection" 2025 OR 2026',
+      '"LLM" "poisoned" "website" OR "page" -site:arxiv.org 2026',
+      '"prompt injection" "weaponized" OR "in the wild" -poc -demo site:thehackernews.com OR site:wired.com OR site:arstechnica.com',
+      '"hidden instructions" "AI" "website" -site:arxiv.org -site:github.com 2026',
     ],
   },
   2: {
-    focus: "CVE・脆弱性レポート・インシデント",
+    focus: "SEOポイズニング経由のAIエージェント汚染",
     queries: [
-      'site:nvd.nist.gov "prompt injection"',
-      '"prompt injection" CVE 2025 OR 2026',
-      '"AI agent" "compromised" OR "hijacked" site:news.ycombinator.com',
-      '"indirect prompt injection" "disclosed" OR "reported" 2026',
-      '"hidden instructions" "web page" "AI" -poc -demo -proof',
-    ],
-  },
-  3: {
-    focus: "新興手法・ソーシャル・コミュニティ報告",
-    queries: [
-      'twitter.com OR x.com "indirect prompt injection" "found" 2026',
-      'site:infosec.exchange "prompt injection" "website"',
-      '"LLM attack" "poisoned" website 2026',
-      '"AI agent" "malicious website" OR "malicious content" 2026',
-      '"prompt injection" "SEO" OR "search result" "poisoning" 2026',
+      '"SEO poisoning" "AI" OR "LLM" OR "agent" "search results" 2026',
+      '"search result poisoning" "AI agent" OR "chatbot" OR "LLM" 2026',
+      '"AI recommendation" "malicious" OR "poisoned" "website" 2026',
+      'site:pillar.security OR site:lakera.ai OR site:llmsecurity.net "in the wild" 2026',
+      '"prompt injection" "SEO" "confirmed" OR "observed" -poc -demo 2026',
     ],
   },
 };
@@ -269,13 +264,13 @@ function buildPrompt(template: string): string {
   const now = new Date();
   const date = now.toISOString().split("T")[0];
 
-  // Day-of-year mod 4 for daily rotation
+  // Day-of-year mod 3 for daily rotation (3-day cycle)
   const startOfYear = new Date(now.getFullYear(), 0, 1);
   const dayOfYear = Math.floor(
     (now.getTime() - startOfYear.getTime()) / (24 * 60 * 60 * 1000)
   );
-  const slot = dayOfYear % 4;
-  const { focus, queries } = DAILY_QUERY_SETS[slot];
+  const slot = dayOfYear % 3;
+  const { focus, queries } = IDPI_DISCOVERY_QUERY_SETS[slot];
 
   // Load known domains for deduplication hint
   let knownDomains: string[] = [];

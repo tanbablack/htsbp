@@ -2,7 +2,7 @@
 
 ## 実行コンテキスト
 - 実行日: {{DATE}}
-- 週次フォーカス: {{WEEKLY_FOCUS}}
+- 本日の発見フォーカス: {{WEEKLY_FOCUS}}
 - 既知ドメイン数: {{KNOWN_DOMAIN_COUNT}}件（これらは除外すること）
 - 既知ドメインサンプル（除外対象）: {{KNOWN_DOMAINS_SAMPLE}}
 
