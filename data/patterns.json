@@ -461,6 +461,12 @@
       "flags": "i",
       "name": "fake_mode_activation",
       "label": "Fake operational mode activation directive"
+    },
+    {
+      "pattern": "(?:remember|always\\s+recommend|preferred\\s+(?:source|vendor|tool)).*(?:from\\s+now\\s+on|in\\s+(?:all|every)\\s+future)",
+      "flags": "i",
+      "name": "memory_poisoning_persistence",
+      "label": "AI memory poisoning instruction for persistent recommendation manipulation"
     }
   ],
   "concealments": [
@@ -806,11 +812,25 @@
       "name": "meta_tag_instruction_injection",
       "technique": "metadata_manipulation",
       "label": "IDPI payload embedded in HTML meta tag content attribute"
+    },
+    {
+      "pattern": "<svg[^>]*>[\\s\\S]*?(ignore|override|disregard|IMPORTANT)[\\s\\S]*?<\\/svg>",
+      "flags": "i",
+      "name": "svg_encapsulated_injection",
+      "technique": "svg_encapsulation",
+      "label": "IDPI payload hidden inside SVG element body"
+    },
+    {
+      "pattern": "atob\\s*\\(|btoa\\s*\\(|decodeURIComponent\\s*\\(.*(?:ignore|override|system|instruction)",
+      "flags": "i",
+      "name": "base64_js_runtime_assembly",
+      "technique": "base64_javascript_runtime",
+      "label": "Base64-encoded JavaScript runtime payload assembly"
     }
   ],
   "_meta": {
-    "version": 23,
-    "updated_at": "2026-04-03T01:14:27.078Z",
+    "version": 24,
+    "updated_at": "2026-04-03T19:00:46.823Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }
