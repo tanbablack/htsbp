@@ -739,9 +739,9 @@ GitHub Actions (cron)
   │
   ├── run-collectors.ts
   │     ├── unit42-github.ts   → data/threats/domains/*.json を更新
-  │     ├── otx-alienvault.ts  → data/threats/domains/*.json を更新
-  │     ├── tldrsec-github.ts  → data/threats/domains/*.json を更新
-  │     └── web-crawler.ts     → data/threats/domains/*.json を更新
+  │     ├── otx-alienvault.ts  → data/threats/domains/*.json を更新（504はリトライ後スキップ）
+  │     └── web-crawler.ts     → data/threats/domains/*.json を更新（既存ドメインのactiveチェックのみ）
+  │     ※tldrsec-github.ts は廃止済み
   │
   ├── cron-runner.ts           → data/threats/domains/*.json を更新
   │                              → data/patterns.json に新パターン自動追記
@@ -1431,8 +1431,8 @@ kill $DEV_PID 2>/dev/null
 - `src/collectors/common.ts`
 - `src/collectors/unit42-github.ts`
 - `src/collectors/otx-alienvault.ts`
-- `src/collectors/tldrsec-github.ts`
 - `src/collectors/web-crawler.ts`
+- ~~`src/collectors/tldrsec-github.ts`~~ ← 廃止済み（作成不要）
 - `src/openclaw/discovery-prompt.md`（本指示書の内容をそのままコピー）
 - `src/openclaw/analysis-prompt.md`（本指示書の内容をそのままコピー）
 - `src/openclaw/cron-runner.ts`
@@ -1849,6 +1849,7 @@ OpenClawはWeb検索でリアルタイムに最新の脅威情報を発見する
   3. 検索結果から IDPI攻撃が確認されたドメイン/URLをJSONオブジェクト `{ threats: [...], suggested_patterns: [...] }` で回答
   4. 回答をパースし、data/ 配下のドメイン別JSONにupsert
   5. suggested_patterns があれば検証後 data/patterns.json に自動追加（自己改善ループ）
+  ※analysis-prompt.md / runAnalysis() はコードに存在するが現在main()から呼ばれていない（未使用）
 
 技術詳細:
   - Anthropic Messages API の web_search_20250305 ツールを使用
