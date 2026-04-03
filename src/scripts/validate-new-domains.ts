@@ -1,23 +1,21 @@
 /**
  * validate-new-domains.ts
  *
- * 新規追加ドメインがHTSBPの対象範囲（AIエージェントへのIDPI攻撃）に
- * 該当するかを独立検証し、対象外のドメインをcommit前に自動除外する。
+ * 新規追加ドメインをClaude APIによるweb検索で実態調査し、
+ * HTSBPの対象範囲（AIエージェントへのIDPI攻撃を仕込んだサイト）に
+ * 該当するかを独立評価する。
  *
- * 実行タイミング：collect.yml の verify 完了後・commit 前
+ * 評価基準：
+ *   - 正規のサービス・企業・ツールのドメインではないか
+ *   - IDPIペイロードを仕込んだ悪意あるサイトとして実態があるか
+ *   - 「攻撃を受けた被害者」ではなく「攻撃元」のサイトか
  *
- * 判定基準（優先順）：
- *   1. IDPIスキャン HIGH/MEDIUM → 保持（AIペイロード実検出）
- *   2. source_url の実取得 → 記事内にIDPIキーワードがあれば保持（独立検証）
- *   3. 信頼ソース（unit42/htsbp）かつ source_url が有効なメディアドメイン → 保持
- *   4. 上記すべて満たさない → 除外
- *
- * コレクターが生成した description の内容は判定に使用しない（自己参照を排除）。
+ * 判定はClaudeが行う（キーワードマッチではなくweb検索に基づく判断）。
+ * 対象外と判定されたドメインはcommit前に自動除外し、Discordに報告する。
  */
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { checkUrl, type ThreatLevel } from "./check-url.js";
 import { execSync } from "node:child_process";
 import type { ThreatFile } from "../types/index.js";
 
@@ -25,55 +23,103 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PROJECT_ROOT = path.resolve(__dirname, "../..");
 const DOMAINS_DIR = path.join(PROJECT_ROOT, "data/threats/domains");
 
-/** 信頼できる外部ソースドメイン（独立したセキュリティメディア・研究機関） */
-const TRUSTED_SOURCE_DOMAINS = new Set([
-  "unit42.paloaltonetworks.com",
-  "otx.alienvault.com",
-  "thehackernews.com",
-  "bleepingcomputer.com",
-  "threatpost.com",
-  "cybersecuritynews.com",
-  "securityweek.com",
-  "kaspersky.com",
-  "securelist.com",
-  "crowdstrike.com",
-  "mandiant.com",
-  "trendmicro.com",
-  "microsoft.com",
-  "google.com",
-  "cert.org",
-  // nvd.nist.gov / cve.mitre.org は除外：CVEはソフトウェア脆弱性であり
-  // ウェブIDPIサイトの証拠にはならない
-  "arxiv.org",
-  "pillar.security",
-  "lakera.ai",
-  "simonwillison.net",
-  "gbhackers.com",
-  "darkreading.com",
-]);
+const ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages";
+const MODEL = "claude-opus-4-6";
 
-/** 外部記事内でIDPI対象であることを示すキーワード */
-const IDPI_EVIDENCE_KEYWORDS = [
-  "prompt injection",
-  "indirect prompt injection",
-  "idpi",
-  "ai agent",
-  "llm",
-  "language model",
-  "chatbot",
-  "ai assistant",
-  "copilot",
-  "rag",
-  "retrieval augmented",
-  "tool use",
-  "function call",
-  "ai-powered",
-  "ai system",
-  "ai search",
-  "ai recommendation",
-  "poisoned.*ai",
-  "ai.*poison",
-];
+interface ValidationResult {
+  domain: string;
+  keep: boolean;
+  reason: string;
+  evidence: string;
+}
+
+/** Claude APIを呼び出してドメインの実態を調査 */
+async function evaluateDomainWithClaude(
+  domain: string,
+  threat: ThreatFile["threats"][0]
+): Promise<{ keep: boolean; reason: string; evidence: string }> {
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) {
+    console.warn("[validate] ANTHROPIC_API_KEY未設定。評価スキップ。");
+    return { keep: true, reason: "APIキー未設定のため評価不能", evidence: "" };
+  }
+
+  const prompt = `あなたはHTSBP（Has This Site Been Poisoned?）のドメイン妥当性評価アナリストです。
+
+## 評価対象ドメイン
+- ドメイン: ${domain}
+- URL: ${threat.url ?? `https://${domain}`}
+- 収集ソース: ${threat.source}
+- 収集時の説明（参考のみ、信頼しないこと）: ${threat.description ?? "なし"}
+- 参照URL（参考のみ）: ${threat.source_url ?? "なし"}
+
+## HTSBPの対象範囲
+HTSBPは「AIエージェントがウェブを閲覧した際に実行される間接プロンプトインジェクション（IDPI）ペイロードを仕込んだ悪意あるウェブサイト」のデータベースです。
+
+## 評価タスク
+web_searchツールを使って以下を調査し、このドメインがHTSBPに登録すべきか判断せよ。
+
+1. このドメインは何か（企業・サービス・ツール等）
+2. 正規の合法的なサービスのドメインか、それとも悪意あるサイトか
+3. IDPIペイロードを仕込んだ攻撃元サイトとして妥当か
+   - 「AIサービスへの攻撃被害者（例：ChatGPT、Copilot）」ではないか
+   - 「CVE等ソフトウェア脆弱性の対象」ではないか
+   - 「マルウェア配布だが人間ターゲットであり AIエージェント経由のIDPIではない」ではないか
+
+## 出力形式（厳守）
+以下のJSONのみ出力。前置き・後書き不要。
+
+\`\`\`json
+{
+  "keep": true または false,
+  "reason": "判定理由を1〜2文で",
+  "evidence": "調査で確認した具体的な根拠（ソース名・URL等）"
+}
+\`\`\``;
+
+  const res = await fetch(ANTHROPIC_API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": apiKey,
+      "anthropic-version": "2023-06-01",
+    },
+    body: JSON.stringify({
+      model: MODEL,
+      max_tokens: 1024,
+      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }],
+      messages: [{ role: "user", content: prompt }],
+    }),
+  });
+
+  if (!res.ok) {
+    const err = await res.text();
+    console.warn(`[validate] Claude API エラー ${res.status}: ${err.slice(0, 100)}`);
+    return { keep: true, reason: `API エラー（${res.status}）のため保留`, evidence: "" };
+  }
+
+  const data = await res.json() as { content: Array<{ type: string; text?: string }> };
+  const text = data.content
+    .filter(c => c.type === "text" && c.text)
+    .map(c => c.text!)
+    .join("\n");
+
+  // JSONを抽出
+  const fenceMatch = text.match(/```(?:json)?\s*\n?([\s\S]*?)\n?```/);
+  const jsonStr = fenceMatch ? fenceMatch[1] : text.match(/\{[\s\S]*\}/)?.[0] ?? "";
+
+  try {
+    const parsed = JSON.parse(jsonStr) as { keep: boolean; reason: string; evidence: string };
+    return {
+      keep: parsed.keep ?? true,
+      reason: parsed.reason ?? "判定不能",
+      evidence: parsed.evidence ?? "",
+    };
+  } catch {
+    console.warn(`[validate] JSON解析失敗: ${jsonStr.slice(0, 100)}`);
+    return { keep: true, reason: "JSON解析失敗のため保留", evidence: text.slice(0, 200) };
+  }
+}
 
 /** Discord通知送信 */
 async function notify(content: string): Promise<void> {
@@ -86,138 +132,6 @@ async function notify(content: string): Promise<void> {
       body: JSON.stringify({ content }),
     });
   } catch { /* 非致命的 */ }
-}
-
-/** URLのドメイン部分を取得 */
-function getDomain(url: string): string | null {
-  try { return new URL(url).hostname.replace(/^www\./, ""); } catch { return null; }
-}
-
-/** 外部URLを取得してIDPIキーワードが含まれるか確認（独立検証） */
-async function verifySourceUrl(sourceUrl: string): Promise<{
-  trusted: boolean;
-  hasIdpiKeyword: boolean;
-  reason: string;
-}> {
-  const sourceDomain = getDomain(sourceUrl);
-  if (!sourceDomain) {
-    return { trusted: false, hasIdpiKeyword: false, reason: "source_url が無効" };
-  }
-
-  const isTrustedDomain = TRUSTED_SOURCE_DOMAINS.has(sourceDomain);
-
-  // 記事本文を取得してIDPIキーワードを確認
-  try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 15000);
-    const res = await fetch(sourceUrl, {
-      headers: { "User-Agent": "Mozilla/5.0 (compatible; htsbp-validator/1.0)" },
-      signal: controller.signal,
-      redirect: "follow",
-    });
-    clearTimeout(timer);
-
-    if (!res.ok) {
-      return {
-        trusted: isTrustedDomain,
-        hasIdpiKeyword: false,
-        reason: `記事取得失敗 HTTP ${res.status}（${sourceDomain}）`,
-      };
-    }
-
-    const text = (await res.text()).toLowerCase();
-    const foundKeyword = IDPI_EVIDENCE_KEYWORDS.find(kw => {
-      try { return new RegExp(kw).test(text); } catch { return text.includes(kw); }
-    });
-
-    return {
-      trusted: isTrustedDomain,
-      hasIdpiKeyword: !!foundKeyword,
-      reason: foundKeyword
-        ? `記事内にIDPIキーワード「${foundKeyword}」を確認（${sourceDomain}）`
-        : `記事内にIDPIキーワードなし（${sourceDomain}）`,
-    };
-  } catch (err) {
-    const msg = err instanceof Error ? err.message : String(err);
-    return {
-      trusted: isTrustedDomain,
-      hasIdpiKeyword: false,
-      reason: `記事取得エラー: ${msg.slice(0, 60)}（${sourceDomain}）`,
-    };
-  }
-}
-
-/**
- * ドメインの妥当性を独立検証する。
- * コレクター生成の description は判定に使用しない。
- */
-async function validateDomain(domain: string): Promise<{
-  keep: boolean;
-  reason: string;
-  scanLevel: ThreatLevel;
-  evidence: string;
-}> {
-  const filePath = path.join(DOMAINS_DIR, `${domain}.json`);
-  const data: ThreatFile = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-  const threat = data.threats[0];
-
-  if (!threat) {
-    return { keep: false, reason: "脅威データなし", scanLevel: "UNREACHABLE", evidence: "なし" };
-  }
-
-  // ステップ1：IDPIスキャン（実際のHTMLを解析）
-  const scanUrl = threat.url ?? `https://${domain}`;
-  const result = await checkUrl(scanUrl);
-
-  if (result.level === "HIGH" || result.level === "MEDIUM") {
-    return {
-      keep: true,
-      reason: "IDPIスキャンで対象ペイロードを実検出",
-      scanLevel: result.level,
-      evidence: `スキャンURL: ${scanUrl} → ${result.level}`,
-    };
-  }
-
-  // ステップ2：source_url の独立検証
-  const sourceUrl = threat.source_url;
-  if (sourceUrl) {
-    const verification = await verifySourceUrl(sourceUrl);
-
-    if (verification.trusted && verification.hasIdpiKeyword) {
-      return {
-        keep: true,
-        reason: "信頼ソースの記事内でIDPI関連キーワードを確認",
-        scanLevel: result.level,
-        evidence: `${verification.reason}`,
-      };
-    }
-
-    if (verification.trusted && !verification.hasIdpiKeyword) {
-      return {
-        keep: false,
-        reason: "信頼ソースだがIDPI関連キーワードなし（AIエージェント対象外の可能性）",
-        scanLevel: result.level,
-        evidence: `${verification.reason}`,
-      };
-    }
-
-    if (!verification.trusted && verification.hasIdpiKeyword) {
-      return {
-        keep: false,
-        reason: "非信頼ソース（独立検証不可）",
-        scanLevel: result.level,
-        evidence: `ソース ${getDomain(sourceUrl)} は信頼リスト外`,
-      };
-    }
-  }
-
-  // ステップ3：source_url なし または取得失敗
-  return {
-    keep: false,
-    reason: "IDPIスキャン未検出かつ独立検証不可",
-    scanLevel: result.level,
-    evidence: sourceUrl ? `source_url の検証失敗` : "source_url なし",
-  };
 }
 
 async function main(): Promise<void> {
@@ -237,27 +151,36 @@ async function main(): Promise<void> {
     return;
   }
 
-  console.log(`[validate] ${newDomains.length}件の新規ドメインを検証中...`);
+  console.log(`[validate] ${newDomains.length}件の新規ドメインをClaude APIで評価中...`);
 
-  const kept: Array<{ domain: string; reason: string; scanLevel: ThreatLevel; evidence: string }> = [];
-  const removed: Array<{ domain: string; reason: string; scanLevel: ThreatLevel; evidence: string }> = [];
+  const results: ValidationResult[] = [];
 
   for (const domain of newDomains) {
-    console.log(`[validate] 検証中: ${domain}`);
-    const result = await validateDomain(domain);
+    const filePath = path.join(DOMAINS_DIR, `${domain}.json`);
+    const data: ThreatFile = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+    const threat = data.threats[0];
 
-    if (result.keep) {
-      kept.push({ domain, ...result });
-      console.log(`[validate] 保持: ${domain} — ${result.reason}`);
-    } else {
-      fs.rmSync(path.join(DOMAINS_DIR, `${domain}.json`));
-      removed.push({ domain, ...result });
-      console.log(`[validate] 除外: ${domain} — ${result.reason}`);
+    if (!threat) {
+      fs.rmSync(filePath);
+      results.push({ domain, keep: false, reason: "脅威データなし", evidence: "" });
+      continue;
     }
+
+    console.log(`[validate] 評価中: ${domain}`);
+    const { keep, reason, evidence } = await evaluateDomainWithClaude(domain, threat);
+
+    if (!keep) {
+      fs.rmSync(filePath);
+      console.log(`[validate] 除外: ${domain} — ${reason}`);
+    } else {
+      console.log(`[validate] 保持: ${domain} — ${reason}`);
+    }
+
+    results.push({ domain, keep, reason, evidence });
   }
 
-  // stats 再生成
-  if (removed.length > 0) {
+  // stats再生成
+  if (results.some(r => !r.keep)) {
     try {
       execSync("npm run rebuild-stats", { cwd: PROJECT_ROOT, stdio: "inherit" });
     } catch {
@@ -267,22 +190,23 @@ async function main(): Promise<void> {
 
   // Discord通知
   const webhookUrl = process.env.NOTIFICATION_WEBHOOK_URL;
-  if (webhookUrl && (kept.length > 0 || removed.length > 0)) {
-    const lines: string[] = [`📋 **新規ドメイン検証結果**`, ""];
+  if (webhookUrl && results.length > 0) {
+    const kept = results.filter(r => r.keep);
+    const removed = results.filter(r => !r.keep);
 
-    for (const { domain, reason, scanLevel, evidence } of kept) {
+    const lines: string[] = [`📋 **新規ドメイン評価結果（Claude調査）**`, ""];
+
+    for (const { domain, reason, evidence } of kept) {
       lines.push(`✅ **${domain}** — 保持`);
-      lines.push(`　判定理由: ${reason}`);
-      lines.push(`　証拠: ${evidence}`);
-      lines.push(`　IDPIスキャン: ${scanLevel}`);
+      lines.push(`　判定: ${reason}`);
+      if (evidence) lines.push(`　証拠: ${evidence.slice(0, 150)}`);
       lines.push("");
     }
 
-    for (const { domain, reason, scanLevel, evidence } of removed) {
+    for (const { domain, reason, evidence } of removed) {
       lines.push(`🚫 **${domain}** — 除外`);
-      lines.push(`　判定理由: ${reason}`);
-      lines.push(`　証拠: ${evidence}`);
-      lines.push(`　IDPIスキャン: ${scanLevel}`);
+      lines.push(`　判定: ${reason}`);
+      if (evidence) lines.push(`　証拠: ${evidence.slice(0, 150)}`);
       lines.push("");
     }
 
@@ -290,20 +214,14 @@ async function main(): Promise<void> {
     if (msg.length <= 2000) {
       await notify(msg);
     } else {
-      await notify(lines.slice(0, 3).join("\n"));
-      for (const item of [...kept, ...removed]) {
-        await notify([
-          item.keep === undefined
-            ? `✅ **${item.domain}**`
-            : `🚫 **${item.domain}**`,
-          `　${item.reason}`,
-          `　証拠: ${item.evidence}`,
-        ].join("\n"));
+      for (const r of results) {
+        const icon = r.keep ? "✅" : "🚫";
+        await notify(`${icon} **${r.domain}** — ${r.keep ? "保持" : "除外"}\n　${r.reason}\n　${r.evidence.slice(0, 120)}`);
       }
     }
   }
 
-  console.log(`[validate] 完了: 保持 ${kept.length}件、除外 ${removed.length}件`);
+  console.log(`[validate] 完了: 保持 ${results.filter(r => r.keep).length}件、除外 ${results.filter(r => !r.keep).length}件`);
 }
 
 main().catch(err => {
