@@ -232,7 +232,6 @@ interface Stats {
     "type": "discovery_trigger",
     "update_frequency": "daily"
   },
-  // tldrsec は廃止済み（防御技術リファレンスのためIDPI脅威なし）
   {
     "id": "openclaw",
     "name": "AI-driven discovery (Claude)",
@@ -420,16 +419,6 @@ MCP SSE実装の要件:
 1. "prompt injection" "IDPI" タグのパルスを検索
 2. indicators (domain, URL) を抽出
 3. common.ts 経由でJSONファイルに upsert
-```
-
-### `collectors/tldrsec-github.ts` ⚠️ 廃止済み
-
-```
-廃止理由:
-  tldrsec/prompt-injection-defenses は「プロンプトインジェクション防御技術」の
-  解説文書であり、攻撃サイトのリストではない。READMEの全URLは防御技術の参考文献
-  として引用されており、IDPI脅威ドメインは含まれていない。
-  → run-collectors.ts のコレクターリストから除外済み（コードは残存）
 ```
 
 ### `collectors/web-crawler.ts`
@@ -741,7 +730,7 @@ GitHub Actions (cron)
   │     ├── unit42-github.ts   → data/threats/domains/*.json を更新
   │     ├── otx-alienvault.ts  → data/threats/domains/*.json を更新（504はリトライ後スキップ）
   │     └── web-crawler.ts     → data/threats/domains/*.json を更新（既存ドメインのactiveチェックのみ）
-  │     ※tldrsec-github.ts は廃止済み
+
   │
   ├── cron-runner.ts           → data/threats/domains/*.json を更新
   │                              → data/patterns.json に新パターン自動追記
@@ -1258,7 +1247,7 @@ No database. No backend state. All threat data lives as JSON files in this repos
 |--------|------|-----------|
 | Unit 42 (Palo Alto Networks) | IoC feeds | Daily |
 | AlienVault OTX | Threat pulses | Daily |
-| ~~tldrsec/prompt-injection-defenses~~ | ~~Curated list~~ | ~~Weekly~~ (廃止: 防御技術リファレンスのためIDPI脅威なし) |
+
 | AI Web Crawler (Claude) | Active analysis | Daily |
 | Community Reports | GitHub Issues | Continuous |
 
@@ -1454,7 +1443,7 @@ kill $DEV_PID 2>/dev/null
 - `src/collectors/unit42-github.ts`
 - `src/collectors/otx-alienvault.ts`
 - `src/collectors/web-crawler.ts`
-- ~~`src/collectors/tldrsec-github.ts`~~ ← 廃止済み（作成不要）
+
 - `src/openclaw/discovery-prompt.md`（本指示書の内容をそのままコピー）
 - `src/openclaw/analysis-prompt.md`（本指示書の内容をそのままコピー）
 - `src/openclaw/cron-runner.ts`
@@ -1774,7 +1763,6 @@ Secrets登録（GitHub Actions Secretsのみ。Netlifyには不要）:
 │  │                                       │              │
 │  │ 1. コレクター（自動）                    │              │
 │  │    Unit42 / OTX / web-crawler          │              │
-│  │    ※tldrsec廃止済み（防御技術リファレンス）  │              │
 │  │    OTX: 504/503/429はリトライ後スキップ    │              │
 │  │                                       │              │
 │  │ 2. OpenClaw（自動）                     │              │
