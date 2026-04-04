@@ -826,11 +826,32 @@
       "name": "base64_js_runtime_assembly",
       "technique": "base64_javascript_runtime",
       "label": "Base64-encoded JavaScript runtime payload assembly"
+    },
+    {
+      "pattern": "atob\\s*\\(|btoa\\s*\\(|fromCharCode|decodeURIComponent\\s*\\([^)]*(?:ignore|override|system|instruction)",
+      "flags": "i",
+      "name": "base64_javascript_runtime_assembly",
+      "technique": "javascript_runtime_assembly",
+      "label": "IDPI payload assembled at runtime via Base64/JS decoding"
+    },
+    {
+      "pattern": "<!--[\\s\\S]*?(ignore|override|disregard|you\\s+are|system\\s+prompt|IMPORTANT|instruction)[\\s\\S]*?-->",
+      "flags": "i",
+      "name": "html_comment_hidden_injection",
+      "technique": "html_comment_concealment",
+      "label": "IDPI payload hidden inside HTML comments"
+    },
+    {
+      "pattern": "font-size\\s*:\\s*1px|font-size\\s*:\\s*0\\.\\d+px|clip-path\\s*:",
+      "flags": "i",
+      "name": "near_zero_font_and_clip_path",
+      "technique": "near_zero_font_clip_path",
+      "label": "Near-zero font size or CSS clip-path used to hide injection text"
     }
   ],
   "_meta": {
-    "version": 24,
-    "updated_at": "2026-04-03T19:00:46.823Z",
+    "version": 25,
+    "updated_at": "2026-04-04T18:53:30.044Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }
