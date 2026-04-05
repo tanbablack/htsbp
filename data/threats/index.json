@@ -19,7 +19,7 @@
         "unknown"
       ],
       "threat_count": 5,
-      "last_seen": "2026-04-04T18:53:42.661Z",
+      "last_seen": "2026-04-05T18:55:32.907Z",
       "is_active": true
     },
     "citemet.com": {
@@ -29,7 +29,16 @@
         "ai_memory_poisoning"
       ],
       "threat_count": 2,
-      "last_seen": "2026-04-04T18:53:43.873Z",
+      "last_seen": "2026-04-05T18:55:34.002Z",
+      "is_active": true
+    },
+    "cn-notepadplusplus.com": {
+      "max_severity": "high",
+      "intents": [
+        "seo_poisoning"
+      ],
+      "threat_count": 1,
+      "last_seen": "2026-04-05T18:55:20.130Z",
       "is_active": true
     },
     "cn-obsidian.com": {
@@ -68,7 +77,7 @@
         "unknown"
       ],
       "threat_count": 5,
-      "last_seen": "2026-04-04T18:53:44.728Z",
+      "last_seen": "2026-04-05T18:55:34.678Z",
       "is_active": true
     },
     "ericwbailey.website": {
@@ -80,7 +89,7 @@
         "other"
       ],
       "threat_count": 4,
-      "last_seen": "2026-04-04T18:53:44.900Z",
+      "last_seen": "2026-04-05T18:55:35.085Z",
       "is_active": true
     },
     "eviewerpress.com": {
@@ -99,7 +108,7 @@
         "malware_delivery"
       ],
       "threat_count": 1,
-      "last_seen": "2026-04-04T18:53:45.201Z",
+      "last_seen": "2026-04-05T18:55:35.492Z",
       "is_active": true
     },
     "github.zh-cns.top": {
@@ -135,7 +144,7 @@
         "seo_poisoning_malware_delivery"
       ],
       "threat_count": 1,
-      "last_seen": "2026-04-04T18:53:45.436Z",
+      "last_seen": "2026-04-05T18:55:36.059Z",
       "is_active": true
     },
     "leroibear.com": {
@@ -147,7 +156,7 @@
         "unknown"
       ],
       "threat_count": 5,
-      "last_seen": "2026-04-04T18:53:45.738Z",
+      "last_seen": "2026-04-05T18:55:36.161Z",
       "is_active": true
     },
     "llm7-landing.pages.dev": {
@@ -156,7 +165,7 @@
         "unauthorized_transaction"
       ],
       "threat_count": 2,
-      "last_seen": "2026-04-04T18:53:45.807Z",
+      "last_seen": "2026-04-05T18:55:36.199Z",
       "is_active": true
     },
     "metehan.ai": {
@@ -167,7 +176,7 @@
         "ai_memory_poisoning_tooling"
       ],
       "threat_count": 3,
-      "last_seen": "2026-04-04T18:53:45.911Z",
+      "last_seen": "2026-04-05T18:55:36.284Z",
       "is_active": true
     },
     "myshantispa.com": {
@@ -182,7 +191,7 @@
         "unknown"
       ],
       "threat_count": 8,
-      "last_seen": "2026-04-04T18:53:46.666Z",
+      "last_seen": "2026-04-05T18:55:36.802Z",
       "is_active": true
     },
     "notepadplusplus.cn": {
@@ -191,16 +200,16 @@
         "malware_distribution"
       ],
       "threat_count": 1,
-      "last_seen": "2026-04-04T18:53:46.814Z",
+      "last_seen": "2026-04-05T18:55:36.977Z",
       "is_active": true
     },
     "occidpisol.pro": {
-      "max_severity": "medium",
+      "max_severity": "low",
       "intents": [
         "other"
       ],
       "threat_count": 1,
-      "last_seen": "2025-07-09T16:59:24.658000",
+      "last_seen": "2026-04-05T18:55:37.080Z",
       "is_active": true
     },
     "perceptivepumpkin.com": {
@@ -212,7 +221,7 @@
         "unknown"
       ],
       "threat_count": 5,
-      "last_seen": "2026-04-04T18:53:47.729Z",
+      "last_seen": "2026-04-05T18:55:37.870Z",
       "is_active": true
     },
     "rapidpicks.online": {
@@ -229,12 +238,13 @@
       "intents": [
         "ad_review_bypass",
         "ad_review_evasion",
+        "ai_ad_review_bypass",
         "ai_ad_review_evasion",
         "other",
         "seo_poisoning"
       ],
-      "threat_count": 5,
-      "last_seen": "2026-04-04T18:54:04.876Z",
+      "threat_count": 6,
+      "last_seen": "2026-04-05T18:55:54.108Z",
       "is_active": true
     },
     "reviewerpressus.mycartpanda.com": {
@@ -244,21 +254,23 @@
         "fraudulent_transaction",
         "other",
         "phishing_redirect",
+        "scam_payment_processing",
         "seo_poisoning"
       ],
-      "threat_count": 5,
-      "last_seen": "2026-04-04T18:54:05.307Z",
+      "threat_count": 6,
+      "last_seen": "2026-04-05T18:55:54.459Z",
       "is_active": true
     },
     "runners-daily-blog.com": {
       "max_severity": "high",
       "intents": [
         "other",
+        "system_override",
         "unauthorized_transaction",
         "unknown"
       ],
-      "threat_count": 3,
-      "last_seen": "2026-04-04T18:54:05.360Z",
+      "threat_count": 4,
+      "last_seen": "2026-04-05T18:55:54.493Z",
       "is_active": true
     },
     "shiftypumpkin.com": {
@@ -271,7 +283,7 @@
         "unknown"
       ],
       "threat_count": 5,
-      "last_seen": "2026-04-04T18:54:07.113Z",
+      "last_seen": "2026-04-05T18:55:55.888Z",
       "is_active": true
     },
     "solidpinot.com": {
@@ -291,7 +303,7 @@
         "other"
       ],
       "threat_count": 3,
-      "last_seen": "2026-04-04T18:54:09.031Z",
+      "last_seen": "2026-04-05T18:55:57.104Z",
       "is_active": true
     },
     "storage3d.com": {
@@ -304,7 +316,7 @@
         "unknown"
       ],
       "threat_count": 6,
-      "last_seen": "2026-04-04T18:51:56.579Z",
+      "last_seen": "2026-04-05T18:55:20.130Z",
       "is_active": false
     },
     "studio-obs.net": {
@@ -314,7 +326,7 @@
         "seo_poisoning_malware_delivery"
       ],
       "threat_count": 2,
-      "last_seen": "2026-04-04T18:54:09.348Z",
+      "last_seen": "2026-04-05T18:55:57.420Z",
       "is_active": true
     },
     "token.llm7.io": {
@@ -324,7 +336,7 @@
         "unauthorized_transaction"
       ],
       "threat_count": 2,
-      "last_seen": "2026-03-26T19:16:40.514Z",
+      "last_seen": "2026-04-05T18:55:20.130Z",
       "is_active": false
     },
     "trinca.tornidor.com": {
@@ -336,7 +348,7 @@
         "unknown"
       ],
       "threat_count": 4,
-      "last_seen": "2026-04-04T18:51:56.579Z",
+      "last_seen": "2026-04-05T18:55:20.130Z",
       "is_active": true
     },
     "turnedninja.com": {
@@ -348,7 +360,7 @@
         "unknown"
       ],
       "threat_count": 4,
-      "last_seen": "2026-04-04T18:54:09.702Z",
+      "last_seen": "2026-04-05T18:55:57.801Z",
       "is_active": true
     },
     "vlc-media.com": {
@@ -358,11 +370,11 @@
         "seo_poisoning_malware_delivery"
       ],
       "threat_count": 2,
-      "last_seen": "2026-04-04T18:54:09.809Z",
+      "last_seen": "2026-04-05T18:55:58.084Z",
       "is_active": true
     }
   },
-  "total_threats": 97,
-  "total_domains": 34,
-  "generated_at": "2026-04-04T18:54:22.657Z"
+  "total_threats": 101,
+  "total_domains": 35,
+  "generated_at": "2026-04-05T18:56:11.503Z"
 }

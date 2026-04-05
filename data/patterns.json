@@ -467,6 +467,30 @@
       "flags": "i",
       "name": "memory_poisoning_persistence",
       "label": "AI memory poisoning instruction for persistent recommendation manipulation"
+    },
+    {
+      "pattern": "ULTRA\\s+THINK\\s*:?\\s*(if\\s+you\\s+are\\s+an?\\s+(LLM|AI|language\\s+model))",
+      "flags": "i",
+      "name": "ultra_think_directive",
+      "label": "ULTRA THINK LLM-targeted directive"
+    },
+    {
+      "pattern": "USER_ADMIN_ROOT|PRI(ORITY|VILEGE)\\s*[=:]\\s*(MAX|HIGHEST|CRITICAL|ELEVATED)",
+      "flags": "i",
+      "name": "fake_privilege_escalation",
+      "label": "Fake privilege level or admin role claim in injection"
+    },
+    {
+      "pattern": "(you\\s+are\\s+now\\s+in|entering|switching\\s+to)\\s+(admin|god|developer|debug|maintenance)\\s+mode",
+      "flags": "i",
+      "name": "mode_switch_directive",
+      "label": "Mode switch social engineering directive"
+    },
+    {
+      "pattern": "support\\s+by\\s+donation|donate\\s+(to|via|using)\\s+(the\\s+)?follow(ing)?\\s+(link|url)",
+      "flags": "i",
+      "name": "donation_solicitation_injection",
+      "label": "AI-targeted donation solicitation instruction"
     }
   ],
   "concealments": [
@@ -847,11 +871,18 @@
       "name": "near_zero_font_and_clip_path",
       "technique": "near_zero_font_clip_path",
       "label": "Near-zero font size or CSS clip-path used to hide injection text"
+    },
+    {
+      "pattern": "<svg[^>]*>[\\s\\S]*?(ignore|disregard|override|forget)[\\s\\S]*?</svg>",
+      "flags": "i",
+      "name": "svg_encapsulation_injection",
+      "technique": "svg_encapsulation",
+      "label": "Prompt injection hidden inside SVG elements"
     }
   ],
   "_meta": {
-    "version": 25,
-    "updated_at": "2026-04-04T18:53:30.044Z",
+    "version": 26,
+    "updated_at": "2026-04-05T18:55:20.137Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }
