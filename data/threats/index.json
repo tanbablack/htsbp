@@ -13,8 +13,8 @@
     "cblanke2.pages.dev": {
       "max_severity": "critical",
       "intents": [
-        "ai_output_manipulation",
         "data_destruction",
+        "ai_output_manipulation",
         "irrelevant_output",
         "unknown"
       ],
@@ -30,15 +30,6 @@
       ],
       "threat_count": 2,
       "last_seen": "2026-04-05T18:55:34.002Z",
-      "is_active": true
-    },
-    "cn-notepadplusplus.com": {
-      "max_severity": "high",
-      "intents": [
-        "seo_poisoning"
-      ],
-      "threat_count": 1,
-      "last_seen": "2026-04-05T18:55:20.130Z",
       "is_active": true
     },
     "cn-obsidian.com": {
@@ -71,8 +62,8 @@
     "dylansparks.com": {
       "max_severity": "high",
       "intents": [
-        "ai_output_manipulation",
         "other",
+        "ai_output_manipulation",
         "sensitive_information_leakage",
         "unknown"
       ],
@@ -83,10 +74,10 @@
     "ericwbailey.website": {
       "max_severity": "low",
       "intents": [
-        "anti_ai_protest",
+        "other",
         "anti_scraping",
         "data_destruction",
-        "other"
+        "anti_ai_protest"
       ],
       "threat_count": 4,
       "last_seen": "2026-04-05T18:55:35.085Z",
@@ -150,9 +141,9 @@
     "leroibear.com": {
       "max_severity": "low",
       "intents": [
-        "ai_output_manipulation",
-        "data_destruction",
         "other",
+        "data_destruction",
+        "ai_output_manipulation",
         "unknown"
       ],
       "threat_count": 5,
@@ -171,9 +162,9 @@
     "metehan.ai": {
       "max_severity": "low",
       "intents": [
+        "ai_memory_poisoning_tooling",
         "EXCLUDED",
-        "ai_memory_poisoning",
-        "ai_memory_poisoning_tooling"
+        "ai_memory_poisoning"
       ],
       "threat_count": 3,
       "last_seen": "2026-04-05T18:55:36.284Z",
@@ -182,13 +173,13 @@
     "myshantispa.com": {
       "max_severity": "high",
       "intents": [
-        "ai_content_moderation_bypass",
-        "ai_output_manipulation",
-        "biased_content_generation",
-        "biased_promotional_content",
         "other",
+        "ai_output_manipulation",
+        "unknown",
+        "biased_content_generation",
+        "ai_content_moderation_bypass",
         "seo_manipulation",
-        "unknown"
+        "biased_promotional_content"
       ],
       "threat_count": 8,
       "last_seen": "2026-04-05T18:55:36.802Z",
@@ -215,8 +206,8 @@
     "perceptivepumpkin.com": {
       "max_severity": "high",
       "intents": [
-        "ai_output_manipulation",
         "other",
+        "ai_output_manipulation",
         "unauthorized_transaction",
         "unknown"
       ],
@@ -236,12 +227,12 @@
     "reviewerpress.com": {
       "max_severity": "high",
       "intents": [
-        "ad_review_bypass",
-        "ad_review_evasion",
-        "ai_ad_review_bypass",
-        "ai_ad_review_evasion",
         "other",
-        "seo_poisoning"
+        "ad_review_bypass",
+        "ai_ad_review_evasion",
+        "seo_poisoning",
+        "ai_ad_review_bypass",
+        "ad_review_evasion"
       ],
       "threat_count": 6,
       "last_seen": "2026-04-05T18:55:54.108Z",
@@ -250,12 +241,12 @@
     "reviewerpressus.mycartpanda.com": {
       "max_severity": "low",
       "intents": [
-        "ai_ad_review_evasion",
-        "fraudulent_transaction",
         "other",
-        "phishing_redirect",
         "scam_payment_processing",
-        "seo_poisoning"
+        "phishing_redirect",
+        "ai_ad_review_evasion",
+        "seo_poisoning",
+        "fraudulent_transaction"
       ],
       "threat_count": 6,
       "last_seen": "2026-04-05T18:55:54.459Z",
@@ -265,8 +256,8 @@
       "max_severity": "high",
       "intents": [
         "other",
-        "system_override",
         "unauthorized_transaction",
+        "system_override",
         "unknown"
       ],
       "threat_count": 4,
@@ -276,11 +267,11 @@
     "shiftypumpkin.com": {
       "max_severity": "high",
       "intents": [
-        "financial_solicitation",
-        "monetization",
         "other",
-        "unauthorized_transaction",
-        "unknown"
+        "unknown",
+        "monetization",
+        "financial_solicitation",
+        "unauthorized_transaction"
       ],
       "threat_count": 5,
       "last_seen": "2026-04-05T18:55:55.888Z",
@@ -298,9 +289,9 @@
     "splintered.co.uk": {
       "max_severity": "critical",
       "intents": [
-        "ai_disruption",
+        "other",
         "data_destruction",
-        "other"
+        "ai_disruption"
       ],
       "threat_count": 3,
       "last_seen": "2026-04-05T18:55:57.104Z",
@@ -309,11 +300,11 @@
     "storage3d.com": {
       "max_severity": "critical",
       "intents": [
-        "data_destruction",
-        "donation_solicitation",
         "other",
-        "unauthorized_transaction",
-        "unknown"
+        "donation_solicitation",
+        "unknown",
+        "data_destruction",
+        "unauthorized_transaction"
       ],
       "threat_count": 6,
       "last_seen": "2026-04-05T18:55:20.130Z",
@@ -342,9 +333,9 @@
     "trinca.tornidor.com": {
       "max_severity": "medium",
       "intents": [
-        "ai_disruption",
-        "ai_output_manipulation",
         "other",
+        "ai_output_manipulation",
+        "ai_disruption",
         "unknown"
       ],
       "threat_count": 4,
@@ -354,9 +345,9 @@
     "turnedninja.com": {
       "max_severity": "high",
       "intents": [
-        "ai_output_manipulation",
-        "hiring_manipulation",
         "other",
+        "hiring_manipulation",
+        "ai_output_manipulation",
         "unknown"
       ],
       "threat_count": 4,
@@ -374,7 +365,7 @@
       "is_active": true
     }
   },
-  "total_threats": 101,
-  "total_domains": 35,
-  "generated_at": "2026-04-05T18:56:11.503Z"
+  "total_threats": 100,
+  "total_domains": 34,
+  "generated_at": "2026-04-05T23:57:34.000Z"
 }
