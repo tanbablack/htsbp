@@ -44,6 +44,7 @@ jobs:
       - name: Validate new domains (auto-remove non-IDPI)
         run: npx tsx src/scripts/validate-new-domains.ts
         env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           NOTIFICATION_WEBHOOK_URL: ${{ secrets.NOTIFICATION_WEBHOOK_URL }}
           DOMAINS_BEFORE: ${{ steps.snapshot.outputs.domains_before }}
       - name: Report new domains
