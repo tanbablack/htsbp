@@ -30,6 +30,14 @@ const LEVEL_EMOJI: Record<ThreatLevel, string> = {
   UNREACHABLE: "❌",
 };
 
+const LEVEL_JA: Record<ThreatLevel, string> = {
+  HIGH: "高（IDPIペイロード検出）",
+  MEDIUM: "中（IDPIパターン検出）",
+  LOW: "低（隠蔽テクニックのみ）",
+  CLEAN: "クリーン（未検出）",
+  UNREACHABLE: "到達不能",
+};
+
 /** Trusted sources that provide high-confidence threat data */
 const TRUSTED_SOURCES = new Set(["unit42", "htsbp"]);
 
@@ -135,7 +143,7 @@ async function main(): Promise<void> {
 
     lines.push(`**${domain}**`);
     lines.push(`  妥当性評価: ${verdict} — ${reason}`);
-    lines.push(`  IDPIスキャン: ${emoji} ${result.level}`);
+    lines.push(`  IDPIスキャン: ${emoji} ${LEVEL_JA[result.level]}`);
     lines.push(`  重大度: ${threat.severity} | 意図: ${threat.intent} | ソース: ${threat.source}`);
     lines.push(`  説明(収集時): ${(threat.description ?? "").slice(0, 100)}`);
     if (threat.source_url) {
