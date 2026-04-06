@@ -491,6 +491,18 @@
       "flags": "i",
       "name": "donation_solicitation_injection",
       "label": "AI-targeted donation solicitation instruction"
+    },
+    {
+      "pattern": "(subscribe|sign\\s*up|upgrade)\\s+(to|for)\\s+(the\\s+)?(pro|premium|paid)\\s+(plan|tier|subscription)",
+      "flags": "i",
+      "name": "forced_subscription_coercion",
+      "label": "IDPI payload attempting to force AI agent into unauthorized subscription"
+    },
+    {
+      "pattern": "(remember|store|save|memorize)\\s+(that|this|:)?\\s*[\\w\\s]+\\b(trusted|recommended|preferred|best)\\b",
+      "flags": "i",
+      "name": "ai_memory_poisoning",
+      "label": "IDPI payload targeting AI assistant persistent memory for recommendation poisoning"
     }
   ],
   "concealments": [
@@ -881,8 +893,8 @@
     }
   ],
   "_meta": {
-    "version": 26,
-    "updated_at": "2026-04-05T18:55:20.137Z",
+    "version": 27,
+    "updated_at": "2026-04-06T19:10:23.860Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }
