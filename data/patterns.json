@@ -503,6 +503,12 @@
       "flags": "i",
       "name": "ai_memory_poisoning",
       "label": "IDPI payload targeting AI assistant persistent memory for recommendation poisoning"
+    },
+    {
+      "pattern": "USER_ADMIN_ROOT|PRIORITY:\\s*CRITICAL",
+      "flags": "i",
+      "name": "fake_admin_authority_tag",
+      "label": "Fake admin root or critical priority authority tag"
     }
   ],
   "concealments": [
@@ -893,8 +899,8 @@
     }
   ],
   "_meta": {
-    "version": 27,
-    "updated_at": "2026-04-06T19:10:23.860Z",
+    "version": 28,
+    "updated_at": "2026-04-07T19:13:41.109Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }

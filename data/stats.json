@@ -1,10 +1,10 @@
 {
-  "total_threats": 93,
+  "total_threats": 95,
   "total_domains": 29,
   "by_severity": {
     "critical": 6,
     "high": 48,
-    "medium": 12,
+    "medium": 14,
     "low": 27
   },
   "by_intent": {
@@ -33,19 +33,20 @@
     "monetization": 1,
     "other": 24,
     "phishing_redirect": 1,
+    "recruitment_manipulation": 1,
     "scam_payment_processing": 1,
     "sensitive_information_leakage": 2,
     "seo_manipulation": 1,
-    "seo_poisoning": 4,
+    "seo_poisoning": 5,
     "system_override": 1,
     "unauthorized_transaction": 8,
     "unknown": 10
   },
   "by_source": {
     "htsbp": 20,
-    "openclaw": 62,
+    "openclaw": 64,
     "unit42": 11
   },
-  "last_updated": "2026-04-06T19:11:03.172Z",
-  "generated_at": "2026-04-06T19:11:16.578Z"
+  "last_updated": "2026-04-07T19:14:23.049Z",
+  "generated_at": "2026-04-07T19:14:32.255Z"
 }
