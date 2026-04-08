@@ -9,7 +9,7 @@
       "source": "unit42",
       "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
       "first_seen": "2025-12-15T00:00:00Z",
-      "last_seen": "2026-04-07T19:14:15.054Z",
+      "last_seen": "2026-04-08T19:27:09.946Z",
       "is_active": true
     },
     {
@@ -20,7 +20,7 @@
       "source": "htsbp",
       "source_url": "https://otx.alienvault.com/pulse/69a7014c21a10eb60fac7567",
       "first_seen": "2026-03-03T15:42:04.592000",
-      "last_seen": "2026-04-07T19:14:15.054Z",
+      "last_seen": "2026-04-08T19:27:09.946Z",
       "is_active": true
     },
     {
@@ -34,7 +34,7 @@
       "source": "openclaw",
       "source_url": "https://github.com/PaloAltoNetworks/Unit42-timely-threat-intel/blob/main/2025-12-15-real-world-case-of-malicious-indirect-prompt-injection.md",
       "first_seen": "2026-03-14T12:19:43.419Z",
-      "last_seen": "2026-04-07T19:14:15.054Z",
+      "last_seen": "2026-04-08T19:27:09.946Z",
       "is_active": true
     },
     {
@@ -49,7 +49,7 @@
       "source": "openclaw",
       "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
       "first_seen": "2026-03-14T18:47:58.153Z",
-      "last_seen": "2026-04-07T19:14:15.054Z",
+      "last_seen": "2026-04-08T19:27:09.946Z",
       "is_active": true
     },
     {
@@ -64,7 +64,7 @@
       "source": "openclaw",
       "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
       "first_seen": "2026-03-20T18:58:44.956Z",
-      "last_seen": "2026-04-07T19:14:15.054Z",
+      "last_seen": "2026-04-08T19:27:09.946Z",
       "is_active": true
     },
     {
@@ -78,9 +78,9 @@
       "source": "openclaw",
       "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
       "first_seen": "2026-04-05T18:55:20.130Z",
-      "last_seen": "2026-04-07T19:14:15.054Z",
+      "last_seen": "2026-04-08T19:27:09.946Z",
       "is_active": true
     }
   ],
-  "updated_at": "2026-04-07T19:14:15.054Z"
+  "updated_at": "2026-04-08T19:27:09.946Z"
 }
