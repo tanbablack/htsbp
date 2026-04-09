@@ -515,6 +515,24 @@
       "flags": "i",
       "name": "subscription_fraud_directive",
       "label": "Directive coercing AI agent into unauthorized subscription/purchase"
+    },
+    {
+      "pattern": "subscribe\\s+to\\s+(the\\s+)?(pro|premium|paid)\\s+plan",
+      "flags": "i",
+      "name": "forced_subscription_directive",
+      "label": "Instruction to force AI agent into unauthorized subscription"
+    },
+    {
+      "pattern": "authorize\\s+via\\s+(google\\s+)?oauth|go\\s+to\\s+(the\\s+)?login\\s+page",
+      "flags": "i",
+      "name": "oauth_authorization_coercion",
+      "label": "Instruction to coerce AI agent into OAuth authorization flow"
+    },
+    {
+      "pattern": "additional\\s+(instruction|GEMINI\\.md|guideline)|end\\s+of\\s+additional\\s+instruction",
+      "flags": "i",
+      "name": "fake_instruction_block_delimiter",
+      "label": "Fake instruction block delimiters mimicking config files"
     }
   ],
   "concealments": [
@@ -909,11 +927,18 @@
       "name": "svg_encapsulated_payload",
       "technique": "svg_encapsulation",
       "label": "SVG element encapsulating hidden IDPI payload"
+    },
+    {
+      "pattern": "<svg[^>]*>[\\s\\S]*?</svg>",
+      "flags": "i",
+      "name": "svg_encapsulation_payload",
+      "technique": "svg_encapsulation",
+      "label": "IDPI payload hidden inside SVG elements"
     }
   ],
   "_meta": {
-    "version": 29,
-    "updated_at": "2026-04-08T19:26:34.509Z",
+    "version": 30,
+    "updated_at": "2026-04-09T19:17:12.040Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }
