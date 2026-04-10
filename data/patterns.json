@@ -533,6 +533,18 @@
       "flags": "i",
       "name": "fake_instruction_block_delimiter",
       "label": "Fake instruction block delimiters mimicking config files"
+    },
+    {
+      "pattern": "(?:you\\s+are\\s+now\\s+in\\s+admin\\s+mode|approve\\s+this\\s+(?:content|ad|review))",
+      "flags": "i",
+      "name": "admin_mode_content_approval",
+      "label": "Social engineering instruction claiming admin mode to bypass AI content moderation"
+    },
+    {
+      "pattern": "(?:initiat(?:e|ing)\\s+(?:stripe|paypal)\\s+(?:payment|transfer|transaction)|transfer\\s+\\$?\\d+\\s+to\\s+(?:account|wallet))",
+      "flags": "i",
+      "name": "payment_rail_hijack",
+      "label": "Instruction targeting financial payment rails (Stripe/PayPal) for unauthorized transactions"
     }
   ],
   "concealments": [
@@ -937,8 +949,8 @@
     }
   ],
   "_meta": {
-    "version": 30,
-    "updated_at": "2026-04-09T19:17:12.040Z",
+    "version": 31,
+    "updated_at": "2026-04-10T19:03:33.667Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }
