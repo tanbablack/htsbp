@@ -545,6 +545,12 @@
       "flags": "i",
       "name": "payment_rail_hijack",
       "label": "Instruction targeting financial payment rails (Stripe/PayPal) for unauthorized transactions"
+    },
+    {
+      "pattern": "(?:subscribe|sign\\s*up|upgrade|purchase|pay|transfer|send\\s+\\$)\\s+(?:to\\s+(?:the\\s+)?pro\\s+plan|via\\s+(?:stripe|paypal|google\\s+oauth))",
+      "flags": "i",
+      "name": "unauthorized_transaction_directive",
+      "label": "Instruction directing AI to initiate unauthorized payment or subscription"
     }
   ],
   "concealments": [
@@ -946,11 +952,32 @@
       "name": "svg_encapsulation_payload",
       "technique": "svg_encapsulation",
       "label": "IDPI payload hidden inside SVG elements"
+    },
+    {
+      "pattern": "<svg[^>]*>[\\s\\S]*?<\\!\\[CDATA\\[[\\s\\S]*?(ignore|override|disregard|you\\s+are\\s+now)[\\s\\S]*?\\]\\]>",
+      "flags": "i",
+      "name": "svg_cdata_injection",
+      "technique": "svg_cdata_encapsulation",
+      "label": "IDPI payload hidden inside SVG CDATA sections"
+    },
+    {
+      "pattern": "data-(?:instruction|cmd|prompt|action)\\s*=\\s*[\"'][^\"']{10,}[\"']",
+      "flags": "i",
+      "name": "html_data_attribute_cloaking",
+      "technique": "html_attribute_cloaking",
+      "label": "IDPI payload hidden in HTML data-* attributes"
+    },
+    {
+      "pattern": "(?:atob|decodeURIComponent|fromCharCode)\\s*\\([^)]*\\).*?(?:insertAdjacentHTML|innerHTML|appendChild|textContent)",
+      "flags": "i",
+      "name": "runtime_base64_dom_injection",
+      "technique": "javascript_runtime_assembly",
+      "label": "Base64-decoded payload dynamically injected into DOM at runtime"
     }
   ],
   "_meta": {
-    "version": 31,
-    "updated_at": "2026-04-10T19:03:33.667Z",
+    "version": 32,
+    "updated_at": "2026-04-11T18:55:38.475Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }
