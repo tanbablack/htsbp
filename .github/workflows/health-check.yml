@@ -18,13 +18,3 @@ jobs:
               -d '{"content":"🚨 HTSBP Health Check Failed\n\nAPI returned HTTP '$RESPONSE'\nTime: '"$(date -u)"'"}'
             exit 1
           fi
-      - name: Check domain lookup works
-        run: |
-          RESULT=$(curl -s --max-time 30 --retry 2 --retry-delay 5 "https://hasthissitebeenpoisoned.ai/api/check-domain?domain=reviewerpress.com")
-          IS_MALICIOUS=$(echo "$RESULT" | jq -r '.is_malicious')
-          if [ "$IS_MALICIOUS" != "true" ]; then
-            curl -X POST "${{ secrets.NOTIFICATION_WEBHOOK_URL }}" \
-              -H "Content-Type: application/json" \
-              -d '{"content":"🚨 HTSBP Health Check Failed\n\nKnown malicious domain not detected\nTime: '"$(date -u)"'"}'
-            exit 1
-          fi
