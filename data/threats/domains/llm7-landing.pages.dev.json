@@ -12,7 +12,7 @@
       "source": "unit42",
       "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
       "first_seen": "2026-03-03T00:00:00Z",
-      "last_seen": "2026-04-11T18:55:53.977Z",
+      "last_seen": "2026-04-12T19:00:18.975Z",
       "is_active": true
     },
     {
@@ -28,9 +28,9 @@
       "source": "openclaw",
       "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
       "first_seen": "2026-03-14T12:19:43.419Z",
-      "last_seen": "2026-04-11T18:55:53.977Z",
+      "last_seen": "2026-04-12T19:00:18.975Z",
       "is_active": true
     }
   ],
-  "updated_at": "2026-04-11T18:55:53.977Z"
+  "updated_at": "2026-04-12T19:00:18.975Z"
 }

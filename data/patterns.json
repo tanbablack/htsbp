@@ -973,11 +973,32 @@
       "name": "runtime_base64_dom_injection",
       "technique": "javascript_runtime_assembly",
       "label": "Base64-decoded payload dynamically injected into DOM at runtime"
+    },
+    {
+      "pattern": "<svg[^>]*>\\s*<!\\[CDATA\\[",
+      "flags": "i",
+      "name": "svg_cdata_encapsulation",
+      "technique": "svg_cdata_encapsulation",
+      "label": "SVG CDATA section used to encapsulate injected prompt text"
+    },
+    {
+      "pattern": "\\u202e|\\u200f|\\u200e|\\u2066|\\u2069|\\u202a|\\u202b|\\u202c",
+      "flags": "i",
+      "name": "unicode_bidi_override",
+      "technique": "unicode_bidi_text_reversal",
+      "label": "Unicode bidirectional override characters used to reverse or hide injected text"
+    },
+    {
+      "pattern": "&#(?:x[0-9a-fA-F]{2,4}|\\d{2,5});",
+      "flags": "i",
+      "name": "html_entity_encoded_prompt",
+      "technique": "html_entity_encoding",
+      "label": "Prompt characters encoded as HTML entities to evade text-based detection"
     }
   ],
   "_meta": {
-    "version": 32,
-    "updated_at": "2026-04-11T18:55:38.475Z",
+    "version": 33,
+    "updated_at": "2026-04-12T19:00:03.849Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }
