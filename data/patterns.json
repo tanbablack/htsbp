@@ -551,6 +551,18 @@
       "flags": "i",
       "name": "unauthorized_transaction_directive",
       "label": "Instruction directing AI to initiate unauthorized payment or subscription"
+    },
+    {
+      "pattern": "(?:approve|accept|allow)\\s+(?:this\\s+)?(?:content|ad|advertisement|submission)",
+      "flags": "i",
+      "name": "ai_content_moderation_bypass",
+      "label": "AI content moderation / ad review bypass instruction"
+    },
+    {
+      "pattern": "(?:you\\s+are\\s+now\\s+in|entering|switched\\s+to)\\s+(?:admin|root|developer|maintenance|debug)\\s*mode",
+      "flags": "i",
+      "name": "fake_admin_mode_activation",
+      "label": "Fake admin/debug mode activation claim"
     }
   ],
   "concealments": [
@@ -997,8 +1009,8 @@
     }
   ],
   "_meta": {
-    "version": 33,
-    "updated_at": "2026-04-12T19:00:03.849Z",
+    "version": 34,
+    "updated_at": "2026-04-13T19:22:32.311Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }
