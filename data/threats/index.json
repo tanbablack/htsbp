@@ -19,7 +19,7 @@
         "unknown"
       ],
       "threat_count": 5,
-      "last_seen": "2026-04-14T19:26:43.636Z",
+      "last_seen": "2026-04-15T19:27:05.927Z",
       "is_active": true
     },
     "citemet.com": {
@@ -29,7 +29,7 @@
         "ai_memory_poisoning"
       ],
       "threat_count": 2,
-      "last_seen": "2026-04-14T19:26:44.628Z",
+      "last_seen": "2026-04-15T19:27:06.883Z",
       "is_active": true
     },
     "cn-obsidian.com": {
@@ -59,7 +59,7 @@
         "unknown"
       ],
       "threat_count": 5,
-      "last_seen": "2026-04-14T19:26:45.299Z",
+      "last_seen": "2026-04-15T19:27:07.608Z",
       "is_active": true
     },
     "ericwbailey.website": {
@@ -71,7 +71,7 @@
         "other"
       ],
       "threat_count": 4,
-      "last_seen": "2026-04-14T19:26:45.581Z",
+      "last_seen": "2026-04-15T19:27:07.872Z",
       "is_active": true
     },
     "eviewerpress.com": {
@@ -120,7 +120,7 @@
         "unknown"
       ],
       "threat_count": 5,
-      "last_seen": "2026-04-14T19:26:46.026Z",
+      "last_seen": "2026-04-15T19:27:10.095Z",
       "is_active": true
     },
     "llm7-landing.pages.dev": {
@@ -129,7 +129,7 @@
         "unauthorized_transaction"
       ],
       "threat_count": 2,
-      "last_seen": "2026-04-14T19:26:46.085Z",
+      "last_seen": "2026-04-15T19:27:10.175Z",
       "is_active": true
     },
     "metehan.ai": {
@@ -140,7 +140,7 @@
         "ai_memory_poisoning_tooling"
       ],
       "threat_count": 3,
-      "last_seen": "2026-04-14T19:26:46.178Z",
+      "last_seen": "2026-04-15T19:27:10.328Z",
       "is_active": true
     },
     "myshantispa.com": {
@@ -155,7 +155,7 @@
         "unknown"
       ],
       "threat_count": 8,
-      "last_seen": "2026-04-14T19:26:46.698Z",
+      "last_seen": "2026-04-15T19:27:10.846Z",
       "is_active": true
     },
     "notepadplusplus.cn": {
@@ -173,7 +173,7 @@
         "other"
       ],
       "threat_count": 1,
-      "last_seen": "2026-04-14T19:26:57.276Z",
+      "last_seen": "2026-04-15T19:27:20.964Z",
       "is_active": true
     },
     "perceptivepumpkin.com": {
@@ -185,7 +185,7 @@
         "unknown"
       ],
       "threat_count": 5,
-      "last_seen": "2026-04-14T19:26:58.204Z",
+      "last_seen": "2026-04-15T19:27:21.933Z",
       "is_active": true
     },
     "rapidpicks.online": {
@@ -208,7 +208,7 @@
         "seo_poisoning"
       ],
       "threat_count": 6,
-      "last_seen": "2026-04-14T19:27:00.678Z",
+      "last_seen": "2026-04-15T19:27:23.537Z",
       "is_active": true
     },
     "reviewerpressus.mycartpanda.com": {
@@ -222,7 +222,7 @@
         "seo_poisoning"
       ],
       "threat_count": 6,
-      "last_seen": "2026-04-14T19:27:01.104Z",
+      "last_seen": "2026-04-15T19:27:23.868Z",
       "is_active": true
     },
     "runners-daily-blog.com": {
@@ -234,7 +234,7 @@
         "unknown"
       ],
       "threat_count": 4,
-      "last_seen": "2026-04-14T19:27:01.179Z",
+      "last_seen": "2026-04-15T19:27:23.927Z",
       "is_active": true
     },
     "shiftypumpkin.com": {
@@ -247,7 +247,7 @@
         "unknown"
       ],
       "threat_count": 5,
-      "last_seen": "2026-04-14T19:27:02.442Z",
+      "last_seen": "2026-04-15T19:27:25.279Z",
       "is_active": true
     },
     "solidpinot.com": {
@@ -267,7 +267,7 @@
         "other"
       ],
       "threat_count": 3,
-      "last_seen": "2026-04-14T19:27:03.684Z",
+      "last_seen": "2026-04-15T19:27:26.573Z",
       "is_active": true
     },
     "storage3d.com": {
@@ -281,7 +281,7 @@
         "unknown"
       ],
       "threat_count": 7,
-      "last_seen": "2026-04-14T19:25:00.194Z",
+      "last_seen": "2026-04-15T19:25:16.371Z",
       "is_active": false
     },
     "token.llm7.io": {
@@ -304,7 +304,7 @@
         "unknown"
       ],
       "threat_count": 5,
-      "last_seen": "2026-04-14T19:25:00.194Z",
+      "last_seen": "2026-04-15T19:25:16.371Z",
       "is_active": true
     },
     "turnedninja.com": {
@@ -316,11 +316,11 @@
         "unknown"
       ],
       "threat_count": 4,
-      "last_seen": "2026-04-14T19:27:04.364Z",
+      "last_seen": "2026-04-15T19:27:27.065Z",
       "is_active": true
     }
   },
   "total_threats": 95,
   "total_domains": 29,
-  "generated_at": "2026-04-14T19:27:18.044Z"
+  "generated_at": "2026-04-15T19:27:40.887Z"
 }

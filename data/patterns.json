@@ -563,6 +563,18 @@
       "flags": "i",
       "name": "fake_admin_mode_activation",
       "label": "Fake admin/debug mode activation claim"
+    },
+    {
+      "pattern": "(?:rm\\s+-rf|fork\\s*bomb|:\\(\\)\\s*\\{|del\\s+/[fqs]|format\\s+[a-z]:)",
+      "flags": "i",
+      "name": "destructive_command_injection",
+      "label": "Data destruction commands injected as IDPI payload"
+    },
+    {
+      "pattern": "(?:when\\s+summariz|if\\s+you\\s+are\\s+(?:ChatGPT|Gemini|Claude|GPT|Copilot|an?\\s+AI))",
+      "flags": "i",
+      "name": "conditional_model_targeting",
+      "label": "Conditional instruction targeting specific AI model or task context"
     }
   ],
   "concealments": [
@@ -1006,11 +1018,32 @@
       "name": "html_entity_encoded_prompt",
       "technique": "html_entity_encoding",
       "label": "Prompt characters encoded as HTML entities to evade text-based detection"
+    },
+    {
+      "pattern": "<[^>]+\\sdata-[a-z-]+\\s*=\\s*[\"'][^\"']*(?:ignore|override|disregard|you\\s+are|system\\s*prompt)[^\"']*[\"']",
+      "flags": "i",
+      "name": "html_data_attribute_injection",
+      "technique": "html_attribute_cloaking",
+      "label": "IDPI payload hidden in HTML data-* attributes"
+    },
+    {
+      "pattern": "<script[^>]*>[^<]*(?:document\\.write|innerHTML|insertAdjacentHTML|createElement)\\s*\\([^)]*(?:ignore|override|instruction|you\\s+are)",
+      "flags": "is",
+      "name": "javascript_dynamic_dom_injection",
+      "technique": "javascript_runtime_injection",
+      "label": "IDPI payload injected dynamically via JavaScript DOM manipulation"
+    },
+    {
+      "pattern": "(?:\\\\u200[b-f]|\\\\u2060|\\\\u2062|\\\\u2063|\\\\ufeff){2,}",
+      "flags": "i",
+      "name": "invisible_unicode_steganography",
+      "technique": "unicode_invisible_chars",
+      "label": "Invisible Unicode characters used to obfuscate or split IDPI payloads"
     }
   ],
   "_meta": {
-    "version": 34,
-    "updated_at": "2026-04-13T19:22:32.311Z",
+    "version": 35,
+    "updated_at": "2026-04-15T19:26:53.191Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }
