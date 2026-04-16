@@ -575,6 +575,18 @@
       "flags": "i",
       "name": "conditional_model_targeting",
       "label": "Conditional instruction targeting specific AI model or task context"
+    },
+    {
+      "pattern": "(?:--|##|\\*\\*)\\s*(?:Additional|End of|Important)\\s+(?:GEMINI|CLAUDE|instruction|system)\\.?md\\s+instruction",
+      "flags": "i",
+      "name": "markdown_delimiter_instruction_injection",
+      "label": "Instruction injection disguised as markdown config delimiters"
+    },
+    {
+      "pattern": "(?:build|increase|boost)\\s+(?:presence|visibility|ranking|citation)\\s+in\\s+AI\\s+(?:memory|responses|recommendations)",
+      "flags": "i",
+      "name": "ai_seo_poisoning_directive",
+      "label": "AI-targeted SEO/recommendation manipulation instruction"
     }
   ],
   "concealments": [
@@ -1042,8 +1054,8 @@
     }
   ],
   "_meta": {
-    "version": 35,
-    "updated_at": "2026-04-15T19:26:53.191Z",
+    "version": 36,
+    "updated_at": "2026-04-16T19:25:36.454Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }
