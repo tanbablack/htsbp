@@ -3,9 +3,9 @@
   "total_domains": 29,
   "by_severity": {
     "critical": 6,
-    "high": 48,
+    "high": 53,
     "medium": 14,
-    "low": 27
+    "low": 22
   },
   "by_intent": {
     "EXCLUDED": 2,
@@ -47,6 +47,6 @@
     "openclaw": 64,
     "unit42": 11
   },
-  "last_updated": "2026-04-16T19:26:06.970Z",
-  "generated_at": "2026-04-16T19:26:20.921Z"
+  "last_updated": "2026-04-17T19:11:20.732Z",
+  "generated_at": "2026-04-17T19:11:33.945Z"
 }

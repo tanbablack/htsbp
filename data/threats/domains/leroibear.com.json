@@ -2,28 +2,28 @@
   "domain": "leroibear.com",
   "threats": [
     {
-      "severity": "low",
+      "severity": "high",
       "intent": "other",
       "techniques": [],
       "description": "IDPI detected in Unit42 telemetry.",
       "source": "unit42",
       "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
       "first_seen": "2026-03-03T00:00:00Z",
-      "last_seen": "2026-04-16T19:25:51.326Z",
+      "last_seen": "2026-04-17T19:11:00.296Z",
       "is_active": true,
       "raw_payloads": [
         "override"
       ]
     },
     {
-      "severity": "low",
+      "severity": "high",
       "intent": "other",
       "techniques": [],
       "description": "IDPI threat independently verified by HTSBP. Discovered via OTX pulse: Web-Based Indirect Prompt Injection Observed in the Wild: Fooling AI Agents",
       "source": "htsbp",
       "source_url": "https://otx.alienvault.com/pulse/69a7014c21a10eb60fac7567",
       "first_seen": "2026-03-03T15:42:04.592000",
-      "last_seen": "2026-04-16T19:25:51.326Z",
+      "last_seen": "2026-04-17T19:11:00.296Z",
       "is_active": true,
       "raw_payloads": [
         "override"
@@ -31,7 +31,7 @@
     },
     {
       "url": "https://leroibear.com",
-      "severity": "low",
+      "severity": "high",
       "intent": "ai_output_manipulation",
       "techniques": [
         "visible_plaintext"
@@ -40,12 +40,15 @@
       "source": "openclaw",
       "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
       "first_seen": "2026-03-14T12:19:43.419Z",
-      "last_seen": "2026-04-16T19:25:51.326Z",
-      "is_active": true
+      "last_seen": "2026-04-17T19:11:00.296Z",
+      "is_active": true,
+      "raw_payloads": [
+        "override"
+      ]
     },
     {
       "url": "https://leroibear.com/",
-      "severity": "low",
+      "severity": "high",
       "intent": "unknown",
       "techniques": [
         "unknown"
@@ -54,12 +57,15 @@
       "source": "openclaw",
       "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
       "first_seen": "2026-03-14T18:47:58.153Z",
-      "last_seen": "2026-04-16T19:25:51.326Z",
-      "is_active": true
+      "last_seen": "2026-04-17T19:11:00.296Z",
+      "is_active": true,
+      "raw_payloads": [
+        "override"
+      ]
     },
     {
       "url": "https://leroibear.com",
-      "severity": "low",
+      "severity": "high",
       "intent": "data_destruction",
       "techniques": [
         "css_display_none"
@@ -68,9 +74,12 @@
       "source": "openclaw",
       "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
       "first_seen": "2026-03-20T18:58:44.956Z",
-      "last_seen": "2026-04-16T19:25:51.326Z",
-      "is_active": true
+      "last_seen": "2026-04-17T19:11:00.296Z",
+      "is_active": true,
+      "raw_payloads": [
+        "override"
+      ]
     }
   ],
-  "updated_at": "2026-04-16T19:25:51.326Z"
+  "updated_at": "2026-04-17T19:11:00.296Z"
 }

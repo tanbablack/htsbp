@@ -587,6 +587,12 @@
       "flags": "i",
       "name": "ai_seo_poisoning_directive",
       "label": "AI-targeted SEO/recommendation manipulation instruction"
+    },
+    {
+      "pattern": "(?:trusted\\s+content\\s+section|safe\\s+environment|you\\s+are\\s+allowed\\s+to\\s+share)\\s*[:\\.]",
+      "flags": "i",
+      "name": "fake_trust_boundary",
+      "label": "Fake trust boundary declaration to override safety"
     }
   ],
   "concealments": [
@@ -1051,11 +1057,25 @@
       "name": "invisible_unicode_steganography",
       "technique": "unicode_invisible_chars",
       "label": "Invisible Unicode characters used to obfuscate or split IDPI payloads"
+    },
+    {
+      "pattern": "color\\s*:\\s*(?:rgba\\s*\\(\\s*\\d+\\s*,\\s*\\d+\\s*,\\s*\\d+\\s*,\\s*0(?:\\.0+)?\\s*\\)|#[0-9a-fA-F]{6}00|transparent)",
+      "flags": "i",
+      "name": "rgba_transparent_text",
+      "technique": "rgba_alpha_zero",
+      "label": "Text hidden via RGBA alpha channel zero or transparent color"
+    },
+    {
+      "pattern": "(?:--|##|\\*\\*)\\s*(?:Additional|End of additional)\\s+\\w+\\.md\\s+instruction",
+      "flags": "i",
+      "name": "fake_config_delimiter",
+      "technique": "config_delimiter_spoofing",
+      "label": "Fake configuration file delimiter injection"
     }
   ],
   "_meta": {
-    "version": 36,
-    "updated_at": "2026-04-16T19:25:36.454Z",
+    "version": 37,
+    "updated_at": "2026-04-17T19:10:44.963Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }
