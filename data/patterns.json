@@ -593,6 +593,12 @@
       "flags": "i",
       "name": "fake_trust_boundary",
       "label": "Fake trust boundary declaration to override safety"
+    },
+    {
+      "pattern": "(?:trusted\\s+content\\s+section|you\\s+are\\s+allowed\\s+to\\s+share|safe\\s+environment|authorized\\s+to\\s+reveal)",
+      "flags": "i",
+      "name": "fake_trust_section_injection",
+      "label": "Fake trusted content section used to override safety instructions"
     }
   ],
   "concealments": [
@@ -1071,11 +1077,25 @@
       "name": "fake_config_delimiter",
       "technique": "config_delimiter_spoofing",
       "label": "Fake configuration file delimiter injection"
+    },
+    {
+      "pattern": "<iframe[^>]*style\\s*=\\s*[\"'][^\"']*(?:width\\s*:\\s*0|height\\s*:\\s*0|display\\s*:\\s*none)[^\"']*[\"'][^>]*>",
+      "flags": "i",
+      "name": "hidden_iframe_postmessage_injection",
+      "technique": "iframe_postmessage_xss",
+      "label": "Hidden iframe used for postMessage-based prompt injection (ShadowPrompt technique)"
+    },
+    {
+      "pattern": "(?:clip-path\\s*:\\s*(?:inset|circle|polygon|ellipse)\\s*\\([^)]*100%|text-indent\\s*:\\s*-(?:9999|99999)|position\\s*:\\s*absolute[^;]*;[^}]*(?:left|top)\\s*:\\s*-(?:9999|99999))",
+      "flags": "i",
+      "name": "css_advanced_offscreen_hiding",
+      "technique": "css_clip_path_hiding",
+      "label": "Advanced CSS hiding via clip-path, text-indent, or extreme offscreen positioning"
     }
   ],
   "_meta": {
-    "version": 37,
-    "updated_at": "2026-04-17T19:10:44.963Z",
+    "version": 38,
+    "updated_at": "2026-04-18T19:01:22.146Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }
