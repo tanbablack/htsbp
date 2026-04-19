@@ -599,6 +599,30 @@
       "flags": "i",
       "name": "fake_trust_section_injection",
       "label": "Fake trusted content section used to override safety instructions"
+    },
+    {
+      "pattern": "(?:subscribe|sign\\s*up|enroll).*(?:pro\\s*plan|premium|paid).*(?:without|no)\\s*(?:consent|approval|permission)",
+      "flags": "i",
+      "name": "coerced_subscription_attempt",
+      "label": "AI coerced into unauthorized subscription/payment"
+    },
+    {
+      "pattern": "(?:navigate|go)\\s+to\\s+.*(?:account|login|oauth).*(?:extract|read|get)\\s+(?:email|token|credential|password)",
+      "flags": "i",
+      "name": "cross_origin_credential_extraction",
+      "label": "Multi-step cross-origin credential extraction via agentic navigation"
+    },
+    {
+      "pattern": "(?:Trusted\\s+Content\\s+Section|Additional\\s+Content\\s*:|System\\s+Update\\s*:)\\s*(?:You\\s+are\\s+allowed|you\\s+(?:may|can|should))",
+      "flags": "i",
+      "name": "fake_trusted_section_injection",
+      "label": "Fake 'Trusted Content Section' header to override safety instructions"
+    },
+    {
+      "pattern": "(?:Prior\\s+to\\s+running|Before\\s+(?:executing|running)).*(?:install|npm\\s+install|pip\\s+install)\\s+.*(?:helper|support|tool)",
+      "flags": "i",
+      "name": "fake_dependency_installation",
+      "label": "Injection masquerading as required tool/dependency installation step"
     }
   ],
   "concealments": [
@@ -1091,11 +1115,25 @@
       "name": "css_advanced_offscreen_hiding",
       "technique": "css_clip_path_hiding",
       "label": "Advanced CSS hiding via clip-path, text-indent, or extreme offscreen positioning"
+    },
+    {
+      "pattern": "(?:color|fill)\\s*:\\s*(?:rgba?\\s*\\([^)]*,\\s*0(?:\\.0+)?\\s*\\)|#[0-9a-fA-F]{3,8}\\b)",
+      "flags": "i",
+      "name": "near_invisible_color_text",
+      "technique": "rgba_transparency_text",
+      "label": "Near-invisible text via low-contrast or transparent RGBA color"
+    },
+    {
+      "pattern": "<(?:svg|math|foreignObject)[^>]*>.*?(?:ignore|override|disregard|system\\s*prompt)",
+      "flags": "is",
+      "name": "svg_xml_embedded_injection",
+      "technique": "svg_xml_structure_hiding",
+      "label": "Prompt injection hidden inside SVG/MathML/foreignObject elements"
     }
   ],
   "_meta": {
-    "version": 38,
-    "updated_at": "2026-04-18T19:01:22.146Z",
+    "version": 39,
+    "updated_at": "2026-04-19T19:01:01.903Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }

@@ -13,7 +13,7 @@
       "source": "openclaw",
       "source_url": "https://www.microsoft.com/en-us/security/blog/2026/02/10/ai-recommendation-poisoning/",
       "first_seen": "2026-03-23T19:03:34.493Z",
-      "last_seen": "2026-04-18T19:01:35.873Z",
+      "last_seen": "2026-04-19T19:01:15.310Z",
       "is_active": true
     },
     {
@@ -25,12 +25,12 @@
       "source": "openclaw",
       "source_url": "N/A",
       "first_seen": "2026-03-24T19:12:36.954Z",
-      "last_seen": "2026-04-18T19:01:35.873Z",
+      "last_seen": "2026-04-19T19:01:15.310Z",
       "is_active": true,
       "raw_payloads": [
         "remember"
       ]
     }
   ],
-  "updated_at": "2026-04-18T19:01:35.873Z"
+  "updated_at": "2026-04-19T19:01:15.310Z"
 }
