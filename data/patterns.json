@@ -623,6 +623,18 @@
       "flags": "i",
       "name": "fake_dependency_installation",
       "label": "Injection masquerading as required tool/dependency installation step"
+    },
+    {
+      "pattern": "(?:summarize|read)\\s+with\\s+(?:ai|copilot|chatgpt|claude).*\\?q=",
+      "flags": "i",
+      "name": "summarize_with_ai_url_injection",
+      "label": "Summarize-with-AI URL Parameter Prompt Pre-fill"
+    },
+    {
+      "pattern": "\\b(?:when\\s+summariz(?:ing|e)|when\\s+(?:analyz|review|process)(?:ing|e))\\s+(?:this|the)\\s+(?:document|page|content|file|code)\\b",
+      "flags": "i",
+      "name": "task_conditional_trigger",
+      "label": "Task-Conditional IDPI Trigger Instruction"
     }
   ],
   "concealments": [
@@ -1129,11 +1141,18 @@
       "name": "svg_xml_embedded_injection",
       "technique": "svg_xml_structure_hiding",
       "label": "Prompt injection hidden inside SVG/MathML/foreignObject elements"
+    },
+    {
+      "pattern": "(?:process\\s+substitution|\\$\\(.*\\)|<\\(.*\\))",
+      "flags": "i",
+      "name": "shell_process_substitution_hiding",
+      "technique": "shell_process_substitution",
+      "label": "Shell Process Substitution in Allowlisted Commands"
     }
   ],
   "_meta": {
-    "version": 39,
-    "updated_at": "2026-04-19T19:01:01.903Z",
+    "version": 40,
+    "updated_at": "2026-04-20T19:16:01.019Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }

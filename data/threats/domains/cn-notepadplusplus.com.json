@@ -1,0 +1,22 @@
+{
+  "domain": "cn-notepadplusplus.com",
+  "threats": [
+    {
+      "url": "https://cn-notepadplusplus.com/",
+      "severity": "high",
+      "intent": "seo_poisoning",
+      "techniques": [
+        "seo_manipulation",
+        "fake_download_page",
+        "signed_trojan"
+      ],
+      "description": "Black Cat threat group phishing site impersonating Notepad++ software. Distributed malware via SEO-poisoned search results targeting popular software downloads. Used to deliver backdoor trojans for data theft.",
+      "source": "openclaw",
+      "source_url": "https://thehackernews.com/2026/01/black-cat-behind-seo-poisoning-malware.html",
+      "first_seen": "2026-04-20T19:16:01.017Z",
+      "last_seen": "2026-04-20T19:16:01.017Z",
+      "is_active": true
+    }
+  ],
+  "updated_at": "2026-04-20T19:16:01.017Z"
+}

@@ -1,0 +1,21 @@
+{
+  "domain": "vpn-fortinet.com",
+  "threats": [
+    {
+      "url": "https://vpn-fortinet.com/",
+      "severity": "high",
+      "intent": "seo_poisoning",
+      "techniques": [
+        "seo_manipulation",
+        "fake_download_page"
+      ],
+      "description": "SEO-poisoned fake VPN download site used by Storm-2561 campaign to distribute credential-stealing trojans. Targets users searching for enterprise VPN software and redirects to malicious ZIP files. While primarily a traditional SEO poisoning campaign, the site exploits AI-powered search recommendation surfaces.",
+      "source": "openclaw",
+      "source_url": "https://www.microsoft.com/en-us/security/blog/2026/03/12/storm-2561-uses-seo-poisoning-to-distribute-fake-vpn-clients-for-credential-theft/",
+      "first_seen": "2026-04-20T19:16:01.017Z",
+      "last_seen": "2026-04-20T19:16:01.017Z",
+      "is_active": true
+    }
+  ],
+  "updated_at": "2026-04-20T19:16:01.017Z"
+}
