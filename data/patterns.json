@@ -635,6 +635,18 @@
       "flags": "i",
       "name": "task_conditional_trigger",
       "label": "Task-Conditional IDPI Trigger Instruction"
+    },
+    {
+      "pattern": "(?:summariz|explain|review|process)(?:e|ing)\\s+this\\s+(?:document|file|page|code)\\s*,?\\s*then\\s+(?:do|execute|run|perform|read|send|fetch|open|navigate)",
+      "flags": "i",
+      "name": "conditional_task_chaining",
+      "label": "Conditional task-chaining instruction pattern (if summarizing then do X)"
+    },
+    {
+      "pattern": "(?:the\\s+user\\s+(?:is\\s+interested|wants|has\\s+(?:agreed|consented|authorized))|user\\s+consent\\s+(?:granted|confirmed|given))",
+      "flags": "i",
+      "name": "fabricated_user_consent",
+      "label": "Fabricated user consent/authorization claims to coerce agent actions"
     }
   ],
   "concealments": [
@@ -1148,11 +1160,18 @@
       "name": "shell_process_substitution_hiding",
       "technique": "shell_process_substitution",
       "label": "Shell Process Substitution in Allowlisted Commands"
+    },
+    {
+      "pattern": "<spoiler[^>]*>|\\|\\|[^|]+\\|\\|",
+      "flags": "i",
+      "name": "spoiler_tag_injection",
+      "technique": "spoiler_tag_hiding",
+      "label": "Prompt injection hidden inside spoiler tags (Reddit/Discord/forum)"
     }
   ],
   "_meta": {
-    "version": 40,
-    "updated_at": "2026-04-20T19:16:01.019Z",
+    "version": 41,
+    "updated_at": "2026-04-21T19:22:10.200Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }
