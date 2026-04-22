@@ -647,6 +647,18 @@
       "flags": "i",
       "name": "fabricated_user_consent",
       "label": "Fabricated user consent/authorization claims to coerce agent actions"
+    },
+    {
+      "pattern": "(?:this\\s+(?:ad|product|page|site|listing)\\s+(?:is|has\\s+been)\\s+(?:verified|approved|safe|legitimate))|(?:AI\\s+(?:reviewer|moderator|system)[,:]?\\s+(?:please\\s+)?(?:approve|pass|accept|allow))",
+      "flags": "i",
+      "name": "ai_review_evasion_directive",
+      "label": "AI content moderation / ad review bypass instruction"
+    },
+    {
+      "pattern": "(?:(?:navigate|go|browse|open|visit)\\s+(?:to\\s+)?(?:the\\s+)?(?:user'?s?|my)\\s+(?:bank|email|gmail|inbox|account))|(?:extract\\s+(?:saved\\s+)?(?:password|credential|token|cookie|OTP|passcode))",
+      "flags": "i",
+      "name": "cross_site_agent_hijack",
+      "label": "Cross-site agentic browser hijacking instruction"
     }
   ],
   "concealments": [
@@ -1170,8 +1182,8 @@
     }
   ],
   "_meta": {
-    "version": 41,
-    "updated_at": "2026-04-21T19:22:10.200Z",
+    "version": 42,
+    "updated_at": "2026-04-22T19:23:48.884Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }
