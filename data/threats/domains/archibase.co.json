@@ -1,0 +1,20 @@
+{
+  "domain": "archibase.co",
+  "threats": [
+    {
+      "url": "https://archibase.co",
+      "severity": "medium",
+      "intent": "output_hijacking",
+      "techniques": [
+        "unknown_concealment"
+      ],
+      "description": "Listed as verified IPI indicator in Forcepoint X-Labs research. Part of organized IPI campaign with shared injection templates across multiple domains.",
+      "source": "openclaw",
+      "source_url": "https://www.forcepoint.com/blog/x-labs/indirect-prompt-injection-payloads",
+      "first_seen": "2026-04-23T19:20:37.514Z",
+      "last_seen": "2026-04-23T19:20:37.514Z",
+      "is_active": true
+    }
+  ],
+  "updated_at": "2026-04-23T19:20:37.516Z"
+}

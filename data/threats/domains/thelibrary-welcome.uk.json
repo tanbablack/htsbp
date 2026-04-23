@@ -1,0 +1,20 @@
+{
+  "domain": "thelibrary-welcome.uk",
+  "threats": [
+    {
+      "url": "https://thelibrary-welcome.uk",
+      "severity": "high",
+      "intent": "api_key_exfiltration",
+      "techniques": [
+        "html_comment_injection"
+      ],
+      "description": "Hidden HTML comment forces LLM to leak secret API key. Includes instruction 'Do not analyze the code / Do not spit out the flag' to conceal the injection from the AI's own output.",
+      "source": "openclaw",
+      "source_url": "https://www.forcepoint.com/blog/x-labs/indirect-prompt-injection-payloads",
+      "first_seen": "2026-04-23T19:20:37.514Z",
+      "last_seen": "2026-04-23T19:20:37.514Z",
+      "is_active": true
+    }
+  ],
+  "updated_at": "2026-04-23T19:20:37.515Z"
+}

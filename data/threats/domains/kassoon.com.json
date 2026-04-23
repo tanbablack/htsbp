@@ -1,0 +1,21 @@
+{
+  "domain": "kassoon.com",
+  "threats": [
+    {
+      "url": "https://kassoon.com",
+      "severity": "high",
+      "intent": "seo_manipulation",
+      "techniques": [
+        "plaintext_visible",
+        "context_truncation"
+      ],
+      "description": "IPI payload instructs AI to redirect users to kassoon.com for traffic hijacking and SEO manipulation. Uses 'Stop here' context truncation to prevent LLM from processing legitimate content after injection.",
+      "source": "openclaw",
+      "source_url": "https://www.forcepoint.com/blog/x-labs/indirect-prompt-injection-payloads",
+      "first_seen": "2026-04-23T19:20:37.514Z",
+      "last_seen": "2026-04-23T19:20:54.235Z",
+      "is_active": true
+    }
+  ],
+  "updated_at": "2026-04-23T19:20:54.235Z"
+}

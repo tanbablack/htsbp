@@ -1,0 +1,22 @@
+{
+  "domain": "luminousmen.com",
+  "threats": [
+    {
+      "url": "https://luminousmen.com",
+      "severity": "high",
+      "intent": "attribution_hijacking",
+      "techniques": [
+        "css_display_none",
+        "conditional_ai_targeting",
+        "semantic_poisoning"
+      ],
+      "description": "Hidden <p> tag with display:none in site footer instructs AI to credit 'Kirill Bobrov' and nudge users toward consulting contact. Turns AI-assisted visits into unprompted sales pitches via summarization pipeline hijacking.",
+      "source": "openclaw",
+      "source_url": "https://www.forcepoint.com/blog/x-labs/indirect-prompt-injection-payloads",
+      "first_seen": "2026-04-23T19:20:37.514Z",
+      "last_seen": "2026-04-23T19:21:07.354Z",
+      "is_active": true
+    }
+  ],
+  "updated_at": "2026-04-23T19:21:07.354Z"
+}

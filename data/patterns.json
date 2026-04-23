@@ -659,6 +659,36 @@
       "flags": "i",
       "name": "cross_site_agent_hijack",
       "label": "Cross-site agentic browser hijacking instruction"
+    },
+    {
+      "pattern": "\\[SYSTEM\\s*OVERRIDE\\]",
+      "flags": "i",
+      "name": "system_override_delimiter",
+      "label": "System override delimiter impersonation"
+    },
+    {
+      "pattern": "expressly\\s+forbidden.*(?:answer|respond|summarize|discuss)",
+      "flags": "i",
+      "name": "false_copyright_prohibition",
+      "label": "Fake copyright prohibition to suppress AI output"
+    },
+    {
+      "pattern": "(?:credit|attribute|cite)\\s+(?:this|the|all)\\s+(?:content|work|article|page)\\s+to",
+      "flags": "i",
+      "name": "attribution_hijacking_directive",
+      "label": "Attribution hijacking directive for brand promotion"
+    },
+    {
+      "pattern": "(?:navigate|go|redirect|visit)\\s+(?:to|the)\\s+/admin",
+      "flags": "i",
+      "name": "admin_path_traversal_directive",
+      "label": "Directive to navigate AI agent to admin endpoints"
+    },
+    {
+      "pattern": "(?:send|transfer|pay|process).*(?:paypal\\.me|venmo|cashapp|zelle)",
+      "flags": "i",
+      "name": "payment_fraud_directive",
+      "label": "Financial fraud directive targeting AI payment capabilities"
     }
   ],
   "concealments": [
@@ -1179,11 +1209,32 @@
       "name": "spoiler_tag_injection",
       "technique": "spoiler_tag_hiding",
       "label": "Prompt injection hidden inside spoiler tags (Reddit/Discord/forum)"
+    },
+    {
+      "pattern": "aria-hidden\\s*=\\s*[\"']true[\"']",
+      "flags": "i",
+      "name": "aria_hidden_abuse",
+      "technique": "aria_hidden_attribute",
+      "label": "Accessibility aria-hidden attribute abuse for concealment"
+    },
+    {
+      "pattern": "class\\s*=\\s*[\"'][^\"']*visually-hidden[^\"']*[\"']",
+      "flags": "i",
+      "name": "visually_hidden_class_abuse",
+      "technique": "css_utility_class_concealment",
+      "label": "Tailwind/Bootstrap visually-hidden utility class abuse"
+    },
+    {
+      "pattern": "<meta\\s+[^>]*(?:name|property)\\s*=\\s*[\"'](?:system|ai-instruction|llm-directive)[\"']",
+      "flags": "i",
+      "name": "meta_namespace_spoofing",
+      "technique": "meta_namespace_spoofing",
+      "label": "HTML meta tag namespace spoofing for AI targeting"
     }
   ],
   "_meta": {
-    "version": 42,
-    "updated_at": "2026-04-22T19:23:48.884Z",
+    "version": 43,
+    "updated_at": "2026-04-23T19:20:37.517Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }
