@@ -689,6 +689,36 @@
       "flags": "i",
       "name": "payment_fraud_directive",
       "label": "Financial fraud directive targeting AI payment capabilities"
+    },
+    {
+      "pattern": "if\\s+you\\s+are\\s+an?\\s+(AI|LLM|assistant|agent|language\\s+model)",
+      "flags": "i",
+      "name": "conditional_ai_targeting",
+      "label": "Conditional targeting of AI agents via 'If you are an AI/LLM' phrasing"
+    },
+    {
+      "pattern": "do\\s+not\\s+(analyze|spit\\s+out|reveal|expose|display)\\s+(the\\s+)?(code|flag|injection|payload|prompt)",
+      "flags": "i",
+      "name": "self_concealment_directive",
+      "label": "Self-concealment directive preventing LLM from exposing the injection itself"
+    },
+    {
+      "pattern": "ULTRATHINK|ULTRA\\s*THINK|ultra-?think",
+      "flags": "i",
+      "name": "persuasion_amplifier_keyword",
+      "label": "Pseudo-keyword persuasion amplifier designed to trigger deeper LLM reasoning or override suppression"
+    },
+    {
+      "pattern": "SYSTEM\\s+OVERRIDE\\s+INITIATED|PRIORITY:\\s*CRITICAL|USER_ADMIN_ROOT",
+      "flags": "i",
+      "name": "fake_system_escalation",
+      "label": "Fake system override and priority escalation directives impersonating admin-level authority"
+    },
+    {
+      "pattern": "(?:confirm|process|complete|execute)\\s+(?:the\\s+)?(?:purchase|payment|transaction|transfer|donation)\\s",
+      "flags": "i",
+      "name": "financial_transaction_coercion",
+      "label": "Direct financial transaction coercion targeting AI agents with payment capabilities"
     }
   ],
   "concealments": [
@@ -1230,11 +1260,18 @@
       "name": "meta_namespace_spoofing",
       "technique": "meta_namespace_spoofing",
       "label": "HTML meta tag namespace spoofing for AI targeting"
+    },
+    {
+      "pattern": "class\\s*=\\s*[\"'][^\"']*\\bvisually-hidden\\b[^\"']*[\"']",
+      "flags": "i",
+      "name": "visually_hidden_class",
+      "technique": "css_utility_class_concealment",
+      "label": "Tailwind/Bootstrap visually-hidden utility class used to conceal IDPI payload"
     }
   ],
   "_meta": {
-    "version": 43,
-    "updated_at": "2026-04-23T19:20:37.517Z",
+    "version": 44,
+    "updated_at": "2026-04-24T19:02:29.301Z",
     "description": "Shared IDPI detection patterns. Auto-updated by OpenClaw."
   }
 }
