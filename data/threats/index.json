@@ -134,8 +134,8 @@
         "credential_theft"
       ],
       "threat_count": 1,
-      "last_seen": "2026-04-02T23:49:23.490Z",
-      "is_active": true
+      "last_seen": "2026-04-25T19:02:17.664Z",
+      "is_active": false
     },
     "kassoon.com": {
       "max_severity": "high",
@@ -392,5 +392,5 @@
   },
   "total_threats": 101,
   "total_domains": 37,
-  "generated_at": "2026-04-25T19:02:16.175Z"
+  "generated_at": "2026-04-25T19:02:17.668Z"
 }

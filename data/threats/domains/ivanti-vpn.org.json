@@ -14,9 +14,9 @@
       "source": "openclaw",
       "source_url": "https://www.microsoft.com/en-us/security/blog/2026/03/12/storm-2561-uses-seo-poisoning-to-distribute-fake-vpn-clients-for-credential-theft/",
       "first_seen": "2026-04-02T23:49:23.489Z",
-      "last_seen": "2026-04-02T23:49:23.489Z",
-      "is_active": true
+      "last_seen": "2026-04-25T19:02:17.664Z",
+      "is_active": false
     }
   ],
-  "updated_at": "2026-04-02T23:49:23.490Z"
+  "updated_at": "2026-04-25T19:02:17.664Z"
 }
