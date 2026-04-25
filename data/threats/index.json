@@ -98,7 +98,7 @@
         "sensitive_information_leakage"
       ],
       "threat_count": 2,
-      "last_seen": "2026-03-14T12:19:43.423Z",
+      "last_seen": "2026-04-25T19:01:59.739Z",
       "is_active": true
     },
     "faladobairro.com": {
@@ -392,5 +392,5 @@
   },
   "total_threats": 101,
   "total_domains": 37,
-  "generated_at": "2026-04-25T19:01:58.276Z"
+  "generated_at": "2026-04-25T19:01:59.743Z"
 }
