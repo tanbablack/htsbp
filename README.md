@@ -10,7 +10,7 @@ AI エージェントを標的に間接プロンプトインジェクション (
 
 | 経路 | 内容 |
 |---|---|
-| REST API | `/api/check-domain` `/api/list-threats` `/api/mcp` |
+| REST API | `/api/check-domain` `/api/list-threats` `/api/stats` `/api/mcp` |
 | MCP | ツール `check_domain` / `list_threats` |
 | 静的 DL | `data/` 配下を Netlify 静的配信 + GitHub raw URL |
 
