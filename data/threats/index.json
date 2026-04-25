@@ -125,8 +125,8 @@
         "other"
       ],
       "threat_count": 1,
-      "last_seen": "2026-03-14T12:16:33.193Z",
-      "is_active": true
+      "last_seen": "2026-04-25T19:01:58.272Z",
+      "is_active": false
     },
     "ivanti-vpn.org": {
       "max_severity": "critical",
@@ -392,5 +392,5 @@
   },
   "total_threats": 101,
   "total_domains": 37,
-  "generated_at": "2026-04-25T19:01:56.649Z"
+  "generated_at": "2026-04-25T19:01:58.276Z"
 }
