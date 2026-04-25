@@ -107,9 +107,7 @@ async function recheckOne(entry: DomainEntry): Promise<Diff | null> {
     threats: [updated, ...entry.data.threats.slice(1)],
     updated_at: now,
   };
-  if (!process.env.DRY_RUN) {
-    fs.writeFileSync(entry.filePath, JSON.stringify(newData, null, 2) + "\n");
-  }
+  fs.writeFileSync(entry.filePath, JSON.stringify(newData, null, 2) + "\n");
 
   return {
     reachabilityChanged,
@@ -248,14 +246,8 @@ async function main(): Promise<void> {
         console.log(`[recheck] ${entry.host}: 変化なし`);
         continue;
       }
-      if (process.env.DRY_RUN) {
-        console.log(
-          `[recheck] DRY_RUN: ${entry.host} に変化検出 (sev ${diff.before.severity}→${diff.after.severity}, active ${diff.before.isActive}→${diff.after.isActive}, +tech ${diff.newTechniques.length}) — 書込/PR スキップ`,
-        );
-      } else {
-        rebuildIndex();
-        await openPrForRecheck(entry.host, diff);
-      }
+      rebuildIndex();
+      await openPrForRecheck(entry.host, diff);
       changed++;
     } catch (err) {
       console.warn(`[recheck] ${entry.host} 失敗:`, err instanceof Error ? err.message : err);

@@ -488,11 +488,6 @@ async function reflectOne(c: Candidate, j: ComprehensiveJudgment): Promise<void>
     return;
   }
 
-  if (process.env.DRY_RUN) {
-    console.log(`[collect] DRY_RUN: ${c.host} を登録支持と判定 (書込/PR スキップ)`);
-    return;
-  }
-
   const threat = buildThreat(c, j);
   writeThreat(c, threat);
   rebuildIndex();
