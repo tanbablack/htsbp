@@ -11,7 +11,7 @@ import {
   type NetlifyEvent,
   type NetlifyResponse,
 } from "../lib/data-loader.js";
-import type { Severity, Threat } from "../types/index.js";
+import type { Severity, Threat } from "../types.js";
 
 const VALID_SEVERITIES = new Set(["critical", "high", "medium", "low"]);
 const MAX_LIMIT = 50;

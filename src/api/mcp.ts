@@ -6,7 +6,7 @@
  *
  * POST — Handles JSON-RPC 2.0 messages (initialize, tools/list, tools/call).
  */
-import { processRequest } from "../mcp/server.js";
+import { processRequest } from "../mcp/index.js";
 import {
   corsHeaders,
   type NetlifyEvent,

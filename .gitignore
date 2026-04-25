@@ -16,6 +16,8 @@ dist/
 # Dependencies
 node_modules/
 
-# Prompt file (local only)
-htsbp-claude-code-prompt.md
+# Local screenshots
 スクリーンショット/
+
+# PR body temp files (生成物)
+.pr-body-*.md

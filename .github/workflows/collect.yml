@@ -7,69 +7,31 @@ on:
 
 permissions:
   contents: write
-  issues: write
+  pull-requests: write
 
 jobs:
   collect:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v5
         with:
           node-version: '22'
       - run: npm ci
-      - name: Snapshot domains before collection
-        id: snapshot
-        run: |
-          BEFORE=$(ls data/threats/domains/*.json 2>/dev/null | xargs -I{} basename {} .json | tr '\n' ' ')
-          echo "domains_before=${BEFORE}" >> "$GITHUB_OUTPUT"
-      - run: npm run collect
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          NOTIFICATION_WEBHOOK_URL: ${{ secrets.NOTIFICATION_WEBHOOK_URL }}
-          OTX_API_KEY: ${{ secrets.OTX_API_KEY }}
-      - run: npm run collect:openclaw
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-      - name: Process threat reports
-        run: npm run process-reports
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
-          NOTIFICATION_WEBHOOK_URL: ${{ secrets.NOTIFICATION_WEBHOOK_URL }}
-      - run: npm run rebuild-stats
-      - run: npm run verify
-      - run: npm run rebuild-stats
-        name: Rebuild stats after verification
-      - name: Validate new domains (auto-remove non-IDPI)
-        run: npx tsx src/scripts/validate-new-domains.ts
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          NOTIFICATION_WEBHOOK_URL: ${{ secrets.NOTIFICATION_WEBHOOK_URL }}
-          DOMAINS_BEFORE: ${{ steps.snapshot.outputs.domains_before }}
-      - name: Report new domains
-        run: npx tsx src/scripts/report-new-domains.ts
-        env:
-          NOTIFICATION_WEBHOOK_URL: ${{ secrets.NOTIFICATION_WEBHOOK_URL }}
-          DOMAINS_BEFORE: ${{ steps.snapshot.outputs.domains_before }}
-      - name: Commit and push data
+      - name: Configure git
         run: |
           git config user.name "htsbp-bot"
           git config user.email "bot@hasthissitebeenpoisoned.ai"
-          git add -A
-          git diff --cached --quiet || git commit -m "data: auto-update $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          git pull --rebase
-          git push
-      - name: Notify success
-        if: success()
-        run: |
-          DOMAINS=$(ls data/threats/domains/*.json 2>/dev/null | wc -l | tr -d ' ')
-          curl -X POST "${{ secrets.NOTIFICATION_WEBHOOK_URL }}" \
-            -H "Content-Type: application/json" \
-            -d "{\"content\":\"✅ Daily IDPI Collection 完了\\n\\n登録ドメイン数: ${DOMAINS}\\n時刻: $(date -u +%Y-%m-%dT%H:%M:%SZ)\"}"
-      - name: Notify failure
-        if: failure()
-        run: |
-          curl -X POST "${{ secrets.NOTIFICATION_WEBHOOK_URL }}" \
-            -H "Content-Type: application/json" \
-            -d "{\"content\":\"🚨 Daily IDPI Collection 失敗\\n\\nワークフロー: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\\n時刻: $(date -u +%Y-%m-%dT%H:%M:%SZ)\"}"
+      - name: 1. 新規ドメイン発見+判定+反映
+        run: npm run collect
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OTX_API_KEY: ${{ secrets.OTX_API_KEY }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: 2. 既存ドメイン再検証+反映
+        run: npm run recheck
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

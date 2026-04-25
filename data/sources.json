@@ -4,28 +4,15 @@
     "name": "Palo Alto Networks Unit 42",
     "url": "https://unit42.paloaltonetworks.com/",
     "type": "ioc_feed",
+    "method": "claude_web_search",
     "update_frequency": "daily"
   },
   {
-    "id": "otx",
-    "name": "AlienVault OTX (discovery trigger)",
-    "url": "https://otx.alienvault.com/",
-    "type": "discovery_trigger",
+    "id": "otx-api",
+    "name": "AlienVault OTX (API)",
+    "url": "https://otx.alienvault.com/api/v1/",
+    "type": "ioc_feed",
+    "method": "otx_api",
     "update_frequency": "daily"
-  },
-
-  {
-    "id": "openclaw",
-    "name": "AI-driven discovery (Claude)",
-    "url": null,
-    "type": "ai_crawler",
-    "update_frequency": "daily"
-  },
-  {
-    "id": "community",
-    "name": "Community reports (GitHub Issues)",
-    "url": "https://github.com/tanbablack/htsbp/issues",
-    "type": "community",
-    "update_frequency": "continuous"
   }
 ]
