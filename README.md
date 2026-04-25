@@ -10,8 +10,8 @@ AI エージェントを標的に間接プロンプトインジェクション (
 
 | 経路 | 内容 |
 |---|---|
-| REST API | `/api/check-domain` `/api/list-threats` `/api/stats` `/api/mcp` |
-| MCP | ツール `check_domain` / `list_threats` |
+| REST API | `/api/check-domain` `/api/list-threats` `/api/stats` `/api/report-threat` `/api/mcp` |
+| MCP | ツール `check_domain` / `list_threats` / `report_threat` |
 | 静的 DL | `data/` 配下を Netlify 静的配信 + GitHub raw URL |
 
 ### REST API
@@ -201,11 +201,19 @@ npm install
 npm run dev
 ```
 
-## Contributing
+## Threat 通報経路
 
-新規 IDPI サイトの貢献は **PR 経由** で受け付ける。`data/threats/domains/<host>.json` を作成して PR を起票すれば `pr-validate.yml` が自動で観点 1+2 を実行し、結果をコメントする。`source_url` (出典) は必須。
+新規 IDPI サイトの通報は 3 経路すべてが **同じ検証パイプライン** (`pr-validate.yml` の scan + research) を通り、最終的にレビュアーが PR を merge することで初めて公開フィードに反映される。
 
-PR を merge できるのはレビュアーのみ。完全自動 merge は許可しない。
+| 経路 | 入口 | 動作 |
+|---|---|---|
+| **REST API** | `POST /api/report-threat` | URL + `source_url` + `description` を JSON で受け、`src/lib/report.ts` が GitHub REST API でブランチ (`report/<host>-<ts>`) と PR を起票。レスポンスに PR URL を返す |
+| **MCP** | ツール `report_threat` | 同入力。AI エージェントから直接呼べる。同じ `submitThreatReport()` を共有 |
+| **PR 直接** | GitHub 上で `data/threats/domains/<host>.json` を編集する PR | 自分でファイルを書いて PR を起票 |
+
+3 経路いずれの PR も `pr-validate.yml` (auto/* 以外で発火) が観点 1+2 を実行し、結果を PR コメントに投稿。`source_url` 欠落・到達不能 + 出典裏付けなしは CI 失敗で merge ブロック。
+
+`source_url` (出典) は必須。完全自動 merge は許可しない。
 
 ## License
 
