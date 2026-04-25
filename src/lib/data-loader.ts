@@ -4,7 +4,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import type { ThreatFile, ThreatIndex, Stats } from "../types/index.js";
+import type { ThreatFile, ThreatIndex } from "../types.js";
 
 /** Resolve the data directory path (works in both local dev and deployed Lambda) */
 function getDataDir(): string {
@@ -22,19 +22,6 @@ export function loadDomainThreats(domain: string): ThreatFile | null {
   const filePath = path.join(getDataDir(), "threats", "domains", `${domain}.json`);
   if (!fs.existsSync(filePath)) return null;
   return JSON.parse(fs.readFileSync(filePath, "utf-8"));
-}
-
-/** Load the stats summary */
-export function loadStats(): Stats {
-  const filePath = path.join(getDataDir(), "stats.json");
-  return JSON.parse(fs.readFileSync(filePath, "utf-8"));
-}
-
-/** Count the number of domain threat files */
-export function countDomainFiles(): number {
-  const dir = path.join(getDataDir(), "threats", "domains");
-  if (!fs.existsSync(dir)) return 0;
-  return fs.readdirSync(dir).filter(f => f.endsWith(".json")).length;
 }
 
 /** Standard CORS + JSON response headers */
