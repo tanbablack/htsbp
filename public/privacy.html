@@ -51,14 +51,8 @@
         </ul>
         <p class="mt-3">We do <strong class="text-white">not</strong> collect IP addresses, user identifiers, or personal information from API requests. Analytics are server-side via Netlify Analytics and contain no personally identifiable information.</p>
 
-        <h3 class="text-base font-medium text-gray-200 mt-5 mb-2">2b. Threat Reports</h3>
-        <p>When you submit a threat report (via MCP <code class="text-cyan-400">report_threat</code>, POST API, or GitHub Issues), we collect:</p>
-        <ul class="list-disc ml-6 mt-2 space-y-1">
-          <li>The reported URL</li>
-          <li>Optional description you provide</li>
-          <li>Submission timestamp</li>
-        </ul>
-        <p class="mt-3">Reports submitted via GitHub Issues are governed by <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener" class="text-cyan-400 hover:underline">GitHub's Privacy Policy</a>.</p>
+        <h3 class="text-base font-medium text-gray-200 mt-5 mb-2">2b. Threat Contributions (Pull Requests)</h3>
+        <p>When you contribute a threat entry via Pull Request on GitHub, the submission is governed by <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener" class="text-cyan-400 hover:underline">GitHub's Privacy Policy</a>. The PR validation workflow fetches the contributed URL once to verify reachability and presence of IDPI payloads; no information about the contributor is collected by HTSBP beyond what GitHub already exposes via the PR.</p>
       </section>
 
       <section>

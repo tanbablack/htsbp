@@ -17,10 +17,8 @@ Base URL: `https://hasthissitebeenpoisoned.ai/api`
 ### Endpoints
 
 - `GET /api/check-domain?domain={domain}` — Check if a domain hosts known IDPI threats
-- `GET /api/check-url?url={url}` — Check a specific URL for IDPI payloads
 - `GET /api/list-threats?severity={severity}&intent={intent}&limit={limit}` — List known threats with filters
 - `GET /api/stats` — Aggregate statistics about the threat database
-- `POST /api/report-threat` — Report a suspected IDPI threat (body: `{ url, severity?, description? }`)
 
 ## MCP Server
 
@@ -42,17 +40,18 @@ Protocol: Streamable HTTP (JSON-RPC 2.0)
 ### Tools
 
 - `check_domain` — Check if a domain hosts known IDPI attacks. Input: `{ domain: string }`
-- `check_url` — Check if a URL contains known IDPI payloads. Input: `{ url: string }`
 - `list_threats` — List known threats with optional filters. Input: `{ severity?: string, intent?: string, limit?: number }`
-- `report_threat` — Report a suspected IDPI threat. Input: `{ url: string, severity?: string, description?: string }`
 
 ## Data Sources
 
-- Unit 42 (Palo Alto Networks) — Daily IoC feeds
-- AlienVault OTX — Discovery & verification
-- tldrsec/prompt-injection-defenses — Curated list (weekly)
-- AI Web Crawler (OpenClaw) — Active analysis (daily)
-- Community Reports — GitHub Issues & MCP/API (continuous)
+- Unit 42 (Palo Alto Networks) — Discovered via Claude web search
+- AlienVault OTX — IoC API (pulses tagged "prompt injection" / "IDPI")
+
+All threat records cite an explicit `source_url` (mandatory schema field). Daily collection re-verifies reachability and AI-malice signals; changes are submitted as pull requests for human review.
+
+## Contributing
+
+Add `data/threats/domains/<host>.json` via Pull Request on GitHub. The CI workflow runs reachability + AI-malice scan and source-credibility research, posts the verdict as a PR comment, and blocks merge if the entry is not verifiable. `source_url` is required.
 
 ## Documentation
 
