@@ -19,6 +19,7 @@ Base URL: `https://hasthissitebeenpoisoned.ai/api`
 - `GET /api/check-domain?domain={domain}` — Check if a domain hosts known IDPI threats
 - `GET /api/list-threats?severity={severity}&intent={intent}&limit={limit}` — List known threats with filters
 - `GET /api/stats` — Aggregate statistics about the threat database
+- `POST /api/report-threat` — Submit a suspected IDPI threat. Body: `{ url, source_url, description, severity? }`. Opens a PR validated by the same scan + research pipeline used for human PRs; returns the PR URL.
 
 ## MCP Server
 
@@ -41,6 +42,7 @@ Protocol: Streamable HTTP (JSON-RPC 2.0)
 
 - `check_domain` — Check if a domain hosts known IDPI attacks. Input: `{ domain: string }`
 - `list_threats` — List known threats with optional filters. Input: `{ severity?: string, intent?: string, limit?: number }`
+- `report_threat` — Submit a suspected IDPI threat. Input: `{ url: string, source_url: string, description: string, severity?: string }`. Opens a PR; same validation pipeline as human PRs. Returns the PR URL.
 
 ## Data Sources
 
@@ -51,7 +53,13 @@ All threat records cite an explicit `source_url` (mandatory schema field). Daily
 
 ## Contributing
 
-Add `data/threats/domains/<host>.json` via Pull Request on GitHub. The CI workflow runs reachability + AI-malice scan and source-credibility research, posts the verdict as a PR comment, and blocks merge if the entry is not verifiable. `source_url` is required.
+Three equivalent paths — all go through the same validation pipeline and require a reviewer to merge:
+
+1. **REST API** — `POST /api/report-threat` (programmatic; opens a PR for you)
+2. **MCP tool** — `report_threat` (for AI agents; same flow as REST API)
+3. **Direct PR** — Add `data/threats/domains/<host>.json` via Pull Request on GitHub
+
+The CI workflow (`pr-validate.yml`) runs reachability + AI-malice scan and source-credibility research, posts the verdict as a PR comment, and blocks merge if the entry is not verifiable. `source_url` is required for all paths.
 
 ## Documentation
 

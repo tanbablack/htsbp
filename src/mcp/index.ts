@@ -4,6 +4,11 @@
  * 公開ツール: check_domain / list_threats
  */
 import { loadDomainThreats, loadThreatIndex } from "../lib/data-loader.js";
+import {
+  submitThreatReport,
+  ReportValidationError,
+  type SubmitInput,
+} from "../lib/report.js";
 import type { Threat } from "../types.js";
 
 /* ────────────────────────────────────────────────────────────────────────── */
@@ -61,6 +66,32 @@ const MCP_TOOLS: McpToolDefinition[] = [
       },
     },
     annotations: { readOnlyHint: true, destructiveHint: false },
+  },
+  {
+    name: "report_threat",
+    description:
+      "Report a suspected IDPI threat. Opens a Pull Request which is automatically validated by the same scan + research pipeline used for human PRs (observation 1: reachability + AI malicious code analysis; observation 2: source_url credibility + domain reputation via web search). Returns the PR URL.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        url: { type: "string", description: "URL where the IDPI payload was observed (required, http/https)" },
+        source_url: {
+          type: "string",
+          description: "URL of the supporting evidence/citation (required, http/https). HTSBP requires every threat record to cite an explicit source.",
+        },
+        description: {
+          type: "string",
+          description: "Description of the observed payload: location, wording, behavior (required, min 20 chars)",
+        },
+        severity: {
+          type: "string",
+          enum: ["critical", "high", "medium", "low"],
+          description: "Submitter's severity estimate (optional; the scan pipeline re-derives the final value)",
+        },
+      },
+      required: ["url", "source_url", "description"],
+    },
+    annotations: { readOnlyHint: false, destructiveHint: false, openWorldHint: true },
   },
 ];
 
@@ -147,6 +178,47 @@ function handleListThreats(args: Record<string, unknown>): ToolResult {
   };
 }
 
+async function handleReportThreat(args: Record<string, unknown>): Promise<ToolResult> {
+  const input: SubmitInput = {
+    url: String(args.url ?? ""),
+    source_url: String(args.source_url ?? ""),
+    description: String(args.description ?? ""),
+    severity: args.severity as SubmitInput["severity"],
+  };
+  try {
+    const result = await submitThreatReport(input);
+    return {
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify(
+            {
+              success: true,
+              message:
+                "PR を起票しました。pr-validate が自動検証を実行します。レビュアー merge で本登録されます。",
+              ...result,
+            },
+            null,
+            2,
+          ),
+        },
+      ],
+    };
+  } catch (err) {
+    if (err instanceof ReportValidationError) {
+      return {
+        content: [{ type: "text", text: `Validation error (${err.field}): ${err.message}` }],
+        isError: true,
+      };
+    }
+    const message = err instanceof Error ? err.message : String(err);
+    return {
+      content: [{ type: "text", text: `Internal error: ${message}` }],
+      isError: true,
+    };
+  }
+}
+
 async function executeTool(
   name: string,
   args: Record<string, unknown>,
@@ -156,6 +228,8 @@ async function executeTool(
       return handleCheckDomain(args);
     case "list_threats":
       return handleListThreats(args);
+    case "report_threat":
+      return handleReportThreat(args);
     default:
       return {
         content: [{ type: "text", text: `Unknown tool: ${name}` }],
