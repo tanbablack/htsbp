@@ -365,7 +365,7 @@
         "recruitment_manipulation"
       ],
       "threat_count": 5,
-      "last_seen": "2026-04-24T19:01:15.517Z",
+      "last_seen": "2026-04-26T19:04:30.290Z",
       "is_active": true
     },
     "turnedninja.com": {
@@ -392,5 +392,5 @@
   },
   "total_threats": 101,
   "total_domains": 37,
-  "generated_at": "2026-04-26T19:04:28.404Z"
+  "generated_at": "2026-04-26T19:04:30.297Z"
 }
