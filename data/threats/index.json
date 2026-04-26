@@ -224,7 +224,7 @@
         "other"
       ],
       "threat_count": 1,
-      "last_seen": "2026-04-24T19:03:15.773Z",
+      "last_seen": "2026-04-26T19:06:04.741Z",
       "is_active": true
     },
     "perceptivepumpkin.com": {
@@ -392,5 +392,5 @@
   },
   "total_threats": 101,
   "total_domains": 37,
-  "generated_at": "2026-04-26T19:05:38.952Z"
+  "generated_at": "2026-04-26T19:06:04.744Z"
 }
