@@ -16,8 +16,8 @@
         "output_hijacking"
       ],
       "threat_count": 1,
-      "last_seen": "2026-04-23T19:20:37.516Z",
-      "is_active": true
+      "last_seen": "2026-04-28T19:49:59.932Z",
+      "is_active": false
     },
     "cblanke2.pages.dev": {
       "max_severity": "critical",
@@ -392,5 +392,5 @@
   },
   "total_threats": 101,
   "total_domains": 37,
-  "generated_at": "2026-04-28T19:49:57.614Z"
+  "generated_at": "2026-04-28T19:49:59.935Z"
 }
