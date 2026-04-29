@@ -173,7 +173,7 @@
         "unauthorized_transaction"
       ],
       "threat_count": 2,
-      "last_seen": "2026-04-24T19:02:57.988Z",
+      "last_seen": "2026-04-29T19:47:08.546Z",
       "is_active": true
     },
     "luminousmen.com": {
@@ -392,5 +392,5 @@
   },
   "total_threats": 101,
   "total_domains": 37,
-  "generated_at": "2026-04-29T19:46:56.361Z"
+  "generated_at": "2026-04-29T19:47:08.550Z"
 }
