@@ -9,9 +9,9 @@
       "source": "htsbp",
       "source_url": "https://otx.alienvault.com/pulse/686f4341c90446a275fdc4f9",
       "first_seen": "2025-07-10T04:36:17.355000",
-      "last_seen": "2025-07-10T04:36:17.355000",
-      "is_active": true
+      "last_seen": "2026-04-29T19:45:17.765Z",
+      "is_active": false
     }
   ],
-  "updated_at": "2026-03-14T12:16:33.193Z"
+  "updated_at": "2026-04-29T19:45:17.765Z"
 }
