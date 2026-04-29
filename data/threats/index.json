@@ -7,7 +7,7 @@
         "other"
       ],
       "threat_count": 3,
-      "last_seen": "2026-03-24T19:12:40.370Z",
+      "last_seen": "2026-04-29T19:45:31.736Z",
       "is_active": true
     },
     "archibase.co": {
@@ -392,5 +392,5 @@
   },
   "total_threats": 101,
   "total_domains": 37,
-  "generated_at": "2026-04-29T19:45:19.695Z"
+  "generated_at": "2026-04-29T19:45:31.740Z"
 }
