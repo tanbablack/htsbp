@@ -37,8 +37,8 @@
         "ai_memory_poisoning"
       ],
       "threat_count": 1,
-      "last_seen": "2026-04-24T19:02:43.538Z",
-      "is_active": true
+      "last_seen": "2026-04-29T19:46:26.456Z",
+      "is_active": false
     },
     "cn-notepadplusplus.com": {
       "max_severity": "high",
@@ -392,5 +392,5 @@
   },
   "total_threats": 101,
   "total_domains": 37,
-  "generated_at": "2026-04-29T19:46:24.623Z"
+  "generated_at": "2026-04-29T19:46:26.460Z"
 }
