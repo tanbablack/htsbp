@@ -4,14 +4,17 @@
     {
       "severity": "low",
       "intent": "other",
-      "techniques": [],
+      "techniques": [
+        "javascript_dynamic",
+        "base64_encoding"
+      ],
       "description": "IDPI threat independently verified by HTSBP. Discovered via OTX pulse: Suspected Phishing: occidpisol.pro",
       "source": "htsbp",
       "source_url": "https://otx.alienvault.com/pulse/686e9fecbe2f2bed517b0d8c",
       "first_seen": "2025-07-09T16:59:24.658000",
-      "last_seen": "2026-04-24T19:03:15.773Z",
+      "last_seen": "2026-04-30T19:33:10.265Z",
       "is_active": true
     }
   ],
-  "updated_at": "2026-04-24T19:03:15.773Z"
+  "updated_at": "2026-04-30T19:33:10.265Z"
 }
