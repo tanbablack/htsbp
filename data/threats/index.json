@@ -186,12 +186,12 @@
       "is_active": true
     },
     "metehan.ai": {
-      "max_severity": "low",
+      "max_severity": "high",
       "intents": [
         "ai_memory_poisoning_tooling"
       ],
       "threat_count": 1,
-      "last_seen": "2026-04-24T19:02:58.518Z",
+      "last_seen": "2026-04-30T19:32:53.155Z",
       "is_active": true
     },
     "myshantispa.com": {
@@ -392,5 +392,5 @@
   },
   "total_threats": 101,
   "total_domains": 37,
-  "generated_at": "2026-04-30T19:32:34.956Z"
+  "generated_at": "2026-04-30T19:32:53.159Z"
 }
