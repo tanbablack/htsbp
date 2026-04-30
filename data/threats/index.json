@@ -46,8 +46,8 @@
         "seo_poisoning"
       ],
       "threat_count": 1,
-      "last_seen": "2026-04-20T19:16:01.017Z",
-      "is_active": true
+      "last_seen": "2026-04-30T19:31:36.676Z",
+      "is_active": false
     },
     "cn-obsidian.com": {
       "max_severity": "high",
@@ -392,5 +392,5 @@
   },
   "total_threats": 101,
   "total_domains": 37,
-  "generated_at": "2026-04-30T19:31:34.406Z"
+  "generated_at": "2026-04-30T19:31:36.679Z"
 }
