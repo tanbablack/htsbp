@@ -277,7 +277,7 @@
       "is_active": true
     },
     "runners-daily-blog.com": {
-      "max_severity": "high",
+      "max_severity": "critical",
       "intents": [
         "other",
         "unauthorized_transaction",
@@ -285,7 +285,7 @@
         "system_override"
       ],
       "threat_count": 4,
-      "last_seen": "2026-04-24T19:03:20.990Z",
+      "last_seen": "2026-05-02T19:11:10.567Z",
       "is_active": true
     },
     "shiftypumpkin.com": {
@@ -392,5 +392,5 @@
   },
   "total_threats": 101,
   "total_domains": 37,
-  "generated_at": "2026-05-02T19:10:35.826Z"
+  "generated_at": "2026-05-02T19:11:10.571Z"
 }
