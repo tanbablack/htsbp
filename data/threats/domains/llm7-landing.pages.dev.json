@@ -12,8 +12,8 @@
       "source": "unit42",
       "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
       "first_seen": "2026-03-03T00:00:00Z",
-      "last_seen": "2026-04-24T19:02:57.988Z",
-      "is_active": true
+      "last_seen": "2026-05-02T19:10:02.606Z",
+      "is_active": false
     },
     {
       "url": "https://llm7-landing.pages.dev/_next/static/chunks/app/page-94a1a9b785a7305c.js",
@@ -32,5 +32,5 @@
       "is_active": true
     }
   ],
-  "updated_at": "2026-04-24T19:02:57.988Z"
+  "updated_at": "2026-05-02T19:10:02.606Z"
 }
