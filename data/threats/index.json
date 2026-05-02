@@ -386,11 +386,11 @@
         "seo_poisoning"
       ],
       "threat_count": 1,
-      "last_seen": "2026-04-20T19:16:01.017Z",
-      "is_active": true
+      "last_seen": "2026-05-02T19:09:02.440Z",
+      "is_active": false
     }
   },
   "total_threats": 101,
   "total_domains": 37,
-  "generated_at": "2026-05-02T19:08:56.295Z"
+  "generated_at": "2026-05-02T19:09:02.443Z"
 }
