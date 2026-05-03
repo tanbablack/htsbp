@@ -24,6 +24,15 @@ jobs:
         run: |
           git config user.name "htsbp-bot"
           git config user.email "bot@hasthissitebeenpoisoned.ai"
+      - name: 0. PR ラベル整備 (idempotent)
+        # collect.ts / recheck.ts が `gh pr create --label auto-collect/auto-recheck/needs-review`
+        # を呼ぶため、未作成だと PR 作成全体が失敗する。`--force` で「無ければ作る/有れば更新」する。
+        run: |
+          gh label create auto-collect --description "新規ドメイン自動収集 PR (要レビュー)" --color 0E8A16 --force
+          gh label create auto-recheck --description "既存ドメイン再検証で変化を検出した PR (要レビュー)" --color 1D76DB --force
+          gh label create needs-review --description "Low-confidence finding, needs manual review" --color FBCA04 --force
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: 1. 新規ドメイン発見+判定+反映
         run: npm run collect
         env:
