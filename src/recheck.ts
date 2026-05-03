@@ -3,7 +3,10 @@
  *
  * data/threats/domains/<host>.json 全件を対象に scanUrl() を実行し、
  * 到達性 / severity / techniques に変化があれば該当レコードを更新して
- * ドメインごとに個別 PR を起票する。
+ * 直接 main にコミット (ドメインごとに 1 commit) して push する。
+ *
+ * 新規ドメイン発見と異なり、再検証は scan() 結果に基づく機械的な
+ * 状態追従なので人間レビューを介在させない方針。
  *
  * レート制御: 1 日あたり最大 100 ドメイン (last_seen が古い順)。
  */
@@ -199,30 +202,25 @@ function execGit(cmd: string): string {
   return execSync(cmd, { cwd: PROJECT_ROOT, encoding: "utf-8" }).trim();
 }
 
-async function openPrForRecheck(host: string, diff: Diff): Promise<void> {
-  const date = new Date().toISOString().slice(0, 10).replace(/-/g, "");
-  const branch = `auto/recheck/${host}-${date}`;
+function buildSubject(host: string, diff: Diff): string {
+  const parts: string[] = [];
+  if (diff.reachabilityChanged) parts.push(`is_active=${diff.after.isActive}`);
+  if (diff.severityChanged) parts.push(`severity ${diff.before.severity}→${diff.after.severity}`);
+  if (diff.newTechniques.length > 0) parts.push(`+techniques`);
+  return `data(recheck): ${host} ${parts.join(" / ")}`;
+}
+
+function commitDiffToMain(host: string, diff: Diff): void {
   const filePath = path.relative(PROJECT_ROOT, path.join(DOMAINS_DIR, `${host}.json`));
   const indexRel = path.relative(PROJECT_ROOT, INDEX_PATH);
-  const bodyPath = path.join(PROJECT_ROOT, `.pr-body-recheck-${host}.md`);
-  fs.writeFileSync(bodyPath, renderDiffMd(host, diff));
-
+  const msgPath = path.join(PROJECT_ROOT, `.commit-msg-recheck-${host}.txt`);
+  const subject = buildSubject(host, diff);
+  fs.writeFileSync(msgPath, `${subject}\n\n${renderDiffMd(host, diff)}\n`);
   try {
-    execGit("git config user.name htsbp-bot");
-    execGit("git config user.email bot@hasthissitebeenpoisoned.ai");
-    execGit(`git checkout -B ${branch}`);
     execGit(`git add ${JSON.stringify(filePath)} ${JSON.stringify(indexRel)}`);
-    execGit(`git commit -m ${JSON.stringify(`data: ${host} 再検証で変化を検出 (要レビュー)`)}`);
-    execGit(`git push -u --force origin ${branch}`);
-    execSync(
-      `gh pr create --title ${JSON.stringify(`data: ${host} 再検証で変化を検出 (要レビュー)`)} --body-file ${JSON.stringify(bodyPath)} --base main --head ${branch} --label auto-recheck --label needs-review`,
-      { cwd: PROJECT_ROOT, stdio: "inherit" },
-    );
-    execGit("git checkout main");
-  } catch (err) {
-    console.warn(`[recheck] PR 起票失敗 ${host}:`, err instanceof Error ? err.message : err);
+    execGit(`git commit -F ${JSON.stringify(msgPath)}`);
   } finally {
-    fs.rmSync(bodyPath, { force: true });
+    fs.rmSync(msgPath, { force: true });
   }
 }
 
@@ -237,6 +235,10 @@ async function main(): Promise<void> {
   const targets = all.slice(0, MAX_PER_DAY);
   console.log(`[recheck] 対象 ${targets.length}/${all.length} 件`);
 
+  try { execGit("git config user.name htsbp-bot"); } catch { /* ignore */ }
+  try { execGit("git config user.email bot@hasthissitebeenpoisoned.ai"); } catch { /* ignore */ }
+  try { execGit("git checkout main"); } catch { /* already on main */ }
+
   let changed = 0;
   for (const entry of targets) {
     console.log(`[recheck] scanning ${entry.host}...`);
@@ -247,12 +249,32 @@ async function main(): Promise<void> {
         continue;
       }
       rebuildIndex();
-      await openPrForRecheck(entry.host, diff);
+      commitDiffToMain(entry.host, diff);
+      console.log(`[recheck] ${entry.host}: ${buildSubject(entry.host, diff)}`);
       changed++;
     } catch (err) {
       console.warn(`[recheck] ${entry.host} 失敗:`, err instanceof Error ? err.message : err);
     }
   }
+
+  if (changed > 0) {
+    try {
+      execGit("git push origin main");
+      console.log(`[recheck] main へ ${changed} commit を push`);
+    } catch (err) {
+      // 同時実行で main が進んでいた場合の保険: rebase してリトライ
+      console.warn("[recheck] push 失敗、rebase 後リトライ:", err instanceof Error ? err.message : err);
+      try {
+        execGit("git pull --rebase origin main");
+        execGit("git push origin main");
+        console.log(`[recheck] rebase 後 push 成功`);
+      } catch (err2) {
+        console.error("[recheck] rebase 後も push 失敗:", err2 instanceof Error ? err2.message : err2);
+        process.exit(1);
+      }
+    }
+  }
+
   console.log(`[recheck] 完了: 変化検出 ${changed} 件`);
 }
 
