@@ -213,7 +213,7 @@ async function openPrForRecheck(host: string, diff: Diff): Promise<void> {
     execGit(`git checkout -B ${branch}`);
     execGit(`git add ${JSON.stringify(filePath)} ${JSON.stringify(indexRel)}`);
     execGit(`git commit -m ${JSON.stringify(`data: ${host} 再検証で変化を検出 (要レビュー)`)}`);
-    execGit(`git push -u origin ${branch}`);
+    execGit(`git push -u --force origin ${branch}`);
     execSync(
       `gh pr create --title ${JSON.stringify(`data: ${host} 再検証で変化を検出 (要レビュー)`)} --body-file ${JSON.stringify(bodyPath)} --base main --head ${branch} --label auto-recheck --label needs-review`,
       { cwd: PROJECT_ROOT, stdio: "inherit" },
