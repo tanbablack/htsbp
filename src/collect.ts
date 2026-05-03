@@ -507,7 +507,7 @@ async function reflectOne(c: Candidate, j: ComprehensiveJudgment): Promise<void>
     execGit(
       `git commit -m ${JSON.stringify(`data: 新規IDPI候補 ${c.host} を追加 (要レビュー)`)}`,
     );
-    execGit(`git push -u origin ${branch}`);
+    execGit(`git push -u --force origin ${branch}`);
     await openPrViaCli(branch, `data: 新規IDPI候補 ${c.host} を追加 (要レビュー)`, bodyPath);
     execGit("git checkout main");
   } catch (err) {
