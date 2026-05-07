@@ -138,12 +138,12 @@
       "is_active": false
     },
     "kassoon.com": {
-      "max_severity": "high",
+      "max_severity": "medium",
       "intents": [
         "seo_manipulation"
       ],
       "threat_count": 1,
-      "last_seen": "2026-05-03T01:22:05.717Z",
+      "last_seen": "2026-05-07T19:52:05.225Z",
       "is_active": true
     },
     "kleintechnik.net": {
@@ -392,5 +392,5 @@
   },
   "total_threats": 101,
   "total_domains": 37,
-  "generated_at": "2026-05-04T19:51:00.089Z"
+  "generated_at": "2026-05-07T19:52:05.229Z"
 }
