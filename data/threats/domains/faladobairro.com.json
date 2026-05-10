@@ -14,13 +14,13 @@
       "source": "openclaw",
       "source_url": "https://www.forcepoint.com/blog/x-labs/indirect-prompt-injection-payloads",
       "first_seen": "2026-04-23T19:20:37.514Z",
-      "last_seen": "2026-05-09T19:12:46.819Z",
-      "is_active": false,
+      "last_seen": "2026-05-10T19:16:14.393Z",
+      "is_active": true,
       "raw_payloads": [
         "ignore all previous instructions",
         "rm -rf"
       ]
     }
   ],
-  "updated_at": "2026-05-09T19:12:46.819Z"
+  "updated_at": "2026-05-10T19:16:14.393Z"
 }
