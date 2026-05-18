@@ -225,6 +225,7 @@ function commitDiffToMain(host: string, diff: Diff): void {
 }
 
 async function main(): Promise<void> {
+  const failures: string[] = [];
   const all = loadAll();
   if (all.length === 0) {
     console.log("[recheck] 対象ドメインなし");
@@ -253,7 +254,9 @@ async function main(): Promise<void> {
       console.log(`[recheck] ${entry.host}: ${buildSubject(entry.host, diff)}`);
       changed++;
     } catch (err) {
-      console.warn(`[recheck] ${entry.host} 失敗:`, err instanceof Error ? err.message : err);
+      const msg = err instanceof Error ? err.message : String(err);
+      console.warn(`[recheck] ${entry.host} 失敗:`, msg);
+      failures.push(`${entry.host}: ${msg}`);
     }
   }
 
@@ -276,6 +279,12 @@ async function main(): Promise<void> {
   }
 
   console.log(`[recheck] 完了: 変化検出 ${changed} 件`);
+
+  if (failures.length > 0) {
+    console.error(`[recheck] 失敗 ${failures.length} 件 → exit 1:`);
+    for (const f of failures) console.error(`  - ${f}`);
+    process.exit(1);
+  }
 }
 
 main().catch((err) => {
