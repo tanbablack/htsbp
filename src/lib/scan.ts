@@ -181,6 +181,9 @@ JSON のみ。前置き・後書き不要。全フィールド日本語で記述
 
   if (!res.ok) {
     const err = await res.text();
+    console.warn(
+      `[scan] ${url}: Claude API HTTP ${res.status} — aiVerdict=unknown で継続。応答: ${err.slice(0, 200)}`,
+    );
     return {
       aiVerdict: "unknown",
       intent: "other",
@@ -213,7 +216,11 @@ JSON のみ。前置き・後書き不要。全フィールド日本語で記述
       techniques: Array.isArray(parsed.techniques) ? parsed.techniques : [],
       reasoningJa: parsed.reasoning_ja ?? "解析根拠なし",
     };
-  } catch {
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.warn(
+      `[scan] ${url}: Claude 応答の JSON 解析失敗 (${msg}) — aiVerdict=unknown で継続。応答先頭: ${text.slice(0, 200)}`,
+    );
     return {
       aiVerdict: "unknown",
       intent: "other",

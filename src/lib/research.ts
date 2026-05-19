@@ -71,6 +71,9 @@ JSON のみ。前置き・後書き不要。全フィールド日本語で記述
 
   if (!res.ok) {
     const err = await res.text();
+    console.warn(
+      `[research] ${host}: Claude API HTTP ${res.status} — sourceVerdict=unknown / domainClass=unknown で継続。応答: ${err.slice(0, 200)}`,
+    );
     return {
       sourceVerdict: "unknown",
       domainClass: "unknown",
@@ -100,7 +103,11 @@ JSON のみ。前置き・後書き不要。全フィールド日本語で記述
       domainClass: parsed.domain_class ?? "unknown",
       reasoningJa: parsed.reasoning_ja ?? "調査根拠なし",
     };
-  } catch {
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.warn(
+      `[research] ${host}: Claude 応答の JSON 解析失敗 (${msg}) — unknown で継続。応答先頭: ${text.slice(0, 200)}`,
+    );
     return {
       sourceVerdict: "unknown",
       domainClass: "unknown",
