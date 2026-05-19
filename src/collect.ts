@@ -114,51 +114,78 @@ interface OtxPulse {
   modified: string;
 }
 
-async function otxFetch<T>(url: string): Promise<T | null> {
+interface OtxFetchResult<T> {
+  data: T | null;
+  lastStatus: number | null;
+  lastError: string | null;
+}
+
+async function otxFetch<T>(url: string): Promise<OtxFetchResult<T>> {
   const headers: Record<string, string> = {
     Accept: "application/json",
     "User-Agent": "htsbp-collect/1.0",
   };
   if (process.env.OTX_API_KEY) headers["X-OTX-API-KEY"] = process.env.OTX_API_KEY;
-  for (let attempt = 0; attempt < 3; attempt++) {
+  const path = (() => {
+    try { const u = new URL(url); return u.pathname + u.search; } catch { return url; }
+  })();
+  const MAX = 5;
+  let lastStatus: number | null = null;
+  let lastError: string | null = null;
+  for (let attempt = 0; attempt < MAX; attempt++) {
     try {
       const ctrl = new AbortController();
-      const timer = setTimeout(() => ctrl.abort(), 15_000);
+      const timer = setTimeout(() => ctrl.abort(), 30_000);
       const res = await fetch(url, { headers, signal: ctrl.signal });
       clearTimeout(timer);
-      if (res.status === 504 || res.status === 503 || res.status === 429) {
-        await new Promise((r) => setTimeout(r, 3000 * 2 ** attempt));
+      lastStatus = res.status;
+      lastError = null;
+      if (res.status === 429 || (res.status >= 500 && res.status < 600)) {
+        console.log(`[otxFetch] ${path} attempt ${attempt + 1}/${MAX}: HTTP ${res.status} (retrying)`);
+        if (attempt < MAX - 1) await new Promise((r) => setTimeout(r, 3000 * 2 ** attempt));
         continue;
       }
-      if (!res.ok) return null;
-      return (await res.json()) as T;
-    } catch {
-      if (attempt === 2) return null;
-      await new Promise((r) => setTimeout(r, 3000 * 2 ** attempt));
+      if (!res.ok) {
+        console.log(`[otxFetch] ${path} attempt ${attempt + 1}/${MAX}: HTTP ${res.status} (giving up)`);
+        return { data: null, lastStatus, lastError: null };
+      }
+      const json = (await res.json()) as T;
+      if (attempt > 0) console.log(`[otxFetch] ${path}: OK on attempt ${attempt + 1}`);
+      return { data: json, lastStatus, lastError: null };
+    } catch (e) {
+      lastError = e instanceof Error ? `${e.name}: ${e.message}` : String(e);
+      console.log(`[otxFetch] ${path} attempt ${attempt + 1}/${MAX}: ${lastError} (retrying)`);
+      if (attempt < MAX - 1) await new Promise((r) => setTimeout(r, 3000 * 2 ** attempt));
     }
   }
-  return null;
+  console.log(`[otxFetch] ${path}: FAILED after ${MAX} attempts (lastStatus=${lastStatus}, lastError=${lastError})`);
+  return { data: null, lastStatus, lastError };
 }
 
 async function discoverFromOtxApi(known: Set<string>): Promise<Candidate[]> {
   const out: Candidate[] = [];
   const seen = new Set<string>();
   let termsSucceeded = 0;
+  const termOutcomes: string[] = [];
   for (const term of OTX_TERMS) {
     if (seen.size >= OTX_MAX_TOTAL_DOMAINS) break;
-    const data = await otxFetch<{ results: OtxPulse[] }>(
+    const r = await otxFetch<{ results: OtxPulse[] }>(
       `${OTX_API}/search/pulses?q=${encodeURIComponent(term)}&limit=20`,
     );
-    if (!data) continue;
+    if (!r.data) {
+      termOutcomes.push(`"${term}"=${r.lastError ?? `HTTP ${r.lastStatus ?? "?"}`}`);
+      continue;
+    }
     termsSucceeded++;
-    for (const pulse of data.results ?? []) {
+    termOutcomes.push(`"${term}"=OK`);
+    for (const pulse of r.data.results ?? []) {
       const text = `${pulse.name} ${pulse.description}`.toLowerCase();
       if (!OTX_RELEVANCE.some((kw) => text.includes(kw))) continue;
       const indicators: OtxIndicator[] = pulse.indicators?.length
         ? pulse.indicators.slice(0, OTX_MAX_INDICATORS_PER_PULSE)
         : ((await otxFetch<{ results: OtxIndicator[] }>(
             `${OTX_API}/pulses/${pulse.id}/indicators?limit=${OTX_MAX_INDICATORS_PER_PULSE}`,
-          ))?.results ?? []);
+          )).data?.results ?? []);
       for (const ind of indicators) {
         if (seen.size >= OTX_MAX_TOTAL_DOMAINS) break;
         let host: string | null = null;
@@ -180,7 +207,7 @@ async function discoverFromOtxApi(known: Set<string>): Promise<Candidate[]> {
     }
   }
   if (termsSucceeded === 0) {
-    throw new Error(`OTX: 全 ${OTX_TERMS.length} term の fetch がリトライ後も失敗`);
+    throw new Error(`OTX: 全 ${OTX_TERMS.length} term 失敗 [${termOutcomes.join(", ")}]`);
   }
   return out;
 }
