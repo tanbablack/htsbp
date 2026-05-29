@@ -12,8 +12,8 @@
       "source": "unit42",
       "source_url": "https://unit42.paloaltonetworks.com/ai-agent-prompt-injection/",
       "first_seen": "2026-03-03T00:00:00Z",
-      "last_seen": "2026-03-03T00:00:00Z",
-      "is_active": false
+      "last_seen": "2026-05-29T20:37:48.492Z",
+      "is_active": true
     },
     {
       "severity": "medium",
@@ -107,5 +107,5 @@
       ]
     }
   ],
-  "updated_at": "2026-04-24T19:03:26.069Z"
+  "updated_at": "2026-05-29T20:37:48.492Z"
 }

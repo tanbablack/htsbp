@@ -332,8 +332,8 @@
         "seo_poisoning"
       ],
       "threat_count": 7,
-      "last_seen": "2026-04-24T19:03:26.069Z",
-      "is_active": false
+      "last_seen": "2026-05-29T20:37:48.492Z",
+      "is_active": true
     },
     "thelibrary-welcome.uk": {
       "max_severity": "critical",
@@ -392,5 +392,5 @@
   },
   "total_threats": 101,
   "total_domains": 37,
-  "generated_at": "2026-05-28T20:38:06.934Z"
+  "generated_at": "2026-05-29T20:37:48.496Z"
 }
