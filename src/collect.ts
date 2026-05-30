@@ -44,6 +44,9 @@ const OTX_RELEVANCE = [
 ];
 const OTX_MAX_INDICATORS_PER_PULSE = 50;
 const OTX_MAX_TOTAL_DOMAINS = 200;
+// OTX の pulse/indicators は初回(コールド)アクセスが遅く 30 秒では毎回 abort→retry に
+// 陥っていた。正常な初動レイテンシを吸収できる値に設定する。
+const OTX_TIMEOUT_MS = 60_000;
 
 const KNOWN_PLATFORMS = new Set([
   "npmjs.com", "pypi.org", "rubygems.org", "crates.io", "pkg.go.dev",
@@ -135,7 +138,7 @@ async function otxFetch<T>(url: string): Promise<OtxFetchResult<T>> {
   for (let attempt = 0; attempt < MAX; attempt++) {
     try {
       const ctrl = new AbortController();
-      const timer = setTimeout(() => ctrl.abort(), 30_000);
+      const timer = setTimeout(() => ctrl.abort(), OTX_TIMEOUT_MS);
       const res = await fetch(url, { headers, signal: ctrl.signal });
       clearTimeout(timer);
       lastStatus = res.status;
