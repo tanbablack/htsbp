@@ -74,11 +74,11 @@ htsbp/
 │   │   └── research.ts         観点 2: web_search で source 妥当性 + ドメイン評判
 │   ├── collect.ts              新規ドメイン発見+判定+反映 (scan + research を呼ぶ)
 │   ├── recheck.ts              既存ドメイン再検証+反映 (scan のみを呼ぶ)
-│   └── validate-pr.ts          人間 PR の事前検証 (scan + research を呼びコメント投稿)
+│   └── validate-pr.ts          PR の事前検証 (scan + research を呼びコメント投稿)
 │
 └── .github/workflows/
     ├── collect.yml             週次 cron (毎週土曜, collect → recheck の順に実行)
-    └── pr-validate.yml         PR 起票/更新時に validate-pr を実行 (auto/* ブランチは skip)
+    └── pr-validate.yml         PR 起票/更新時に validate-pr を実行 (auto/*・report/* を検証し、手動 PR は弾く)
 ```
 
 ## 共通検証ライブラリ
@@ -177,11 +177,7 @@ cron で毎週土曜 1 回起動し、以下を順次実行。
 
 ## PR 事前検証 (`pr-validate.yml` → `src/validate-pr.ts`)
 
-`data/threats/domains/**` に変更を含む PR が起票/更新されたタイミングで自動実行。auto ブランチ (`auto/*`) からの PR は週次パイプラインで既に検証済みなので skip し、人間 PR のみ実行する。
-
-```yaml
-if: !startsWith(github.head_ref, 'auto/')
-```
+`data/threats/domains/**` に変更を含む PR が起票/更新されたタイミングで自動実行。ボット (`auto/*`)・API/MCP (`report/*`)・人間のいずれが起票した PR でも、すべて同じ検証を通す。
 
 `validate-pr.ts` は変更ドメインを抽出し、`scanUrl()` (観点 1) + `researchDomain()` (観点 2) を実行:
 
@@ -190,7 +186,7 @@ if: !startsWith(github.head_ref, 'auto/')
 - 既存値との差分があれば指摘
 - 必須欠落・到達不能 + 出典裏付けなしは CI ステータスを失敗にして merge ブロック
 
-これにより、auto PR (collect.ts/recheck.ts 由来) と人間 PR の両方が同じ検証ライブラリ (`lib/scan.ts` + `lib/research.ts`) を通る。重い `research` (`web_search`) は新規追加時のみ走り、再検証時は走らない。
+これにより、全経路の PR (ボット由来の auto/*・API/MCP 由来の report/*・人間 PR) が同じ検証ライブラリ (`lib/scan.ts` + `lib/research.ts`) を通る。
 
 ## Self-Hosting
 
@@ -203,15 +199,15 @@ npm run dev
 
 ## Threat 通報経路
 
-新規 IDPI サイトの通報は 3 経路すべてが **同じ検証パイプライン** (`pr-validate.yml` の scan + research) を通り、最終的にレビュアーが PR を merge することで初めて公開フィードに反映される。
+脅威ドメインの追加は以下 2 経路のみ。どちらも **同じ検証パイプライン** (`pr-validate.yml` の scan + research) を通り、最終的にレビュアーが PR を merge することで初めて公開フィードに反映される。`data/threats/domains/**` を手編集した直接 PR (`auto/*` / `report/*` 以外のブランチ) は `pr-validate.yml` が CI で弾くため受け付けない。
 
 | 経路 | 入口 | 動作 |
 |---|---|---|
+| **週次ボット** | `collect.ts` (`auto/*` ブランチ) | 自動収集した新規候補を判定し PR 起票 |
 | **REST API** | `POST /api/report-threat` | URL + `source_url` + `description` を JSON で受け、`src/lib/report.ts` が GitHub REST API でブランチ (`report/<host>-<ts>`) と PR を起票。レスポンスに PR URL を返す |
 | **MCP** | ツール `report_threat` | 同入力。AI エージェントから直接呼べる。同じ `submitThreatReport()` を共有 |
-| **PR 直接** | GitHub 上で `data/threats/domains/<host>.json` を編集する PR | 自分でファイルを書いて PR を起票 |
 
-3 経路いずれの PR も `pr-validate.yml` (auto/* 以外で発火) が観点 1+2 を実行し、結果を PR コメントに投稿。`source_url` 欠落・到達不能 + 出典裏付けなしは CI 失敗で merge ブロック。
+`auto/*` (ボット) と `report/*` (API/MCP) 由来の PR は `pr-validate.yml` が観点 1+2 を実行し、結果を PR コメントに投稿。`source_url` 欠落・到達不能 + 出典裏付けなしは CI 失敗で merge ブロック。
 
 `source_url` (出典) は必須。完全自動 merge は許可しない。
 

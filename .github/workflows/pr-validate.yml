@@ -1,4 +1,4 @@
-name: PR validate (human PRs only)
+name: PR validate
 
 on:
   pull_request:
@@ -12,10 +12,17 @@ permissions:
 
 jobs:
   validate:
-    # auto/* ブランチからの PR は collect.ts/recheck.ts で既に検証済みなので skip
-    if: ${{ !startsWith(github.head_ref, 'auto/') }}
     runs-on: ubuntu-latest
     steps:
+      - name: Reject direct human PRs
+        # 脅威ドメインの追加はボット (auto/*) か API/MCP (report/*) 経由のみ許可。
+        # 手で起票した PR はここで失敗させ merge をブロックする (検証は下で auto/* と report/* に対して走る)。
+        run: |
+          ref="${{ github.head_ref }}"
+          if [[ "$ref" != auto/* && "$ref" != report/* ]]; then
+            echo "::error::data/threats/domains/** への手動 PR は受け付けていません。POST /api/report-threat または MCP の report_threat ツールを使ってください。"
+            exit 1
+          fi
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
