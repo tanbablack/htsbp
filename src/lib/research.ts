@@ -7,7 +7,7 @@
 import type { ResearchResult } from "../types.js";
 
 const ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages";
-const MODEL = process.env.ANTHROPIC_MODEL ?? "claude-opus-4-8";
+const MODEL = "claude-opus-4-8";
 
 export async function researchDomain(
   host: string,

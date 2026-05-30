@@ -28,7 +28,7 @@ const DOMAINS_DIR = path.join(DATA_DIR, "threats/domains");
 const SOURCES_PATH = path.join(DATA_DIR, "sources.json");
 
 const ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages";
-const MODEL = process.env.ANTHROPIC_MODEL ?? "claude-opus-4-8";
+const MODEL = "claude-opus-4-8";
 
 const OTX_API = "https://otx.alienvault.com/api/v1";
 const OTX_TERMS = ["prompt injection", "IDPI", "indirect prompt injection"];
