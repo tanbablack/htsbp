@@ -12,7 +12,7 @@ import type {
 } from "../types.js";
 
 const ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages";
-const MODEL = "claude-opus-4-6";
+const MODEL = process.env.ANTHROPIC_MODEL ?? "claude-opus-4-8";
 const HTTP_TIMEOUT_MS = 15_000;
 const HTML_EXCERPT_BYTES = 30_000;
 

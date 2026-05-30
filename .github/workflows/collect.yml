@@ -37,6 +37,7 @@ jobs:
         run: npm run collect
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL }}
           OTX_API_KEY: ${{ secrets.OTX_API_KEY }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: 2. 既存ドメイン再検証+反映
@@ -45,4 +46,5 @@ jobs:
         run: npm run recheck
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
