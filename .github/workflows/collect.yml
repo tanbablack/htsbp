@@ -1,8 +1,8 @@
-name: Daily IDPI Collection
+name: Weekly IDPI Collection
 
 on:
   schedule:
-    - cron: '0 18 * * *'    # 03:00 JST
+    - cron: '0 18 * * 5'    # 毎週土曜 03:00 JST (金 18:00 UTC)
   workflow_dispatch:
 
 permissions:
