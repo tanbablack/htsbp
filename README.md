@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-AI エージェントを標的に間接プロンプトインジェクション (IDPI) を仕込んだ Web サイトの公開脅威情報フィード。完全自動の日次収集 + 人間レビュー (PR merge) で運用する。
+AI エージェントを標的に間接プロンプトインジェクション (IDPI) を仕込んだ Web サイトの公開脅威情報フィード。完全自動の週次収集 + 人間レビュー (PR merge) で運用する。
 
 ## 提供経路
 
@@ -77,7 +77,7 @@ htsbp/
 │   └── validate-pr.ts          人間 PR の事前検証 (scan + research を呼びコメント投稿)
 │
 └── .github/workflows/
-    ├── collect.yml             日次 cron (collect → recheck の順に実行)
+    ├── collect.yml             週次 cron (毎週土曜, collect → recheck の順に実行)
     └── pr-validate.yml         PR 起票/更新時に validate-pr を実行 (auto/* ブランチは skip)
 ```
 
@@ -124,15 +124,15 @@ researchDomain(host, sourceUrl): Promise<{
 
 内部処理: Claude 1 コール + `web_search` で `source_url` の中身が対象ドメインに本当に言及しているか確認 + 対象ドメイン自体を `web_search` で評判確認。
 
-## 日次パイプライン (`collect.yml`)
+## 週次パイプライン (`collect.yml`)
 
-cron で 1 日 1 回起動し、以下を順次実行。
+cron で毎週土曜 1 回起動し、以下を順次実行。
 
 ### 1. 新規ドメイン発見+判定+反映 (`src/collect.ts`)
 
 #### 段階 1: 発見
 
-`sources.json` 全エントリを毎日必ず巡回 (Claude 裁量による skip を許さない)。`method` 別の取得方式:
+`sources.json` 全エントリを毎回必ず巡回 (Claude 裁量による skip を許さない)。`method` 別の取得方式:
 
 - **`otx_api`** — AlienVault OTX 公式 API。`prompt injection` / `IDPI` / `indirect prompt injection` の 3 タームで pulse 検索、IDPI 関連キーワード合致 pulse のみから indicators 抽出。1 pulse 50 indicator・全体 200 domain 上限。504/503/429 はリトライ後 skip
 - **`claude_web_search`** — ソースごとに Claude を 1 回呼び `web_search` で対象 URL のみを過去 30 日範囲で調査
@@ -177,7 +177,7 @@ cron で 1 日 1 回起動し、以下を順次実行。
 
 ## PR 事前検証 (`pr-validate.yml` → `src/validate-pr.ts`)
 
-`data/threats/domains/**` に変更を含む PR が起票/更新されたタイミングで自動実行。auto ブランチ (`auto/*`) からの PR は日次パイプラインで既に検証済みなので skip し、人間 PR のみ実行する。
+`data/threats/domains/**` に変更を含む PR が起票/更新されたタイミングで自動実行。auto ブランチ (`auto/*`) からの PR は週次パイプラインで既に検証済みなので skip し、人間 PR のみ実行する。
 
 ```yaml
 if: !startsWith(github.head_ref, 'auto/')
