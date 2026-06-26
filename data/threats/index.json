@@ -107,8 +107,8 @@
         "data_destruction"
       ],
       "threat_count": 1,
-      "last_seen": "2026-06-19T19:28:14.205Z",
-      "is_active": false
+      "last_seen": "2026-06-26T19:32:02.488Z",
+      "is_active": true
     },
     "github.zh-cns.top": {
       "max_severity": "critical",
@@ -392,5 +392,5 @@
   },
   "total_threats": 101,
   "total_domains": 37,
-  "generated_at": "2026-06-26T19:31:55.062Z"
+  "generated_at": "2026-06-26T19:32:02.492Z"
 }
