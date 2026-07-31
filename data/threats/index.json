@@ -119,6 +119,15 @@
       "last_seen": "2026-05-03T01:20:23.945Z",
       "is_active": false
     },
+    "glot.io": {
+      "max_severity": "high",
+      "intents": [
+        "malware_distribution"
+      ],
+      "threat_count": 1,
+      "last_seen": "2026-07-31T19:07:50.599Z",
+      "is_active": true
+    },
     "gridpilot.site": {
       "max_severity": "medium",
       "intents": [
@@ -390,7 +399,7 @@
       "is_active": false
     }
   },
-  "total_threats": 101,
-  "total_domains": 37,
-  "generated_at": "2026-07-24T19:14:25.074Z"
+  "total_threats": 102,
+  "total_domains": 38,
+  "generated_at": "2026-07-31T19:07:50.603Z"
 }

@@ -1,0 +1,22 @@
+{
+  "domain": "glot.io",
+  "threats": [
+    {
+      "url": "https://glot.io/snippets/hfd3x9ueu5",
+      "severity": "high",
+      "intent": "malware_distribution",
+      "techniques": [
+        "base64_encoding",
+        "visible_plaintext",
+        "payload_splitting"
+      ],
+      "description": "OTX pulse \"Poisoning the well: AI supply chain attacks on Hugging Face and OpenClaw\" で IDPI 関連 indicator として列挙",
+      "source": "otx-api",
+      "source_url": "https://otx.alienvault.com/pulse/6a01c2363e7f67fcbed473cb",
+      "first_seen": "2026-07-31T19:07:50.599Z",
+      "last_seen": "2026-07-31T19:07:50.599Z",
+      "is_active": true
+    }
+  ],
+  "updated_at": "2026-07-31T19:07:50.599Z"
+}
