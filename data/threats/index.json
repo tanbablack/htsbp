@@ -125,7 +125,7 @@
         "malware_distribution"
       ],
       "threat_count": 1,
-      "last_seen": "2026-07-31T19:07:50.599Z",
+      "last_seen": "2026-08-02T14:01:22.386Z",
       "is_active": true
     },
     "gridpilot.site": {
@@ -401,5 +401,5 @@
   },
   "total_threats": 102,
   "total_domains": 38,
-  "generated_at": "2026-08-02T14:01:04.691Z"
+  "generated_at": "2026-08-02T14:01:22.389Z"
 }
