@@ -327,7 +327,7 @@
         "ai_disruption"
       ],
       "threat_count": 3,
-      "last_seen": "2026-06-26T19:31:55.059Z",
+      "last_seen": "2026-08-02T14:00:10.267Z",
       "is_active": true
     },
     "storage3d.com": {
@@ -401,5 +401,5 @@
   },
   "total_threats": 102,
   "total_domains": 38,
-  "generated_at": "2026-08-02T13:59:40.006Z"
+  "generated_at": "2026-08-02T14:00:10.272Z"
 }
