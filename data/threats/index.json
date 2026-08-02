@@ -28,7 +28,7 @@
         "unknown"
       ],
       "threat_count": 5,
-      "last_seen": "2026-06-05T19:32:35.921Z",
+      "last_seen": "2026-08-02T13:59:40.001Z",
       "is_active": true
     },
     "citemet.com": {
@@ -401,5 +401,5 @@
   },
   "total_threats": 102,
   "total_domains": 38,
-  "generated_at": "2026-07-31T19:07:50.603Z"
+  "generated_at": "2026-08-02T13:59:40.006Z"
 }
