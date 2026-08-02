@@ -7,7 +7,7 @@
 import type { ResearchResult } from "../types.js";
 
 const ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages";
-const MODEL = "claude-opus-4-8";
+const MODEL = "claude-opus-5";
 
 export async function researchDomain(
   host: string,
@@ -58,12 +58,17 @@ JSON のみ。前置き・後書き不要。全フィールド日本語で記述
       "Content-Type": "application/json",
       "x-api-key": apiKey,
       "anthropic-version": "2023-06-01",
+      "anthropic-beta": "server-side-fallback-2026-07-01",
     },
     body: JSON.stringify({
       model: MODEL,
-      max_tokens: 1500,
+      // Opus 5 は thinking がデフォルト ON。max_tokens は thinking + 本文の合計上限
+      max_tokens: 8000,
+      // IDPI 関連ドメインの調査で cyber 分類器の誤検知 refusal があり得るため
+      // fallbacks で代替モデルに自動再ルーティングする
+      fallbacks: "default",
       tools: [
-        { type: "web_search_20250305", name: "web_search", max_uses: 5 },
+        { type: "web_search_20260209", name: "web_search", max_uses: 5 },
       ],
       messages: [{ role: "user", content: prompt }],
     }),
