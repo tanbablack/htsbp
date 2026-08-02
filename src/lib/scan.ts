@@ -12,7 +12,7 @@ import type {
 } from "../types.js";
 
 const ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages";
-const MODEL = "claude-opus-4-8";
+const MODEL = "claude-opus-5";
 const HTTP_TIMEOUT_MS = 15_000;
 const HTML_EXCERPT_BYTES = 30_000;
 
@@ -171,10 +171,15 @@ JSON のみ。前置き・後書き不要。全フィールド日本語で記述
       "Content-Type": "application/json",
       "x-api-key": apiKey,
       "anthropic-version": "2023-06-01",
+      "anthropic-beta": "server-side-fallback-2026-07-01",
     },
     body: JSON.stringify({
       model: MODEL,
-      max_tokens: 1024,
+      // Opus 5 は thinking がデフォルト ON。max_tokens は thinking + 本文の合計上限
+      max_tokens: 8000,
+      // 攻撃ページの HTML を解析させるため cyber 分類器の誤検知 refusal があり得る。
+      // fallbacks でカテゴリに応じた代替モデル (Opus 4.8 等) に自動再ルーティングする
+      fallbacks: "default",
       messages: [{ role: "user", content: prompt }],
     }),
   });

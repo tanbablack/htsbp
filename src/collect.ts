@@ -28,7 +28,7 @@ const DOMAINS_DIR = path.join(DATA_DIR, "threats/domains");
 const SOURCES_PATH = path.join(DATA_DIR, "sources.json");
 
 const ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages";
-const MODEL = "claude-opus-4-8";
+const MODEL = "claude-opus-5";
 
 const OTX_API = "https://otx.alienvault.com/api/v1";
 const OTX_TERMS = ["prompt injection", "IDPI", "indirect prompt injection"];
@@ -259,11 +259,16 @@ JSON のみ。前置き・後書き不要。全フィールド日本語/英語�
       "Content-Type": "application/json",
       "x-api-key": apiKey,
       "anthropic-version": "2023-06-01",
+      "anthropic-beta": "server-side-fallback-2026-07-01",
     },
     body: JSON.stringify({
       model: MODEL,
-      max_tokens: 4000,
-      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 6 }],
+      // Opus 5 は thinking がデフォルト ON。max_tokens は thinking + 本文の合計上限
+      max_tokens: 8000,
+      // IDPI 情報源の巡回で cyber 分類器の誤検知 refusal があり得るため
+      // fallbacks で代替モデルに自動再ルーティングする
+      fallbacks: "default",
+      tools: [{ type: "web_search_20260209", name: "web_search", max_uses: 6 }],
       messages: [{ role: "user", content: prompt }],
     }),
   });
