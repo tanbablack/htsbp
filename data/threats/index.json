@@ -88,7 +88,7 @@
         "anti_ai_protest"
       ],
       "threat_count": 4,
-      "last_seen": "2026-08-14T18:52:12.321Z",
+      "last_seen": "2026-08-21T18:38:21.995Z",
       "is_active": true
     },
     "eviewerpress.com": {
@@ -401,5 +401,5 @@
   },
   "total_threats": 102,
   "total_domains": 38,
-  "generated_at": "2026-08-21T18:37:34.383Z"
+  "generated_at": "2026-08-21T18:38:21.999Z"
 }
