@@ -215,7 +215,7 @@
         "ai_content_moderation_bypass"
       ],
       "threat_count": 8,
-      "last_seen": "2026-08-29T01:24:49.317Z",
+      "last_seen": "2026-09-04T20:26:10.820Z",
       "is_active": true
     },
     "notepadplusplus.cn": {
@@ -401,5 +401,5 @@
   },
   "total_threats": 102,
   "total_domains": 38,
-  "generated_at": "2026-09-04T20:25:06.975Z"
+  "generated_at": "2026-09-04T20:26:10.823Z"
 }
