@@ -294,7 +294,7 @@
         "system_override"
       ],
       "threat_count": 4,
-      "last_seen": "2026-08-02T14:00:30.107Z",
+      "last_seen": "2026-09-25T20:59:18.610Z",
       "is_active": true
     },
     "shiftypumpkin.com": {
@@ -401,5 +401,5 @@
   },
   "total_threats": 102,
   "total_domains": 38,
-  "generated_at": "2026-09-18T20:17:40.327Z"
+  "generated_at": "2026-09-25T20:59:18.614Z"
 }
